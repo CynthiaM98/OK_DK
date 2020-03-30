@@ -135,7 +135,7 @@ static void echelleCassee(float hauteur, float largeur) {
     hauteur /= 2.0F;
     largeur /= 2.0F;
     float x = 1.0F;
-    //montant droit
+    //montant droit .
     glPushMatrix();
     glTranslatef(-largeur, 0.0, 0.0);
     glRotatef(90, 0.0F, 0.0F, 1.0F);
