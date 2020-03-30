@@ -417,7 +417,7 @@ static void placementMario() {
 }
 
 static void sceneJeu() {
-    printf("Texture non charge\n");
+    printf("Texture non charge oui\n");
     glEnable(GL_DEPTH_TEST);
     glTranslated(0.0, 0.0, -50.0);
     glPushMatrix();
