@@ -417,7 +417,7 @@ static void placementMario() {
 }
 
 static void sceneJeu() {
-    printf("kiki");
+    printf("kiki boucle");
     glEnable(GL_DEPTH_TEST);
     glTranslated(0.0, 0.0, -50.0);
     glPushMatrix();
