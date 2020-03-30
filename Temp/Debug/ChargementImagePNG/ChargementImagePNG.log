@@ -1,0 +1,5 @@
+﻿  ChargementImagePNG.cpp
+d:\fac\master\m1\ig\projet\ig_projet_dk\src\chargementimagepng.cpp(39): warning C4101: 'rx' : variable locale non référencée
+d:\fac\master\m1\ig\projet\ig_projet_dk\src\chargementimagepng.cpp(40): warning C4101: 'ry' : variable locale non référencée
+  ChargementImagePNG.vcxproj -> D:\FAC\Master\M1\IG\Projet\IG_Projet_DK\Projet\ChargementImagePNG\..\..\Temp\Debug\ChargementImagePNG\ChargementImagePNG.exe
+          1 fichier(s) copié(s).

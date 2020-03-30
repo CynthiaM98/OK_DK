@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="Source Files\ChargePngFile">
+      <UniqueIdentifier>{3fd99466-8ec1-4dee-91cd-aacaf066d4d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ChargePngFile\Png">
+      <UniqueIdentifier>{7e1f52af-588f-4eb9-b03b-17e5dd139cf1}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="..\..\Lib\glut32.ms.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Src\ChargementImagePNG.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\PNG\ChargePngFile.cpp">
+      <Filter>Source Files\ChargePngFile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\PNG\Espace3UC.cpp">
+      <Filter>Source Files\ChargePngFile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\PNG\Image.cpp">
+      <Filter>Source Files\ChargePngFile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\PNG\ImageUtils.cpp">
+      <Filter>Source Files\ChargePngFile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\PNG\PngFile.cpp">
+      <Filter>Source Files\ChargePngFile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\PNG\Png\adler32.c">
+      <Filter>Source Files\ChargePngFile\Png</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\PNG\Png\compress.c">
+      <Filter>Source Files\ChargePngFile\Png</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\PNG\Png\crc32.c">
+      <Filter>Source Files\ChargePngFile\Png</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\PNG\Png\deflate.c">
+      <Filter>Source Files\ChargePngFile\Png</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\PNG\Png\gzio.c">
+      <Filter>Source Files\ChargePngFile\Png</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\PNG\Png\infback.c">
+      <Filter>Source Files\ChargePngFile\Png</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\PNG\Png\inffast.c">
+      <Filter>Source Files\ChargePngFile\Png</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\PNG\Png\inflate.c">
+      <Filter>Source Files\ChargePngFile\Png</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\PNG\Png\inftrees.c">
+      <Filter>Source Files\ChargePngFile\Png</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\PNG\Png\png.c">
+      <Filter>Source Files\ChargePngFile\Png</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\PNG\Png\pngerror.c">
+      <Filter>Source Files\ChargePngFile\Png</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\PNG\Png\pngget.c">
+      <Filter>Source Files\ChargePngFile\Png</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\PNG\Png\pngmem.c">
+      <Filter>Source Files\ChargePngFile\Png</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\PNG\Png\pngpread.c">
+      <Filter>Source Files\ChargePngFile\Png</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\PNG\Png\pngread.c">
+      <Filter>Source Files\ChargePngFile\Png</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\PNG\Png\pngrio.c">
+      <Filter>Source Files\ChargePngFile\Png</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\PNG\Png\pngrtran.c">
+      <Filter>Source Files\ChargePngFile\Png</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\PNG\Png\pngrutil.c">
+      <Filter>Source Files\ChargePngFile\Png</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\PNG\Png\pngset.c">
+      <Filter>Source Files\ChargePngFile\Png</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\PNG\Png\pngtrans.c">
+      <Filter>Source Files\ChargePngFile\Png</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\PNG\Png\pngwio.c">
+      <Filter>Source Files\ChargePngFile\Png</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\PNG\Png\pngwrite.c">
+      <Filter>Source Files\ChargePngFile\Png</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\PNG\Png\pngwtran.c">
+      <Filter>Source Files\ChargePngFile\Png</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\PNG\Png\pngwutil.c">
+      <Filter>Source Files\ChargePngFile\Png</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\PNG\Png\trees.c">
+      <Filter>Source Files\ChargePngFile\Png</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\PNG\Png\uncompr.c">
+      <Filter>Source Files\ChargePngFile\Png</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\PNG\Png\zutil.c">
+      <Filter>Source Files\ChargePngFile\Png</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
