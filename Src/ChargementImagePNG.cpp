@@ -12,7 +12,7 @@
 static unsigned int textureID[1] = { 0 };
 
 static double px = 0.0;
-static double py = 0.0;
+static double py = 40.0;
 static double pz = 10.0;
 
 static float rxs = 0.0;
@@ -26,11 +26,11 @@ static int n2 = 360;
 static const float noir[] = { 0.0F,0.0F,0.0F,1.0F };
 static const float blanc[] = { 1.0F,1.0F,1.0F,1.0F };
 
-static int affichage = 1;
 static int animation = 0;
 static int culling = 0;
 static int texture = 1;
-static bool alreadyFilDeFer = false;
+static int filDeFer = 1;
+static int lumiere = 0;
 
 static void chargementTexture(char* filename, unsigned int textureID) {
     glBindTexture(GL_TEXTURE_2D, textureID);
@@ -417,7 +417,6 @@ static void placementMario() {
 }
 
 static void sceneJeu() {
-    printf("clement c'est pour toi");
     glEnable(GL_DEPTH_TEST);
     glTranslated(0.0, 0.0, -50.0);
     glPushMatrix();
@@ -430,14 +429,23 @@ static void sceneJeu() {
 static void display(void) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     const GLfloat light0_position[] = { 0.0,0.0,10.0,1.0 };
-    glPolygonMode(GL_FRONT_AND_BACK, (affichage) ? GL_FILL : GL_LINE);
+    glPolygonMode(GL_FRONT_AND_BACK, (filDeFer) ? GL_FILL : GL_LINE);
     if (texture)
         glEnable(GL_TEXTURE_2D);
     else
         glDisable(GL_TEXTURE_2D);
     glPushMatrix();
     glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
-    gluLookAt(2 * px, 40+10 * py, pz, 0.0, 40.0, 0.0, 0.0, 1.0, 0.0);
+    switch (lumiere) {
+    case 0:
+        glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
+        gluLookAt(px, py, pz, 0.0, 40.0, -50.0, 0.0, 1.0, 0.0);
+        break;
+    case 1:
+        gluLookAt(px, py, pz, 0.0, 40.0, -50.0, 0.0, 1.0, 0.0);
+        glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
+        break;
+    }
     sceneJeu();
     //tonneau(5.0, 5.0, textureID);
     glPopMatrix();
@@ -455,67 +463,61 @@ static void reshape(int tx, int ty) {
     glLoadIdentity();
     double ratio = (double)tx / ty;
     if (ratio >= 1.0)
-        gluPerspective(80,ratio, 1.0, 200.0);
+        gluPerspective(80,ratio, 10.0, 2000.0);
     else
-        gluPerspective(80 / ratio, ratio, 1.0, 200.0);
+        gluPerspective(80 / ratio, ratio, 10.0, 2000.0);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 }
-
-static void special(int key, int x, int y) {
-    switch (key) {
-    case GLUT_KEY_UP:
-        printf("%f", rys);
-        py += 0.1;
-        glutPostRedisplay();
-        break;
-    case GLUT_KEY_DOWN:
-        py -= 0.1;
-        glutPostRedisplay();
-        break;
-    case GLUT_KEY_LEFT:
-        px -= 0.1;
-        glutPostRedisplay();
-        break;
-    case GLUT_KEY_RIGHT:
-        px += 0.1;
-        glutPostRedisplay();
-        break;
-    }
-}
+ 
+  static void special(int key, int x, int y) {
+      printf("K  x=%d y=%d z=%d\n", px, py, pz);
+      switch (key) {
+      case GLUT_KEY_UP: //page down pour avancer
+          pz -= 0.5;
+          glutPostRedisplay();
+          break;
+      case GLUT_KEY_DOWN: //page down pour reculer
+          pz += 0.5;
+          glutPostRedisplay();
+          break;
+      case GLUT_KEY_LEFT:  //page down pour aller a gauche
+          px -= 0.5;
+          glutPostRedisplay();
+          break;
+      case GLUT_KEY_RIGHT:  //page down pour aller a droite
+          px += 0.5;
+          glutPostRedisplay();
+          break;
+      case GLUT_KEY_PAGE_UP: //page down pour monter
+          py += 0.5;
+          glutPostRedisplay();
+          break;
+      case GLUT_KEY_PAGE_DOWN: //page down pour descendre
+          py -= 0.5;
+          glutPostRedisplay();
+          break;
+      case GLUT_KEY_END: //retour à la position de base de la caméra via la touche "fin"
+          px = 0.0;
+          py = 40.0;
+          pz = 10.0;
+          glutPostRedisplay();
+          break;
+      }
+  }
 
 static void keyboard(unsigned char key, int x, int y) {
-    printf("K  %4c %4d %4d\n", key, x, y);
     switch (key) {
-    case 0x1B:
+    case 0x20: //mode fil de fer en appuyant sur la barre espace
+        filDeFer = (filDeFer + 1) % 2;
+        glutPostRedisplay();
+        break;
+    case 0x0D: //eclairage en appuyant sur entrée
+        lumiere = (lumiere + 1) % 2;
+        glutPostRedisplay();
+        break;
+    case 0x1B: //quitter en appuyant sur échap
         exit(0);
-        break;
-    case 'm': //mode fil de fer
-        if (alreadyFilDeFer) {
-            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-            glutPostRedisplay();
-            alreadyFilDeFer = false;
-
-        }
-        else {
-            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-            glutPostRedisplay();
-            alreadyFilDeFer = true;
-        }
-        break;
-    case GLUT_KEY_PAGE_UP:
-        pz -= 0.1;
-        glutPostRedisplay();
-        break;
-    case GLUT_KEY_PAGE_DOWN:
-        pz += 0.1;
-        glutPostRedisplay();
-        break;
-    case GLUT_KEY_F1:
-        px = 0.0;
-        py = 0.0;
-        pz = 10.0;
-        glutPostRedisplay();
         break;
     }
 }
