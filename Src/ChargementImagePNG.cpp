@@ -35,12 +35,14 @@ static int lumiere = 0;
 GLfloat no_mat[] = { 0.0F,0.0F,0.0F,1.0F };
 GLfloat mat_ambient[] = { 0.7F,0.7F,0.7F,1.0F };
 GLfloat mat_ambient_color[] = { 0.8F,0.8F,0.2F,1.0F };
-GLfloat mat_diffuse[] = { 0.1F,0.5F,0.8F,1.0F };
+
 GLfloat mat_specular[] = { 1.0F,1.0F,1.0F,1.0F };
 GLfloat no_shininess[] = { 0.0F };
 GLfloat low_shininess[] = { 5.0F };
 GLfloat high_shininess[] = { 100.0F };
 GLfloat mat_emission[] = { 0.3F,0.2F,0.2F,0.0F };
+GLfloat couleur_poutres[] = { 2.50,2.4,1.45F,1.0F };
+GLfloat couleur_echelles[] = { 0.1F,0.5F,0.8F,1.0F };
 
 static void chargementTexture(char* filename, unsigned int textureID) {
     glBindTexture(GL_TEXTURE_2D, textureID);
@@ -109,11 +111,7 @@ static void echelle(float hauteur, float largeur) {
     //montant droit
 
     glPushMatrix();
-    glMaterialfv(GL_FRONT, GL_AMBIENT, no_mat);
-    glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
-    glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
-    glMaterialfv(GL_FRONT, GL_SHININESS, high_shininess);
-    glMaterialfv(GL_FRONT, GL_EMISSION, no_mat);
+    glColor4f(0.8F, 0.8F, 0.2F, 1.0F);
     glTranslatef(-largeur, 0.0, 0.0);
     glRotatef(90, 0.0F, 0.0F, 1.0F);
     glScalef(hauteur, x, x);
@@ -189,6 +187,7 @@ static void planchePoutre(float largeur, float longueur, float hauteur) {
     longueur /= 2.0;
     hauteur /= 2.0;
     glBegin(GL_QUADS);
+    glPushMatrix();
     float couleur[4] = { (2.50,2.4,1.45F,1.0F) };
     glMaterialfv(GL_FRONT, GL_DIFFUSE, couleur);
     glColor4f(1.0f, 0.0f, 0.0f, 0.0f);//red);
@@ -234,6 +233,7 @@ static void planchePoutre(float largeur, float longueur, float hauteur) {
     glVertex3d(largeur, hauteur, -longueur); // 5
     glVertex3d(largeur, -hauteur, -longueur); // 7
     glVertex3d(-largeur, -hauteur, -longueur); // 8
+    glPopMatrix();
     glEnd();
 
 }
@@ -242,11 +242,7 @@ static void poutreDK(float largeurPlateforme, float longueurPlateforme, float ha
     double largeurSurDix = largeurPlateforme / 10.0;
 
     glPushMatrix();
-    glMaterialfv(GL_FRONT, GL_AMBIENT, no_mat);
-    glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
-    glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
-    glMaterialfv(GL_FRONT, GL_SHININESS, high_shininess);
-    glMaterialfv(GL_FRONT, GL_EMISSION, no_mat);
+   
     glRotatef(90.0, 1.0f, 0.0f, 0.0f);
     glPushMatrix();
 
@@ -366,8 +362,9 @@ static void mario(float size) {
 }
 
 static void placementPoutres() {
-
-
+    glPushMatrix();
+    
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, couleur_poutres);
 
     glPushMatrix(); //planche etage +1
     glTranslatef(-5.0, 4 * 20.0, 0.0);
@@ -399,11 +396,13 @@ static void placementPoutres() {
     glRotatef(3.2, 1.0, 0.0, 0.0);
     poutreDK(4.0F, 100.0F, 0.5F);
     glPopMatrix();
+    glPopMatrix();
 
 }
 
 static void placementEchelles() {
     glPushMatrix();
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, couleur_echelles);
     glTranslatef(0.0, 50.0, -4.0); //on recule pour que les échelles soit derrière les poutres
     echelle(50.0F, 8.0F);
     glPopMatrix();
@@ -441,8 +440,14 @@ static void sceneJeu() {
     glEnable(GL_DEPTH_TEST);
     glTranslated(0.0, 0.0, -50.0);
     glPushMatrix();
+    glMaterialfv(GL_FRONT, GL_AMBIENT, no_mat);
+    glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+    glMaterialfv(GL_FRONT, GL_SHININESS, high_shininess);
+    glMaterialfv(GL_FRONT, GL_EMISSION, no_mat);
     placementPoutres();
     placementEchelles();
+    glPopMatrix();
+    glPushMatrix();
     placementMario();
     glPopMatrix();
 }
