@@ -67,7 +67,7 @@ static void chargementTexture(char* filename, unsigned int textureID) {
 }
 
 static void init(void) {
-    glClearColor(0.25F, 0.25F, 0.25F, 1.0F);
+    glClearColor(0.0F, 0.0F, 0.0F, 1.0F);
     glLightfv(GL_LIGHT0, GL_DIFFUSE, blanc);
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
