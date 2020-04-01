@@ -32,6 +32,16 @@ static int texture = 1;
 static int filDeFer = 1;
 static int lumiere = 0;
 
+GLfloat no_mat[] = { 0.0F,0.0F,0.0F,1.0F };
+GLfloat mat_ambient[] = { 0.7F,0.7F,0.7F,1.0F };
+GLfloat mat_ambient_color[] = { 0.8F,0.8F,0.2F,1.0F };
+GLfloat mat_diffuse[] = { 0.1F,0.5F,0.8F,1.0F };
+GLfloat mat_specular[] = { 1.0F,1.0F,1.0F,1.0F };
+GLfloat no_shininess[] = { 0.0F };
+GLfloat low_shininess[] = { 5.0F };
+GLfloat high_shininess[] = { 100.0F };
+GLfloat mat_emission[] = { 0.3F,0.2F,0.2F,0.0F };
+
 static void chargementTexture(char* filename, unsigned int textureID) {
     glBindTexture(GL_TEXTURE_2D, textureID);
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
@@ -97,7 +107,13 @@ static void echelle(float hauteur, float largeur) {
     largeur /= 2.0F;
     float x = 1.0F;
     //montant droit
+
     glPushMatrix();
+    glMaterialfv(GL_FRONT, GL_AMBIENT, no_mat);
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
+    glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+    glMaterialfv(GL_FRONT, GL_SHININESS, high_shininess);
+    glMaterialfv(GL_FRONT, GL_EMISSION, no_mat);
     glTranslatef(-largeur, 0.0, 0.0);
     glRotatef(90, 0.0F, 0.0F, 1.0F);
     glScalef(hauteur, x, x);
