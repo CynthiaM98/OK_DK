@@ -242,6 +242,11 @@ static void poutreDK(float largeurPlateforme, float longueurPlateforme, float ha
     double largeurSurDix = largeurPlateforme / 10.0;
 
     glPushMatrix();
+    glMaterialfv(GL_FRONT, GL_AMBIENT, no_mat);
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
+    glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+    glMaterialfv(GL_FRONT, GL_SHININESS, high_shininess);
+    glMaterialfv(GL_FRONT, GL_EMISSION, no_mat);
     glRotatef(90.0, 1.0f, 0.0f, 0.0f);
     glPushMatrix();
 
