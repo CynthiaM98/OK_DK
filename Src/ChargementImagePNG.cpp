@@ -323,36 +323,32 @@ static void poutreDK(float largeurPlateforme, float longueurPlateforme, float ha
 }
 
 static void tonneau(float largeur, float longueur, unsigned int* textureID) {
-    glMaterialfv(GL_FRONT, GL_DIFFUSE, couleur_tonneaux);
-	float n;
-	glPushMatrix();
-	glTranslatef(-50.0, 87.0, -2.0);
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, couleur_echelles);
+    float n;
+    glPushMatrix();
+    glTranslatef(-50.0, 87.0, -2.0);
     glBindTexture(GL_TEXTURE_2D, textureID[0]);
-	glPushMatrix();
-	glBegin(GL_POLYGON);
-	for (int i = 0; i < 360; i++) {
-		n = i * 3.14 / 180;
-		glVertex2f(largeur * cos(n), largeur * sin(n));
-	}
-	glEnd();
-	glTranslatef(0.0, 0.0, largeurPoutre);
-	glBegin(GL_POLYGON);
-	for (int i = 0; i < 360; i++) {
-		n = i * 3.14 / 180;
-		glVertex2f(largeur * cos(n), largeur * sin(n));
-	}
-	glEnd();
-	glPopMatrix();
+    glPushMatrix();
+    glBegin(GL_POLYGON);
+    for (int i = 0; i < 360; i++) {
+        n = i * 3.14 / 180;
+        glVertex2f(largeur * cos(n), largeur * sin(n));
+    }
+    glEnd();
+    glTranslatef(0.0, 0.0, largeurPoutre);
+    glBegin(GL_POLYGON);
+    for (int i = 0; i < 360; i++) {
+        n = i * 3.14 / 180;
+        glVertex2f(largeur * cos(n), largeur * sin(n));
+    }
+    glEnd();
+    glPopMatrix();
     glBegin(GL_POLYGON);
     GLUquadric* glNewQuad = gluNewQuadric();
     gluCylinder(glNewQuad, largeur, largeur, longueur, 30.0, 30.0);
-	glEnd();
-	
-	glPopMatrix();
-}
+    glEnd();
 
-static void avanceTonneaux() {
-
+    glPopMatrix();
 }
 
 static void teteMario(float size) {
@@ -522,11 +518,8 @@ static void sceneJeu() {
     glMaterialfv(GL_FRONT, GL_EMISSION, no_mat);
     placementPoutres();
     placementEchelles();
-    glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
-    glMaterialfv(GL_FRONT, GL_SPECULAR, no_mat);
-    glMaterialfv(GL_FRONT, GL_SHININESS, no_shininess);
-    glMaterialfv(GL_FRONT, GL_EMISSION, no_mat);
-    tonneau(3.0, 6.0, textureID);
+    glTranslatef(-3.75F,3.0F,0.0F);
+    tonneau(3.0, 4.0, textureID);
     glPopMatrix();
     glPushMatrix();
     placementMario();
