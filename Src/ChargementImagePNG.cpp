@@ -634,17 +634,17 @@ static void keyboard(unsigned char key, int x, int y) {
         printf("Y MARIO :%f\n", yMario);
         do{
                 //on récupère les coordonnées des 4 coins de la zone échelle
-                float tempXSupGauche[2] = { listeDesEchelles[index1][0][0],listeDesEchelles[index1][0][1] };
-                float tempXSupDroit[2]= { listeDesEchelles[index1][1][0],listeDesEchelles[index1][1][1] };
-                float tempXInfGauche[2] = { listeDesEchelles[index1][2][0],listeDesEchelles[index1][2][1] };
-                float tempXInfDroit[2] = { listeDesEchelles[index1][3][0],listeDesEchelles[index1][3][1] };
+                float tempSupGauche[2] = { listeDesEchelles[index1][0][0],listeDesEchelles[index1][0][1] };
+                float tempSupDroit[2]= { listeDesEchelles[index1][1][0],listeDesEchelles[index1][1][1] };
+                float tempInfGauche[2] = { listeDesEchelles[index1][2][0],listeDesEchelles[index1][2][1] };
+                float tempInfDroit[2] = { listeDesEchelles[index1][3][0],listeDesEchelles[index1][3][1] };
                 
                 printf("-------------------------------------------\n");
-                printf("ON CHECK SI MARIO A UN X ENTRE %f ET %f \n", tempXSupGauche[0], tempXSupDroit[0]);
-                bool tempB=xMario<tempXSupDroit[0] && xMario>tempXSupGauche[0] && yMario < tempXSupDroit[1] && yMario < tempXSupGauche[1];
+                printf("ON CHECK SI MARIO A UN X ENTRE %f ET %f \n", tempSupGauche[0], tempSupDroit[0]);
+                bool tempB=xMario<tempSupDroit[0] && xMario>tempSupGauche[0];
                 printf("%s\n", tempB ? "OUI" : "NON");
-                printf("ON CHECK SI MARIO A UN Y ENTRE %f ET %f \n", tempXInfGauche[1], tempXSupGauche[1]);
-                bool tempB2 = xMario<tempXInfDroit[0] && xMario>tempXInfGauche[0] && yMario >= tempXInfDroit[1] && yMario >= tempXInfGauche[1];
+                printf("ON CHECK SI MARIO A UN Y ENTRE %f ET %f \n", tempInfGauche[1], tempSupGauche[1]);
+                bool tempB2 = yMario >= tempInfDroit[1] && yMario <= tempSupGauche[1];
                 printf("%s\n", tempB2 ? "OUI" : "NON");
                 printf("-------------------------------------------\n");
                 //on check si Mario est dans cette zone
@@ -671,17 +671,17 @@ static void keyboard(unsigned char key, int x, int y) {
         printf("Y MARIO :%f\n", yMario);
         do {
             //on récupère les coordonnées des 4 coins de la zone échelle
-            float tempXSupGauche[2] = { listeDesEchelles[index1][0][0],listeDesEchelles[index1][0][1] };
-            float tempXSupDroit[2] = { listeDesEchelles[index1][1][0],listeDesEchelles[index1][1][1] };
-            float tempXInfGauche[2] = { listeDesEchelles[index1][2][0],listeDesEchelles[index1][2][1] };
-            float tempXInfDroit[2] = { listeDesEchelles[index1][3][0],listeDesEchelles[index1][3][1] };
+            float tempSupGauche[2] = { listeDesEchelles[index1][0][0],listeDesEchelles[index1][0][1] };
+            float tempSupDroit[2] = { listeDesEchelles[index1][1][0],listeDesEchelles[index1][1][1] };
+            float tempInfGauche[2] = { listeDesEchelles[index1][2][0],listeDesEchelles[index1][2][1] };
+            float tempInfDroit[2] = { listeDesEchelles[index1][3][0],listeDesEchelles[index1][3][1] };
 
             printf("-------------------------------------------\n");
-            printf("ON CHECK SI MARIO A UN X ENTRE %f ET %f \n", tempXSupGauche[0], tempXSupDroit[0]);
-            bool tempB = xMario<tempXSupDroit[0] && xMario>tempXSupGauche[0] && yMario < tempXSupDroit[1] && yMario < tempXSupGauche[1];
+            printf("ON CHECK SI MARIO A UN X ENTRE %f ET %f \n", tempSupGauche[0], tempSupDroit[0]);
+            bool tempB = xMario<tempSupDroit[0] && xMario>tempSupGauche[0];
             printf("%s\n", tempB ? "OUI" : "NON");
-            printf("ON CHECK SI MARIO A UN Y ENTRE %f ET %f \n", tempXInfGauche[1], tempXSupGauche[1]);
-            bool tempB2 = xMario<tempXInfDroit[0] && xMario>tempXInfGauche[0] && yMario >= tempXInfDroit[1] && yMario >= tempXInfGauche[1];
+            printf("ON CHECK SI MARIO A UN Y ENTRE %f ET %f \n", tempInfGauche[1], tempSupGauche[1]);
+            bool tempB2 = yMario >= tempInfDroit[1] && yMario <= tempSupGauche[1];
             printf("%s\n", tempB2 ? "OUI" : "NON");
             printf("-------------------------------------------\n");
             //on check si Mario est dans cette zone
