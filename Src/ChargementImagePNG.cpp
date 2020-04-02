@@ -324,17 +324,16 @@ static void poutreDK(float largeurPlateforme, float longueurPlateforme, float ha
 static void tonneau(float largeur, float longueur, unsigned int* textureID) {
 	float n;
 	glPushMatrix();
-	glTranslatef(-50.0, 87.0, 0.0);
+	glTranslatef(-50.0, 87.0, -2.0);
     glBindTexture(GL_TEXTURE_2D, textureID[0]);
 	glPushMatrix();
-	//glTranslatef(0.0, 0.0, longueur / 2);
 	glBegin(GL_POLYGON);
 	for (int i = 0; i < 360; i++) {
 		n = i * 3.14 / 180;
-		//glVertex2f(largeur * cos(n), largeur * sin(n));
+		glVertex2f(largeur * cos(n), largeur * sin(n));
 	}
 	glEnd();
-	glTranslatef(0.0, 0.0, -longueur);
+	glTranslatef(0.0, 0.0, largeurPoutre);
 	glBegin(GL_POLYGON);
 	for (int i = 0; i < 360; i++) {
 		n = i * 3.14 / 180;
@@ -342,7 +341,6 @@ static void tonneau(float largeur, float longueur, unsigned int* textureID) {
 	}
 	glEnd();
 	glPopMatrix();
-	glTranslatef(0.0, 0.0, -2);
     glBegin(GL_POLYGON);
     GLUquadric* glNewQuad = gluNewQuadric();
     gluCylinder(glNewQuad, largeur, largeur, longueur, 30.0, 30.0);
