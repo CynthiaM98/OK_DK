@@ -326,7 +326,7 @@ static void tonneau(float largeur, float longueur, unsigned int* textureID) {
 	glTranslatef(-50.0, 87.0, 0.0);
     glBindTexture(GL_TEXTURE_2D, textureID[0]);
 	glPushMatrix();
-	glTranslatef(0.0, 0.0, longueur / 2);
+	//glTranslatef(0.0, 0.0, longueur / 2);
 	glBegin(GL_POLYGON);
 	for (int i = 0; i < 360; i++) {
 		n = i * 3.14 / 180;
@@ -337,11 +337,11 @@ static void tonneau(float largeur, float longueur, unsigned int* textureID) {
 	glBegin(GL_POLYGON);
 	for (int i = 0; i < 360; i++) {
 		n = i * 3.14 / 180;
-		//glVertex2f(largeur * cos(n), largeur * sin(n));
+		glVertex2f(largeur * cos(n), largeur * sin(n));
 	}
 	glEnd();
 	glPopMatrix();
-	//glTranslatef(0.0, 0.0, -2);
+	glTranslatef(0.0, 0.0, -2);
     glBegin(GL_POLYGON);
     GLUquadric* glNewQuad = gluNewQuadric();
     gluCylinder(glNewQuad, largeur, largeur, longueur, 30.0, 30.0);
@@ -544,7 +544,7 @@ static void display(void) {
         break;
     }
     sceneJeu();
-    tonneau(3.0, 4.0, textureID);
+    tonneau(3.0, 6.0, textureID);
     glPopMatrix();
     glPopAttrib();
     glFlush();
