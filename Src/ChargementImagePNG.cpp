@@ -76,6 +76,7 @@ GLfloat high_shininess[] = { 100.0F };
 GLfloat mat_emission[] = { 0.3F,0.2F,0.2F,0.0F };
 GLfloat couleur_poutres[] = { 2.50,2.4,1.45F,1.0F };
 GLfloat couleur_echelles[] = { 0.1F,0.5F,0.8F,1.0F };
+GLfloat couleur_tonneaux[] = { 0.1F,0.5F,0.8F,1.0F };
 
 static void chargementTexture(char* filename, unsigned int textureID) {
     glBindTexture(GL_TEXTURE_2D, textureID);
@@ -322,6 +323,7 @@ static void poutreDK(float largeurPlateforme, float longueurPlateforme, float ha
 }
 
 static void tonneau(float largeur, float longueur, unsigned int* textureID) {
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, couleur_tonneaux);
 	float n;
 	glPushMatrix();
 	glTranslatef(-50.0, 87.0, 0.0);
@@ -518,6 +520,11 @@ static void sceneJeu() {
     glMaterialfv(GL_FRONT, GL_EMISSION, no_mat);
     placementPoutres();
     placementEchelles();
+    glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
+    glMaterialfv(GL_FRONT, GL_SPECULAR, no_mat);
+    glMaterialfv(GL_FRONT, GL_SHININESS, no_shininess);
+    glMaterialfv(GL_FRONT, GL_EMISSION, no_mat);
+    tonneau(3.0, 6.0, textureID);
     glPopMatrix();
     glPushMatrix();
     placementMario();
@@ -545,7 +552,7 @@ static void display(void) {
         break;
     }
     sceneJeu();
-    tonneau(3.0, 6.0, textureID);
+    
     glPopMatrix();
     glPopAttrib();
     glFlush();
