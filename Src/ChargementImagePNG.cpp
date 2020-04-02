@@ -32,9 +32,13 @@ static int texture = 1;
 static int filDeFer = 1;
 static int lumiere = 0;
 
+float hauteurPoutre = 0.5F;
+
 float xMario = 5.0;
-float yMario = 0.0;
-float zMario = -2.0;
+float yMario = (-0.06 * xMario) + hauteurPoutre/2.0;
+float zMario = -1.0;
+
+
 
 GLfloat no_mat[] = { 0.0F,0.0F,0.0F,1.0F };
 GLfloat mat_ambient[] = { 0.7F,0.7F,0.7F,1.0F };
@@ -370,35 +374,35 @@ static void placementPoutres() {
     
     glMaterialfv(GL_FRONT, GL_DIFFUSE, couleur_poutres);
 
-    glPushMatrix(); //planche etage +1
+    glPushMatrix(); //poutre etage +2
     glTranslatef(-5.0, 4 * 20.0, 0.0);
     glRotatef(90.0, 0.0, 1.0, 0.0);
-    glRotatef(3.8, 1.0, 0.0, 0.0);
-    poutreDK(8.0F, 100.0F, 0.5F);
+    glRotatef(3.2, 1.0, 0.0, 0.0);
+    poutreDK(4.0F, 100.0F, hauteurPoutre);
     glPopMatrix();
-    glPushMatrix(); //planche etage +2
+    glPushMatrix(); //poutre etage +1
     glTranslatef(5.0, 3 * 20.0, 0.0);
     glRotatef(90.0, 0.0, 1.0, 0.0);
-    glRotatef(-2.7, 1.0, 0.0, 0.0);
-    poutreDK(8.0F, 100.0F, 0.5F);
+    glRotatef(-3.5, 1.0, 0.0, 0.0);
+    poutreDK(4.0F, 100.0F, hauteurPoutre);
     glPopMatrix();
-    glPushMatrix(); //planche centrale
+    glPushMatrix(); //poutre centrale
     glTranslatef(-5.0, 2 * 20.0, 0.0);
     glRotatef(90.0, 0.0, 1.0, 0.0);
-    glRotatef( 4.5, 1.0, 0.0, 0.0);
-    poutreDK(8.0F, 100.0F, 0.5F);
+    glRotatef( 3.2, 1.0, 0.0, 0.0);
+    poutreDK(4.0F, 100.0F, hauteurPoutre);
     glPopMatrix();
-    glPushMatrix(); //planche etage -1
+    glPushMatrix(); //poutre etage -1
     glTranslatef(5.0, 1 * 20.0, 0.0);
     glRotatef(90.0, 0.0, 1.0, 0.0);
-    glRotatef(-5.5, 1.0, 0.0, 0.0);
-    poutreDK(4.0F, 100.0F, 0.5F);
+    glRotatef(-3.5, 1.0, 0.0, 0.0);
+    poutreDK(4.0F, 100.0F, hauteurPoutre);
     glPopMatrix();
-    glPushMatrix(); //planche etage -2
+    glPushMatrix(); //poutre etage -2
     glTranslatef(-5.0, 0 * 20.0, 0.0);
     glRotatef(90.0, 0.0, 1.0, 0.0);
     glRotatef(3.2, 1.0, 0.0, 0.0);
-    poutreDK(4.0F, 100.0F, 0.5F);
+    poutreDK(4.0F, 100.0F, hauteurPoutre);
     glPopMatrix();
     glPopMatrix();
 
@@ -538,6 +542,7 @@ static void reshape(int tx, int ty) {
   }
 
 static void keyboard(unsigned char key, int x, int y) {
+    float hauteurDemiePoutre = hauteurPoutre / 2.0;
     printf(" Touche: %c = %d \n", key, key);
     switch (key) {
     case 0x20: //mode fil de fer en appuyant sur la barre espace
@@ -561,14 +566,91 @@ static void keyboard(unsigned char key, int x, int y) {
         yMario -= 0.5;
         glutPostRedisplay();
         break;
-    case 113: //faire aller Mario à gauche avec Q
+    case 113: //faire aller Mario à gauche avec Q ou q
         printf("MARIO GAUCHE\n");
-        xMario -= 0.5;
+
+        if (yMario >= -2.8 + hauteurPoutre && yMario <= 2.8 + hauteurPoutre) { //Si Mario sur poutre -2 - OK
+            if(xMario<=45 && x>=-55){
+                xMario -= 0.5;
+                yMario = (-0.06 * xMario) + hauteurDemiePoutre;
+            }
+        }
+        else {
+            if (yMario >= 16.94 + hauteurDemiePoutre && yMario <= 23.06 + hauteurDemiePoutre) { //Si Mario sur poutre -1
+                if (xMario <= 55 && x >= -45) {
+                    xMario -= 0.5;
+                    yMario = (19.69 + 0.06 * xMario) + hauteurDemiePoutre;
+                }
+            }
+            else {
+                if (yMario >= 37.2 + hauteurDemiePoutre && yMario <= 42.8 + hauteurDemiePoutre) { //Si Mario sur poutre 0 - OK
+                    if (xMario <= 45 && x >= -55) {
+                        xMario -= 0.5;
+                        yMario = (39.72 - 0.06 * xMario) + hauteurDemiePoutre;
+                    }
+                }
+                else {
+                    if (yMario >= 56.94 + hauteurDemiePoutre && yMario <= 63.06 + hauteurDemiePoutre) { //Si Mario sur poutre +1
+                        if (xMario <= 55 && x >= -45) {
+                            xMario -= 0.5;
+                            yMario = (59.69 + 0.06 * xMario) + hauteurDemiePoutre;
+                        }
+                    }
+                    else {
+                        if (yMario >= 77.2 + hauteurDemiePoutre && yMario <= 82.8 + hauteurDemiePoutre) { //Si Mario sur poutre +2 - OK
+                            if (xMario <= 45 && x >= -55) {
+                                xMario -= 0.5;
+                                yMario = (79.72 - 0.06 * xMario) + hauteurDemiePoutre;
+                            }
+                        }
+                    }
+                }
+            }
+        }
         glutPostRedisplay();
         break;
-    case 100: //faire aller Mario à droite avec D
+
+    case 100: //faire aller Mario à droite avec D ou d
         printf("MARIO DROITE\n");
-        xMario += 0.5;
+
+        if (yMario >= -2.8 + hauteurPoutre && yMario <= 2.8 + hauteurPoutre) { //Si Mario sur poutre -2 - OK
+            if (xMario <= 45 && x >= -55) {
+                xMario += 0.5;
+                yMario = (-0.06 * xMario) + hauteurDemiePoutre;
+            }
+        }
+        else {
+            if (yMario >= 16.94 + hauteurDemiePoutre && yMario <= 23.06 + hauteurDemiePoutre) { //Si Mario sur poutre -1
+                if (xMario <= 55 && x >= -45) {
+                    xMario += 0.5;
+                    yMario = (19.69 + 0.06 * xMario) + hauteurDemiePoutre;
+                }
+            }
+            else {
+                if (yMario >= 37.2 + hauteurDemiePoutre && yMario <= 42.8 + hauteurDemiePoutre) { //Si Mario sur poutre 0 - OK
+                    if (xMario <= 45 && x >= -55) {
+                        xMario += 0.5;
+                        yMario = (39.72 - 0.06 * xMario) + hauteurDemiePoutre;
+                    }
+                }
+                else {
+                    if (yMario >= 56.94 + hauteurDemiePoutre && yMario <= 63.06+ hauteurDemiePoutre) { //Si Mario sur poutre +1
+                        if (xMario <= 55 && x >= -45) {
+                            xMario += 0.5;
+                            yMario = (59.69 + 0.06 * xMario) + hauteurDemiePoutre;
+                        }
+                    }
+                    else {
+                        if (yMario >= 77.2+hauteurDemiePoutre && yMario <= 82.8+ hauteurDemiePoutre) { //Si Mario sur poutre +2 - OK
+                            if (xMario <= 45 && x >= -55) {
+                                xMario += 0.5;
+                                yMario = (79.72 - 0.06 * xMario) + hauteurDemiePoutre;
+                            }
+                        }
+                    }
+                }
+            }
+        }
         glutPostRedisplay();
         break;
     }
