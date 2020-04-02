@@ -34,9 +34,17 @@ static int lumiere = 0;
 
 float hauteurPoutre = 0.5F;
 
+float tailleMario = 10.0;
+enum Orientation{ Droite, Gauche, Dos };
+Orientation orientationMario=Gauche;
 float xMario = 5.0;
-float yMario = (-0.06 * xMario) + hauteurPoutre/2.0;
+float yMario = (-0.06 * xMario) + 2*hauteurPoutre;
 float zMario = -1.0;
+
+float initXMario = xMario;
+float initYMario = yMario;
+float initZMario = zMario;
+Orientation initOrientationMario = orientationMario;
 
 
 
@@ -306,28 +314,43 @@ static void tonneau(float largeur, float longueur, unsigned int* textureID) {
 }
 
 static void teteMario(float size) {
-    double tailleTete = size / 3;
-    glutSolidCube(tailleTete);
+    double tailleTete = size / 3.0;
+    glScalef(tailleTete, tailleTete, tailleTete);
+    glutSolidCube(1.0);
 }
 
 
 static void corpMario(float size) {
-    double tailleCorp = size / 3;
+    double tailleCorp = size / 3.0;
     glutSolidCube(tailleCorp);
 }
 
 static void membreMario(float size) {
-    glScalef(1.0F, 3.0F, 1.0F);
+    float LargeurMembre = size / 6.0;
+    float hauteurMembre = size / 3.0;
+    glScalef(LargeurMembre, hauteurMembre, LargeurMembre*0.75);
     glutSolidCube(1.0);
 }
 
 static void mario(float size) {
-
+    //TODO GERER L ORIENTATION DE MARIO SI IL EST SUR UNE POUTRE MONTANTE A GAUCHE, A DROITE OU SUR UNE ECHELLE
+    switch (orientationMario) {
+    case Droite:
+        glPushMatrix();
+        glRotatef(-90.0, 0.0, 1.0, 0.0);
+        break;
+    case Gauche:
+        glPushMatrix();
+        glRotatef(90.0, 0.0, 1.0, 0.0);
+        break;
+    case Dos:
+        break;
+    }
     float temp = 0.0F; //variable pour simplifier la lecture dans l'appelle des fonctions
     glPushMatrix();
 
     glPushMatrix();
-    temp = size - (size / 6.0);
+    temp = 5.0*size/6.0;
     glTranslatef(0.0F, temp, 0.0F); //niveau tête
     teteMario(size);
     glPopMatrix(); //retour origine
@@ -338,7 +361,7 @@ static void mario(float size) {
     corpMario(size);
 
     glPushMatrix(); //bras droit
-    temp = 0.3 * size;
+    temp = size/4.0;
     glTranslatef(-temp, 0.0F, 0.0F);
     membreMario(size);
     glPopMatrix(); //retour au niveau du corp
@@ -355,7 +378,7 @@ static void mario(float size) {
     glTranslatef(0.0F, temp, 0.0F); //niveau jambe
 
     glPushMatrix(); //jambe droite
-    temp = 0.15 * size;
+    temp = size/12.0;
     glTranslatef(-temp, 0.0F, 0.0F);
     membreMario(size);
     glPopMatrix();
@@ -366,6 +389,7 @@ static void mario(float size) {
     glPopMatrix();
     glPopMatrix();
 
+    glPopMatrix();
     glPopMatrix();
 }
 
@@ -441,7 +465,7 @@ static void placementEchelles() {
 static void placementMario() {
     glPushMatrix();
     glTranslatef(xMario, yMario, zMario);
-    mario(10.0);
+    mario(tailleMario);
     glPopMatrix();
 }
 
@@ -453,8 +477,8 @@ static void sceneJeu() {
     glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
     glMaterialfv(GL_FRONT, GL_SHININESS, high_shininess);
     glMaterialfv(GL_FRONT, GL_EMISSION, no_mat);
-    placementPoutres();
-    placementEchelles();
+   placementPoutres();
+   placementEchelles();
     glPopMatrix();
     glPushMatrix();
     placementMario();
@@ -542,65 +566,76 @@ static void reshape(int tx, int ty) {
   }
 
 static void keyboard(unsigned char key, int x, int y) {
-    float hauteurDemiePoutre = hauteurPoutre / 2.0;
+    float compensationPoutre = 2 * hauteurPoutre;
     printf(" Touche: %c = %d \n", key, key);
     switch (key) {
+
     case 0x20: //mode fil de fer en appuyant sur la barre espace
         filDeFer = (filDeFer + 1) % 2;
         glutPostRedisplay();
         break;
+
     case 0x0D: //eclairage en appuyant sur entrée
         lumiere = (lumiere + 1) % 2;
         glutPostRedisplay();
         break;
+
     case 0x1B: //quitter en appuyant sur échap
         exit(0);
         break;
+
     case 122: //faire monter Mario avec Z
         printf("MARIO HAUT\n");
         yMario += 0.5;
         glutPostRedisplay();
         break;
+
     case 115: //faire descendre Mario avec S
         printf("MARIO BAS\n");
         yMario -= 0.5;
         glutPostRedisplay();
         break;
+
     case 113: //faire aller Mario à gauche avec Q ou q
         printf("MARIO GAUCHE\n");
 
-        if (yMario >= -2.8 + hauteurPoutre && yMario <= 2.8 + hauteurPoutre) { //Si Mario sur poutre -2 - OK
+        if (yMario >= -2.8 + compensationPoutre && yMario <= 2.8 + compensationPoutre) { //Si Mario sur poutre -2 - OK
             if(xMario<=45 && x>=-55){
+                orientationMario = Gauche;
                 xMario -= 0.5;
-                yMario = (-0.06 * xMario) + hauteurDemiePoutre;
+                yMario = (-0.06 * xMario) + compensationPoutre;
             }
         }
         else {
-            if (yMario >= 16.94 + hauteurDemiePoutre && yMario <= 23.06 + hauteurDemiePoutre) { //Si Mario sur poutre -1
+            if (yMario >= 16.94 + compensationPoutre && yMario <= 23.06 + compensationPoutre) { //Si Mario sur poutre -1
                 if (xMario <= 55 && x >= -45) {
+                    orientationMario = Gauche;
                     xMario -= 0.5;
-                    yMario = (19.69 + 0.06 * xMario) + hauteurDemiePoutre;
+                    yMario = (19.69 + 0.06 * xMario) + compensationPoutre;
                 }
             }
             else {
-                if (yMario >= 37.2 + hauteurDemiePoutre && yMario <= 42.8 + hauteurDemiePoutre) { //Si Mario sur poutre 0 - OK
+                if (yMario >= 37.2 + compensationPoutre && yMario <= 42.8 + compensationPoutre) { //Si Mario sur poutre 0 - OK
                     if (xMario <= 45 && x >= -55) {
+                        orientationMario = Gauche;
                         xMario -= 0.5;
-                        yMario = (39.72 - 0.06 * xMario) + hauteurDemiePoutre;
+                        yMario = (39.72 - 0.06 * xMario) + compensationPoutre;
                     }
                 }
                 else {
-                    if (yMario >= 56.94 + hauteurDemiePoutre && yMario <= 63.06 + hauteurDemiePoutre) { //Si Mario sur poutre +1
+                    if (yMario >= 56.94 + compensationPoutre && yMario <= 63.06 + compensationPoutre) { //Si Mario sur poutre +1
                         if (xMario <= 55 && x >= -45) {
+                            orientationMario = Gauche;
                             xMario -= 0.5;
-                            yMario = (59.69 + 0.06 * xMario) + hauteurDemiePoutre;
+                            yMario = (59.69 + 0.06 * xMario) + compensationPoutre;
                         }
                     }
                     else {
-                        if (yMario >= 77.2 + hauteurDemiePoutre && yMario <= 82.8 + hauteurDemiePoutre) { //Si Mario sur poutre +2 - OK
+                        if (yMario >= 77.2 + compensationPoutre && yMario <= 82.8 + compensationPoutre) { //Si Mario sur poutre +2 - OK
                             if (xMario <= 45 && x >= -55) {
+                                orientationMario = Gauche;
                                 xMario -= 0.5;
-                                yMario = (79.72 - 0.06 * xMario) + hauteurDemiePoutre;
+                                yMario = (79.72 - 0.06 * xMario) + compensationPoutre;
                             }
                         }
                     }
@@ -613,38 +648,43 @@ static void keyboard(unsigned char key, int x, int y) {
     case 100: //faire aller Mario à droite avec D ou d
         printf("MARIO DROITE\n");
 
-        if (yMario >= -2.8 + hauteurPoutre && yMario <= 2.8 + hauteurPoutre) { //Si Mario sur poutre -2 - OK
+        if (yMario >= -2.8 + compensationPoutre && yMario <= 2.8 + compensationPoutre) { //Si Mario sur poutre -2 - OK
             if (xMario <= 45 && x >= -55) {
+                orientationMario = Droite;
                 xMario += 0.5;
-                yMario = (-0.06 * xMario) + hauteurDemiePoutre;
+                yMario = (-0.06 * xMario) + 2 * hauteurPoutre;
             }
         }
         else {
-            if (yMario >= 16.94 + hauteurDemiePoutre && yMario <= 23.06 + hauteurDemiePoutre) { //Si Mario sur poutre -1
+            if (yMario >= 16.94 + compensationPoutre && yMario <= 23.06 + compensationPoutre) { //Si Mario sur poutre -1
                 if (xMario <= 55 && x >= -45) {
+                    orientationMario = Droite;
                     xMario += 0.5;
-                    yMario = (19.69 + 0.06 * xMario) + hauteurDemiePoutre;
+                    yMario = (19.69 + 0.06 * xMario) + compensationPoutre;
                 }
             }
             else {
-                if (yMario >= 37.2 + hauteurDemiePoutre && yMario <= 42.8 + hauteurDemiePoutre) { //Si Mario sur poutre 0 - OK
+                if (yMario >= 37.2 + compensationPoutre && yMario <= 42.8 + compensationPoutre) { //Si Mario sur poutre 0 - OK
                     if (xMario <= 45 && x >= -55) {
+                        orientationMario = Droite;
                         xMario += 0.5;
-                        yMario = (39.72 - 0.06 * xMario) + hauteurDemiePoutre;
+                        yMario = (39.72 - 0.06 * xMario) + compensationPoutre;
                     }
                 }
                 else {
-                    if (yMario >= 56.94 + hauteurDemiePoutre && yMario <= 63.06+ hauteurDemiePoutre) { //Si Mario sur poutre +1
+                    if (yMario >= 56.94 + compensationPoutre && yMario <= 63.06+ compensationPoutre) { //Si Mario sur poutre +1
                         if (xMario <= 55 && x >= -45) {
+                            orientationMario = Droite;
                             xMario += 0.5;
-                            yMario = (59.69 + 0.06 * xMario) + hauteurDemiePoutre;
+                            yMario = (59.69 + 0.06 * xMario) + compensationPoutre;
                         }
                     }
                     else {
-                        if (yMario >= 77.2+hauteurDemiePoutre && yMario <= 82.8+ hauteurDemiePoutre) { //Si Mario sur poutre +2 - OK
+                        if (yMario >= 77.2+ compensationPoutre && yMario <= 82.8 + compensationPoutre) { //Si Mario sur poutre +2 - OK
                             if (xMario <= 45 && x >= -55) {
+                                orientationMario = Droite;
                                 xMario += 0.5;
-                                yMario = (79.72 - 0.06 * xMario) + hauteurDemiePoutre;
+                                yMario = (79.72 - 0.06 * xMario) + compensationPoutre;
                             }
                         }
                     }
