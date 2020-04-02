@@ -6,6 +6,8 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 
+#include <math.h>
+
 #include "PNG/ChargePngFile.h"
 
 
@@ -305,12 +307,33 @@ static void poutreDK(float largeurPlateforme, float longueurPlateforme, float ha
 }
 
 static void tonneau(float largeur, float longueur, unsigned int* textureID) {
-
+	float n;
+	glPushMatrix();
+	glTranslatef(-50.0, 87.0, 0.0);
     glBindTexture(GL_TEXTURE_2D, textureID[0]);
+	glPushMatrix();
+	glTranslatef(0.0, 0.0, longueur / 2);
+	glBegin(GL_POLYGON);
+	for (int i = 0; i < 360; i++) {
+		n = i * 3.14 / 180;
+		//glVertex2f(largeur * cos(n), largeur * sin(n));
+	}
+	glEnd();
+	glTranslatef(0.0, 0.0, -longueur);
+	glBegin(GL_POLYGON);
+	for (int i = 0; i < 360; i++) {
+		n = i * 3.14 / 180;
+		//glVertex2f(largeur * cos(n), largeur * sin(n));
+	}
+	glEnd();
+	glPopMatrix();
+	//glTranslatef(0.0, 0.0, -2);
     glBegin(GL_POLYGON);
     GLUquadric* glNewQuad = gluNewQuadric();
-    gluCylinder(glNewQuad, 1.0, 1, 3, 30, 30);
-    glEnd();
+    gluCylinder(glNewQuad, largeur, largeur, longueur, 30.0, 30.0);
+	glEnd();
+	
+	glPopMatrix();
 }
 
 static void teteMario(float size) {
@@ -506,7 +529,7 @@ static void display(void) {
         break;
     }
     sceneJeu();
-    //tonneau(5.0, 5.0, textureID);
+    tonneau(3.0, 4.0, textureID);
     glPopMatrix();
     glPopAttrib();
     glFlush();
