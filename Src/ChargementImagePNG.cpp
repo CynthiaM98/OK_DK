@@ -32,6 +32,10 @@ static int texture = 1;
 static int filDeFer = 1;
 static int lumiere = 0;
 
+float xMario = 5.0;
+float yMario = 0.0;
+float zMario = -2.0;
+
 GLfloat no_mat[] = { 0.0F,0.0F,0.0F,1.0F };
 GLfloat mat_ambient[] = { 0.7F,0.7F,0.7F,1.0F };
 GLfloat mat_ambient_color[] = { 0.8F,0.8F,0.2F,1.0F };
@@ -429,9 +433,10 @@ static void placementEchelles() {
 
 }
 
+
 static void placementMario() {
     glPushMatrix();
-    glTranslatef(5.0, 0.0, -2.0);
+    glTranslatef(xMario, yMario, zMario);
     mario(10.0);
     glPopMatrix();
 }
@@ -533,6 +538,7 @@ static void reshape(int tx, int ty) {
   }
 
 static void keyboard(unsigned char key, int x, int y) {
+    printf(" Touche: %c = %d \n", key, key);
     switch (key) {
     case 0x20: //mode fil de fer en appuyant sur la barre espace
         filDeFer = (filDeFer + 1) % 2;
@@ -544,6 +550,26 @@ static void keyboard(unsigned char key, int x, int y) {
         break;
     case 0x1B: //quitter en appuyant sur échap
         exit(0);
+        break;
+    case 122: //faire monter Mario avec Z
+        printf("MARIO HAUT\n");
+        yMario += 0.5;
+        glutPostRedisplay();
+        break;
+    case 115: //faire descendre Mario avec S
+        printf("MARIO BAS\n");
+        yMario -= 0.5;
+        glutPostRedisplay();
+        break;
+    case 113: //faire aller Mario à gauche avec Q
+        printf("MARIO GAUCHE\n");
+        xMario -= 0.5;
+        glutPostRedisplay();
+        break;
+    case 100: //faire aller Mario à droite avec D
+        printf("MARIO DROITE\n");
+        xMario += 0.5;
+        glutPostRedisplay();
         break;
     }
 }
