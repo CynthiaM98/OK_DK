@@ -323,10 +323,11 @@ static void poutreDK(float largeurPlateforme, float longueurPlateforme, float ha
 }
 
 static void tonneau(float largeur, float longueur, unsigned int* textureID) {
-    glMaterialfv(GL_FRONT, GL_DIFFUSE, couleur_echelles);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, couleur_tonneaux);
     float n;
     glPushMatrix();
-    glTranslatef(-50.0, 87.0, -2.0);
+    glTranslatef(-50.0, 84.0, -2.0); //face arrière
+    glPushMatrix();
     glBindTexture(GL_TEXTURE_2D, textureID[0]);
     glPushMatrix();
     glBegin(GL_POLYGON);
@@ -335,7 +336,9 @@ static void tonneau(float largeur, float longueur, unsigned int* textureID) {
         glVertex2f(largeur * cos(n), largeur * sin(n));
     }
     glEnd();
-    glTranslatef(0.0, 0.0, largeurPoutre);
+    glPopMatrix();
+    glTranslatef(0.0, 0.0, largeurPoutre); //face avant
+    glRotatef(180.0, 0.0, 1.0, 0.0);
     glBegin(GL_POLYGON);
     for (int i = 0; i < 360; i++) {
         n = i * 3.14 / 180;
@@ -519,6 +522,10 @@ static void sceneJeu() {
     placementPoutres();
     placementEchelles();
     glTranslatef(-3.75F,3.0F,0.0F);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, mat_ambient);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, no_mat);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, no_shininess);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, mat_emission);
     tonneau(3.0, 4.0, textureID);
     glPopMatrix();
     glPushMatrix();
@@ -715,7 +722,7 @@ static void keyboard(unsigned char key, int x, int y) {
             }
         }
         else {
-            if (yMario >= 16.94 + compensationPoutre && yMario <= 23.06 + compensationPoutre) { //Si Mario sur poutre -1
+            if (yMario >= 16.94 + compensationPoutre && yMario <= 23.06 + compensationPoutre) { //Si Mario sur poutre -1 - OK
                 if (xMario < 55 && x > -45) {
                     orientationMario = Gauche;
                     xMario -= 0.5;
@@ -731,7 +738,7 @@ static void keyboard(unsigned char key, int x, int y) {
                     }
                 }
                 else {
-                    if (yMario >= 56.94 + compensationPoutre && yMario <= 63.06 + compensationPoutre) { //Si Mario sur poutre +1
+                    if (yMario >= 56.94 + compensationPoutre && yMario <= 63.06 + compensationPoutre) { //Si Mario sur poutre +1 - OK
                         if (xMario < 55 && x > -45) {
                             orientationMario = Gauche;
                             xMario -= 0.5;
@@ -766,7 +773,7 @@ static void keyboard(unsigned char key, int x, int y) {
             }
         }
         else {
-            if (yMario >= 16.94 + compensationPoutre && yMario <= 23.06 + compensationPoutre) { //Si Mario sur poutre -1
+            if (yMario >= 16.94 + compensationPoutre && yMario <= 23.06 + compensationPoutre) { //Si Mario sur poutre -1 - OK
                 if (xMario < 55 && x > -45) {
                     orientationMario = Droite;
                     xMario += 0.5;
@@ -782,7 +789,7 @@ static void keyboard(unsigned char key, int x, int y) {
                     }
                 }
                 else {
-                    if (yMario >= 56.94 + compensationPoutre && yMario <= 63.06+ compensationPoutre) { //Si Mario sur poutre +1
+                    if (yMario >= 56.94 + compensationPoutre && yMario <= 63.06+ compensationPoutre) { //Si Mario sur poutre +1 - OK
                         if (xMario < 55 && x > -45) {
                             orientationMario = Droite;
                             xMario += 0.5;
