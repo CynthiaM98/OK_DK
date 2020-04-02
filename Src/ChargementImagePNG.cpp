@@ -351,6 +351,10 @@ static void tonneau(float largeur, float longueur, unsigned int* textureID) {
 	glPopMatrix();
 }
 
+static void avanceTonneaux() {
+
+}
+
 static void teteMario(float size) {
     double tailleTete = size / 3.0;
     glScalef(tailleTete, tailleTete, tailleTete);
