@@ -45,8 +45,22 @@ float initXMario = xMario;
 float initYMario = yMario;
 float initZMario = zMario;
 Orientation initOrientationMario = orientationMario;
+const int nombreEchelle = 4;
 
-
+float listeDesEchelles[nombreEchelle][4][2]= { //{{x,y}coinSupGauche,{x,y}coinSupDroit,{x,y}coinInfGauche,{x,y}coinInfDroit}
+    {
+        {-4.0,75.0},{4.0,75.0},{-4.0,25.0},{4.0,25.0}  //echelle 1 -> 2
+    },
+    {
+        {11.0,95.0},{19.0,95.0},{11.0,45.0},{19.0,45.0}  //echelle 0 -> 1
+    },
+    {
+        {-21.0,55.0},{-13.0,55.0},{-21.0,5.0},{-21.0,5.0}  //echelle -1 -> 0
+    },
+    {
+        {-31.0,35.0},{-23.0,35.0},{-31.0,-15.0},{-23.0,-15.0}  //echelle -1 -> -2
+    }
+};
 
 GLfloat no_mat[] = { 0.0F,0.0F,0.0F,1.0F };
 GLfloat mat_ambient[] = { 0.7F,0.7F,0.7F,1.0F };
@@ -344,6 +358,7 @@ static void mario(float size) {
         glRotatef(90.0, 0.0, 1.0, 0.0);
         break;
     case Dos:
+        glRotatef(180.0, 0.0, 1.0, 0.0);
         break;
     }
     float temp = 0.0F; //variable pour simplifier la lecture dans l'appelle des fonctions
@@ -477,8 +492,8 @@ static void sceneJeu() {
     glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
     glMaterialfv(GL_FRONT, GL_SHININESS, high_shininess);
     glMaterialfv(GL_FRONT, GL_EMISSION, no_mat);
-   placementPoutres();
-   placementEchelles();
+    placementPoutres();
+    placementEchelles();
     glPopMatrix();
     glPushMatrix();
     placementMario();
@@ -566,7 +581,10 @@ static void reshape(int tx, int ty) {
   }
 
 static void keyboard(unsigned char key, int x, int y) {
-    
+    int index1 = 0;
+    bool trouveHaut = false;
+    int index2 = 0;
+    bool trouveBas = false;
     printf(" Touche: %c = %d \n", key, key);
     switch (key) {
 
@@ -586,23 +604,85 @@ static void keyboard(unsigned char key, int x, int y) {
 
     case 122: //faire monter Mario avec Z
         printf("MARIO HAUT\n");
-        yMario += 0.5;
-        glutPostRedisplay();
+        printf("X MARIO :%f\n", xMario);
+        printf("Y MARIO :%f\n", yMario);
+        do{
+                //on récupère les coordonnées des 4 coins de la zone échelle
+                float tempXSupGauche[2] = { listeDesEchelles[index1][0][0],listeDesEchelles[index1][0][1] };
+                float tempXSupDroit[2]= { listeDesEchelles[index1][1][0],listeDesEchelles[index1][1][1] };
+                float tempXInfGauche[2] = { listeDesEchelles[index1][2][0],listeDesEchelles[index1][2][1] };
+                float tempXInfDroit[2] = { listeDesEchelles[index1][3][0],listeDesEchelles[index1][3][1] };
+                
+                printf("-------------------------------------------\n");
+                printf("ON CHECK SI MARIO A UN X ENTRE %f ET %f \n", tempXSupGauche[0], tempXSupDroit[0]);
+                bool tempB=xMario<tempXSupDroit[0] && xMario>tempXSupGauche[0] && yMario < tempXSupDroit[1] && yMario < tempXSupGauche[1];
+                printf("%s\n", tempB ? "OUI" : "NON");
+                printf("ON CHECK SI MARIO A UN Y ENTRE %f ET %f \n", tempXInfGauche[1], tempXSupGauche[1]);
+                bool tempB2 = xMario<tempXInfDroit[0] && xMario>tempXInfGauche[0] && yMario >= tempXInfDroit[1] && yMario >= tempXInfGauche[1];
+                printf("%s\n", tempB2 ? "OUI" : "NON");
+                printf("-------------------------------------------\n");
+                //on check si Mario est dans cette zone
+                if (tempB && tempB2) {
+                    printf("OUI\n");
+                    trouveHaut = true;
+                }
+                index1++;
+
+        } while (index1 < nombreEchelle && !trouveHaut);
+        
+        if (trouveHaut) {
+            yMario += 0.5;
+            index1 = 0;
+            trouveHaut = false;
+            orientationMario = Dos;
+            glutPostRedisplay();
+        }
         break;
 
     case 115: //faire descendre Mario avec S
         printf("MARIO BAS\n");
-        yMario -= 0.5;
-        glutPostRedisplay();
+        printf("X MARIO :%f\n", xMario);
+        printf("Y MARIO :%f\n", yMario);
+        do {
+            //on récupère les coordonnées des 4 coins de la zone échelle
+            float tempXSupGauche[2] = { listeDesEchelles[index1][0][0],listeDesEchelles[index1][0][1] };
+            float tempXSupDroit[2] = { listeDesEchelles[index1][1][0],listeDesEchelles[index1][1][1] };
+            float tempXInfGauche[2] = { listeDesEchelles[index1][2][0],listeDesEchelles[index1][2][1] };
+            float tempXInfDroit[2] = { listeDesEchelles[index1][3][0],listeDesEchelles[index1][3][1] };
+
+            printf("-------------------------------------------\n");
+            printf("ON CHECK SI MARIO A UN X ENTRE %f ET %f \n", tempXSupGauche[0], tempXSupDroit[0]);
+            bool tempB = xMario<tempXSupDroit[0] && xMario>tempXSupGauche[0] && yMario < tempXSupDroit[1] && yMario < tempXSupGauche[1];
+            printf("%s\n", tempB ? "OUI" : "NON");
+            printf("ON CHECK SI MARIO A UN Y ENTRE %f ET %f \n", tempXInfGauche[1], tempXSupGauche[1]);
+            bool tempB2 = xMario<tempXInfDroit[0] && xMario>tempXInfGauche[0] && yMario >= tempXInfDroit[1] && yMario >= tempXInfGauche[1];
+            printf("%s\n", tempB2 ? "OUI" : "NON");
+            printf("-------------------------------------------\n");
+            //on check si Mario est dans cette zone
+            if (tempB && tempB2) {
+                printf("OUI\n");
+                trouveHaut = true;
+            }
+            index1++;
+
+        } while (index1 < nombreEchelle && !trouveHaut);
+
+        if (trouveHaut) {
+            yMario -= 0.5;
+            index1 = 0;
+            trouveHaut = false;
+            orientationMario = Dos;
+            glutPostRedisplay();
+        }
         break;
 
     case 113: //faire aller Mario à gauche avec Q ou q
-        printf("MARIO GAUCHE\n");
+       // printf("MARIO GAUCHE\n");
 
         if (yMario >= -2.8 + compensationPoutre && yMario <= 2.8 + compensationPoutre) { //Si Mario sur poutre -2 - OK
             if(xMario<45 && x>-55){
-                printf("X MARIO :%f\n", xMario);
-                printf("Y MARIO :%f\n", yMario);
+               // printf("X MARIO :%f\n", xMario);
+                //printf("Y MARIO :%f\n", yMario);
                 orientationMario = Gauche;
                 xMario -= 0.5;
                 yMario = (-0.06 * xMario) + compensationPoutre;
@@ -648,12 +728,12 @@ static void keyboard(unsigned char key, int x, int y) {
         break;
 
     case 100: //faire aller Mario à droite avec D ou d
-        printf("MARIO DROITE\n");
+       // printf("MARIO DROITE\n");
 
         if (yMario >= -2.8 + compensationPoutre && yMario <= 2.8 + compensationPoutre) { //Si Mario sur poutre -2 - OK
             if (xMario < 45 && x > -55) {
-                printf("X MARIO :%f\n",xMario);
-                printf("Y MARIO :%f\n", yMario);
+              //  printf("X MARIO :%f\n",xMario);
+               // printf("Y MARIO :%f\n", yMario);
                 orientationMario = Droite;
                 xMario += 0.5;
                 yMario = (-0.06 * xMario) + compensationPoutre;
