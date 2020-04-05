@@ -71,7 +71,6 @@ float listeDesEchelles[nombreEchelle][4][2] = { //{{x,y}coinSupGauche,{x,y}coinS
     {
         {-31.0,35.0},{-23.0,35.0},{-31.0,-15.0},{-23.0,-15.0}  //echelle -1 -> -2
     }
-
 };
 
 
@@ -806,6 +805,15 @@ static void keyboard(unsigned char key, int x, int y) {
                                 yMario = (79.72 - 0.06 * xMario) + compensationPoutre;
                             }
                         }
+                        else {
+                            if (yMario >= 96.94 + compensationPoutre && yMario <= 103.6 + compensationPoutre) { //Si Mario sur poutre +3 - OK
+                                if (xMario < 55 && x > -45) {
+                                    orientationMario = Gauche;
+                                    xMario -= 0.5;
+                                    yMario = (99.69 + 0.06 * xMario) + compensationPoutre;
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -855,6 +863,15 @@ static void keyboard(unsigned char key, int x, int y) {
                                 orientationMario = Droite;
                                 xMario += 0.5;
                                 yMario = (79.72 - 0.06 * xMario) + compensationPoutre;
+                            }
+                        }
+                        else {
+                            if (yMario >= 96.94 + compensationPoutre && yMario <= 103.6 + compensationPoutre) { //Si Mario sur poutre +3 - OK
+                                if (xMario < 55 && x > -45) {
+                                    orientationMario = Gauche;
+                                    xMario += 0.5;
+                                    yMario = (99.69 + 0.06 * xMario) + compensationPoutre;
+                                }
                             }
                         }
                     }
