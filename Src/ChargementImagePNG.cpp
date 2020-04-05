@@ -34,7 +34,7 @@ static int texture = 1;
 static int filDeFer = 1;
 static int lumiere = 0;
 
-float largeurPoutre = 4.0F;
+float largeurPoutre = 8.0F;
 float hauteurPoutre = 0.5F;
 float compensationPoutre = 1.5 * hauteurPoutre;
 float tailleMario = 10.0;
@@ -326,7 +326,7 @@ static void tonneau(float largeur, float longueur, unsigned int* textureID) {
     glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, couleur_tonneaux);
     float n;
     glPushMatrix();
-    glTranslatef(-50.0, 84.0, -2.0); //face arrière
+    glTranslatef(-50.0, 84.0, -longueur /2); //face arrière
     glPushMatrix();
     glBindTexture(GL_TEXTURE_2D, textureID[0]);
     glPushMatrix();
@@ -337,7 +337,7 @@ static void tonneau(float largeur, float longueur, unsigned int* textureID) {
     }
     glEnd();
     glPopMatrix();
-    glTranslatef(0.0, 0.0, largeurPoutre); //face avant
+    glTranslatef(0.0, 0.0, longueur); //face avant
     glRotatef(180.0, 0.0, 1.0, 0.0);
     glBegin(GL_POLYGON);
     for (int i = 0; i < 360; i++) {
@@ -526,7 +526,7 @@ static void sceneJeu() {
     glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, no_mat);
     glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, no_shininess);
     glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, mat_emission);
-    tonneau(3.0, 4.0, textureID);
+    tonneau(3.0, largeurPoutre, textureID);
     glPopMatrix();
     glPushMatrix();
     placementMario();
