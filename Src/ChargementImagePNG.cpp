@@ -48,6 +48,14 @@ float zMario = -1.0;
 float initXMario = xMario;
 float initYMario = yMario;
 float initZMario = zMario;
+
+float xPrincesse = -30.0;
+float yPrincesse = 120.0;
+float zPrincesse = 0.0;
+
+
+
+
 Orientation initOrientationMario = orientationMario;
 const int nombreEchelle = 6;
 const int nombreEchelleCassee = 3;
@@ -98,6 +106,7 @@ GLfloat mat_emission[] = { 0.3F,0.2F,0.2F,0.0F };
 GLfloat couleur_poutres[] = { 2.50,2.4,1.45F,1.0F };
 GLfloat couleur_echelles[] = { 0.1F,0.5F,0.8F,1.0F };
 GLfloat couleur_tonneaux[] = { 0.1F,0.5F,0.8F,1.0F };
+GLfloat couleur_princesse[] = { 2.50,2.4,2.0F,1.0F };
 
 static void chargementTexture(char* filename, unsigned int textureID) {
     glBindTexture(GL_TEXTURE_2D, textureID);
@@ -395,7 +404,6 @@ static void membreMario(float size) {
 }
 
 static void mario(float size) {
-    //TODO GERER L ORIENTATION DE MARIO SI IL EST SUR UNE POUTRE MONTANTE A GAUCHE, A DROITE OU SUR UNE ECHELLE
     switch (orientationMario) {
     case Droite:
         glPushMatrix();
@@ -456,11 +464,14 @@ static void mario(float size) {
     glPopMatrix();
 }
 
+
+static void princesse(float size) {
+    mario(size);
+}
+
 static void placementPoutres() {
     glPushMatrix();
-    
     glMaterialfv(GL_FRONT, GL_DIFFUSE, couleur_poutres);
-
     glPushMatrix(); //poutre victoire
     glTranslatef(-10.0, 6 * 20.0, 0.0);
     glRotatef(90.0, 0.0, 1.0, 0.0);
@@ -529,9 +540,6 @@ static void placementEchelles() {
     echelle(50.0F, 8.0F);
     glPopMatrix();
 
-    
-
-
     glPushMatrix();
     glTranslatef(15.0, 70.0, -largeurPoutre/2);
     echelle(50.0F, 8.0F);
@@ -563,6 +571,20 @@ static void placementMario() {
     glPopMatrix();
 }
 
+
+static void placementPrincesse() {
+    glPushMatrix();
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, couleur_princesse); // TODO : REMPLACER LE MATERIAU PAR UNE TEXTURE
+    glPushMatrix();
+    glTranslatef(xPrincesse, yPrincesse, zPrincesse);
+    glRotatef(90.0, 0.0, 1.0, 0.0);
+    princesse(tailleMario);
+    glPopMatrix();
+    glPopMatrix();
+}
+
+
+
 static void sceneJeu() {
     glEnable(GL_DEPTH_TEST);
     glTranslated(0.0, 0.0, -90.0);
@@ -582,6 +604,7 @@ static void sceneJeu() {
     glPopMatrix();
     glPushMatrix();
     placementMario();
+    placementPrincesse();
     glPopMatrix();
 }
 
