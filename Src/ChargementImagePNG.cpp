@@ -50,6 +50,7 @@ float initYMario = yMario;
 float initZMario = zMario;
 Orientation initOrientationMario = orientationMario;
 const int nombreEchelle = 4;
+const int nombreEchelleCassee = 2;
 
 float listeDesEchelles[nombreEchelle][4][2]= { //{{x,y}coinSupGauche,{x,y}coinSupDroit,{x,y}coinInfGauche,{x,y}coinInfDroit}
     {
@@ -63,6 +64,16 @@ float listeDesEchelles[nombreEchelle][4][2]= { //{{x,y}coinSupGauche,{x,y}coinSu
     },
     {
         {-31.0,35.0},{-23.0,35.0},{-31.0,-15.0},{-23.0,-15.0}  //echelle -1 -> -2
+    }
+};
+
+
+float listeDesEchellesCassées[nombreEchelleCassee][4][2] = { //{{x,y}coinSupGauche,{x,y}coinSupDroit,{x,y}coinInfGauche,{x,y}coinInfDroit}
+    {
+        {31.0,95.0},{39.0,95.0},{31.0,45.0},{39.0,45.0}  //echelle cassee 1 -> 2
+    },
+    {
+        {26.0,15.0},{34.0,15.0},{26.0,-15.0},{34.0,-15.0}  //echelle cassee -2 -> -1
     }
 };
 
