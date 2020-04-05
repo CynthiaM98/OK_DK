@@ -14,7 +14,7 @@
 static unsigned int textureID[1] = { 0 };
 
 static double px = 0.0;
-static double py = 40.0;
+static double py = 60.0;
 static double pz = 10.0;
 
 static float rxs = 0.0;
@@ -36,6 +36,7 @@ static int lumiere = 0;
 
 float largeurPoutre = 8.0F;
 float hauteurPoutre = 0.5F;
+float longueurPoutre = 100.0F;
 float compensationPoutre = 1.5 * hauteurPoutre;
 float tailleMario = 10.0;
 enum Orientation{ Droite, Gauche, Dos };
@@ -440,35 +441,47 @@ static void placementPoutres() {
     
     glMaterialfv(GL_FRONT, GL_DIFFUSE, couleur_poutres);
 
+    glPushMatrix(); //poutre victoire
+    glTranslatef(-10.0, 6 * 20.0, 0.0);
+    glRotatef(90.0, 0.0, 1.0, 0.0);
+    glRotatef(0.0, 1.0, 0.0, 0.0);
+    poutreDK(largeurPoutre, longueurPoutre/2, hauteurPoutre);
+    glPopMatrix();
+    glPushMatrix(); //poutre etage +3
+    glTranslatef(5.0, 5 * 20.0, 0.0);
+    glRotatef(90.0, 0.0, 1.0, 0.0);
+    glRotatef (-3.5, 1.0, 0.0, 0.0);
+    poutreDK(largeurPoutre, longueurPoutre, hauteurPoutre);
+    glPopMatrix();
     glPushMatrix(); //poutre etage +2
     glTranslatef(-5.0, 4 * 20.0, 0.0);
     glRotatef(90.0, 0.0, 1.0, 0.0);
     glRotatef(3.2, 1.0, 0.0, 0.0);
-    poutreDK(largeurPoutre, 100.0F, hauteurPoutre);
+    poutreDK(largeurPoutre, longueurPoutre, hauteurPoutre);
     glPopMatrix();
     glPushMatrix(); //poutre etage +1
     glTranslatef(5.0, 3 * 20.0, 0.0);
     glRotatef(90.0, 0.0, 1.0, 0.0);
     glRotatef(-3.5, 1.0, 0.0, 0.0);
-    poutreDK(largeurPoutre, 100.0F, hauteurPoutre);
+    poutreDK(largeurPoutre, longueurPoutre, hauteurPoutre);
     glPopMatrix();
     glPushMatrix(); //poutre centrale
     glTranslatef(-5.0, 2 * 20.0, 0.0);
     glRotatef(90.0, 0.0, 1.0, 0.0);
     glRotatef( 3.2, 1.0, 0.0, 0.0);
-    poutreDK(largeurPoutre, 100.0F, hauteurPoutre);
+    poutreDK(largeurPoutre, longueurPoutre, hauteurPoutre);
     glPopMatrix();
     glPushMatrix(); //poutre etage -1
     glTranslatef(5.0, 1 * 20.0, 0.0);
     glRotatef(90.0, 0.0, 1.0, 0.0);
     glRotatef(-3.5, 1.0, 0.0, 0.0);
-    poutreDK(largeurPoutre, 100.0F, hauteurPoutre);
+    poutreDK(largeurPoutre, longueurPoutre, hauteurPoutre);
     glPopMatrix();
     glPushMatrix(); //poutre etage -2
     glTranslatef(-5.0, 0 * 20.0, 0.0);
     glRotatef(90.0, 0.0, 1.0, 0.0);
     glRotatef(3.2, 1.0, 0.0, 0.0);
-    poutreDK(largeurPoutre, 100.0F, hauteurPoutre);
+    poutreDK(largeurPoutre, longueurPoutre, hauteurPoutre);
     glPopMatrix();
     glPopMatrix();
 
@@ -513,7 +526,7 @@ static void placementMario() {
 
 static void sceneJeu() {
     glEnable(GL_DEPTH_TEST);
-    glTranslated(0.0, 0.0, -50.0);
+    glTranslated(0.0, 0.0, -90.0);
     glPushMatrix();
     glMaterialfv(GL_FRONT, GL_AMBIENT, no_mat);
     glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
@@ -546,10 +559,10 @@ static void display(void) {
     switch (lumiere) {
     case 0:
         glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
-        gluLookAt(px, py, pz, 0.0, 40.0, -50.0, 0.0, 1.0, 0.0);
+        gluLookAt(px, py, pz, 0.0, 60.0, -50.0, 0.0, 1.0, 0.0);
         break;
     case 1:
-        gluLookAt(px, py, pz, 0.0, 40.0, -50.0, 0.0, 1.0, 0.0);
+        gluLookAt(px, py, pz, 0.0, 60.0, -50.0, 0.0, 1.0, 0.0);
         glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
         break;
     }
