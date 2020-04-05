@@ -49,10 +49,16 @@ float initXMario = xMario;
 float initYMario = yMario;
 float initZMario = zMario;
 Orientation initOrientationMario = orientationMario;
-const int nombreEchelle = 4;
-const int nombreEchelleCassee = 2;
+const int nombreEchelle = 6;
+const int nombreEchelleCassee = 3;
 
-float listeDesEchelles[nombreEchelle][4][2]= { //{{x,y}coinSupGauche,{x,y}coinSupDroit,{x,y}coinInfGauche,{x,y}coinInfDroit}
+float listeDesEchelles[nombreEchelle][4][2] = { //{{x,y}coinSupGauche,{x,y}coinSupDroit,{x,y}coinInfGauche,{x,y}coinInfDroit}
+    {
+        {-3.0,135},{5.0,135},{-3.0,85.0},{5.0,85.0}  //echelle 3 -> -4
+    },
+    {  
+        {-29.0,115.0},{-21.0,115.0},{-29.0,65.0},{-21.0,65.0}  //echelle 2 -> 3
+    },
     {
         {-4.0,75.0},{4.0,75.0},{-4.0,25.0},{4.0,25.0}  //echelle 1 -> 2
     },
@@ -65,6 +71,7 @@ float listeDesEchelles[nombreEchelle][4][2]= { //{{x,y}coinSupGauche,{x,y}coinSu
     {
         {-31.0,35.0},{-23.0,35.0},{-31.0,-15.0},{-23.0,-15.0}  //echelle -1 -> -2
     }
+
 };
 
 
@@ -74,6 +81,9 @@ float listeDesEchellesCassees[nombreEchelleCassee][4][2] = { //{{x,y}coinSupGauc
     },
     {
         {26.0,15.0},{34.0,15.0},{26.0,-15.0},{34.0,-15.0}  //echelle cassee -2 -> -1
+    },
+    {
+        {6.0,115},{14.0,115.0},{6.0,115.0},{14.0,115.0}  //echelle cassee 2 -> 3
     }
 };
 
@@ -504,6 +514,25 @@ static void placementEchelles() {
     glTranslatef(0.0, 50.0, -largeurPoutre / 2); //on recule pour que les échelles soit derrière les poutres
     echelle(50.0F, 8.0F);
     glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(-25.0, 90.0, -largeurPoutre / 2);
+    echelle(50.0F, 8.0F);
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(10.0, 90.0, -largeurPoutre / 2);
+    echelleCassee(50.0F, 8.0F);
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(1.0, 110.0, -largeurPoutre / 2);
+    echelle(50.0F, 8.0F);
+    glPopMatrix();
+
+    
+
+
     glPushMatrix();
     glTranslatef(15.0, 70.0, -largeurPoutre/2);
     echelle(50.0F, 8.0F);
