@@ -477,27 +477,27 @@ static void placementPoutres() {
 static void placementEchelles() {
     glPushMatrix();
     glMaterialfv(GL_FRONT, GL_DIFFUSE, couleur_echelles);
-    glTranslatef(0.0, 50.0, -4.0); //on recule pour que les échelles soit derrière les poutres
+    glTranslatef(0.0, 50.0, -largeurPoutre / 2); //on recule pour que les échelles soit derrière les poutres
     echelle(50.0F, 8.0F);
     glPopMatrix();
     glPushMatrix();
-    glTranslatef(15.0, 70.0, -4.0);
+    glTranslatef(15.0, 70.0, -largeurPoutre/2);
     echelle(50.0F, 8.0F);
     glPopMatrix();
     glPushMatrix();
-    glTranslatef(35.0, 70.0, -4.0);
+    glTranslatef(35.0, 70.0, -largeurPoutre / 2);
     echelleCassee(50.0F, 8.0F);
     glPopMatrix();
     glPushMatrix();
-    glTranslatef(-17.0, 30.0, -4.0); 
+    glTranslatef(-17.0, 30.0, -largeurPoutre / 2);
     echelle(50.0F, 8.0F); 
     glPopMatrix();
     glPushMatrix();
-    glTranslatef(30.0, 10.0, -4.0);
+    glTranslatef(30.0, 10.0, -largeurPoutre / 2);
     echelleCassee(50.0F, 8.0F);
     glPopMatrix();
     glPushMatrix();
-    glTranslatef(-27.0, 10.0, -4.0);
+    glTranslatef(-27.0, 10.0, -largeurPoutre / 2);
     echelle(50.0F, 8.0F);
     glPopMatrix();
 
