@@ -68,7 +68,7 @@ float listeDesEchelles[nombreEchelle][4][2]= { //{{x,y}coinSupGauche,{x,y}coinSu
 };
 
 
-float listeDesEchellesCassées[nombreEchelleCassee][4][2] = { //{{x,y}coinSupGauche,{x,y}coinSupDroit,{x,y}coinInfGauche,{x,y}coinInfDroit}
+float listeDesEchellesCassees[nombreEchelleCassee][4][2] = { //{{x,y}coinSupGauche,{x,y}coinSupDroit,{x,y}coinInfGauche,{x,y}coinInfDroit}
     {
         {31.0,95.0},{39.0,95.0},{31.0,45.0},{39.0,45.0}  //echelle cassee 1 -> 2
     },
