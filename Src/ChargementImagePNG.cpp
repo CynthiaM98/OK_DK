@@ -53,6 +53,10 @@ float xPrincesse = -30.0;
 float yPrincesse = 120.0;
 float zPrincesse = 0.0;
 
+float xDonkeyKong = 40.0;
+float yDonkeyKong = (99.69 + 0.06 * xDonkeyKong) + compensationPoutre;
+float zDonkeyKong = 0.0;
+
 
 
 
@@ -106,7 +110,8 @@ GLfloat mat_emission[] = { 0.3F,0.2F,0.2F,0.0F };
 GLfloat couleur_poutres[] = { 2.50,2.4,1.45F,1.0F };
 GLfloat couleur_echelles[] = { 0.1F,0.5F,0.8F,1.0F };
 GLfloat couleur_tonneaux[] = { 0.1F,0.5F,0.8F,1.0F };
-GLfloat couleur_princesse[] = { 2.50,2.4,2.0F,1.0F };
+GLfloat couleur_princesse[] = { 5.5F,0.5F,5.5F,1.0F };
+GLfloat couleur_dk[] = { 0.5F,41.0F,0.0F,1.0F };
 
 static void chargementTexture(char* filename, unsigned int textureID) {
     glBindTexture(GL_TEXTURE_2D, textureID);
@@ -469,6 +474,10 @@ static void princesse(float size) {
     mario(size);
 }
 
+static void donkeyKong(float size) {
+    mario(size);
+}
+
 static void placementPoutres() {
     glPushMatrix();
     glMaterialfv(GL_FRONT, GL_DIFFUSE, couleur_poutres);
@@ -583,6 +592,16 @@ static void placementPrincesse() {
     glPopMatrix();
 }
 
+static void placementDK() {
+    glPushMatrix();
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, couleur_dk); // TODO : REMPLACER LE MATERIAU PAR UNE TEXTURE
+    glPushMatrix();
+    glTranslatef(xDonkeyKong, yDonkeyKong, zDonkeyKong);
+    glRotatef(90.0, 0.0, 1.0, 0.0);
+    princesse(tailleMario*1.7);
+    glPopMatrix();
+    glPopMatrix();
+}
 
 
 static void sceneJeu() {
@@ -605,6 +624,7 @@ static void sceneJeu() {
     glPushMatrix();
     placementMario();
     placementPrincesse();
+    placementDK();
     glPopMatrix();
 }
 
