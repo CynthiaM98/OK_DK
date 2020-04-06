@@ -38,6 +38,12 @@ float largeurPoutre = 8.0F;
 float hauteurPoutre = 0.5F;
 float longueurPoutre = 100.0F;
 float compensationPoutre = 1.5 * hauteurPoutre;
+
+float hauteurEchelle = 25.0;
+float largeurEchelle = 8.0;
+float demieHauteurEchelle = hauteurEchelle / 2.0;
+float demieLargeurEchelle = largeurEchelle / 2.0;
+
 float tailleMario = 10.0;
 enum Orientation{ Droite, Gauche, Dos };
 Orientation orientationMario=Gauche;
@@ -61,41 +67,86 @@ float zDonkeyKong = 0.0;
 
 
 Orientation initOrientationMario = orientationMario;
+
 const int nombreEchelle = 6;
-const int nombreEchelleCassee = 3;
+const int nombreEchelleCassee = 5;
 
 float listeDesEchelles[nombreEchelle][4][2] = { //{{x,y}coinSupGauche,{x,y}coinSupDroit,{x,y}coinInfGauche,{x,y}coinInfDroit}
+    
+    
     {
-        {-3.0,135},{5.0,135},{-3.0,85.0},{5.0,85.0}  //echelle 3 -> -4
+        {1.0 - demieLargeurEchelle,110.0 + demieHauteurEchelle},
+        {1.0 + demieLargeurEchelle,110.0 + demieHauteurEchelle},
+        {1.0 - demieLargeurEchelle,110.0 - demieHauteurEchelle},
+        {1.0 + demieLargeurEchelle,110.0 - demieHauteurEchelle}  //echelle 3 -> -4
     },
     {  
-        {-29.0,115.0},{-21.0,115.0},{-29.0,65.0},{-21.0,65.0}  //echelle 2 -> 3
+        {-25.0 - demieLargeurEchelle,90.0 + demieHauteurEchelle},
+        {-25.0 + demieLargeurEchelle,90.0 + demieHauteurEchelle},
+        {-25.0 - demieLargeurEchelle,90.0 - demieHauteurEchelle},
+        {-25.0 + demieLargeurEchelle,90.0 - demieHauteurEchelle}  //echelle 2 -> 3
     },
     {
-        {-4.0,75.0},{4.0,75.0},{-4.0,25.0},{4.0,25.0}  //echelle 1 -> 2
+        {15.0 - demieLargeurEchelle,70.0 + demieHauteurEchelle},
+        {15.0 + demieLargeurEchelle,70.0 + demieHauteurEchelle},
+        {15.0 - demieLargeurEchelle,70.0 - demieHauteurEchelle},
+        {15.0 + demieLargeurEchelle,70.0 - demieHauteurEchelle}  //echelle 1 -> 2
     },
     {
-        {11.0,95.0},{19.0,95.0},{11.0,45.0},{19.0,45.0}  //echelle 0 -> 1
+        {-28.0 - demieLargeurEchelle,50.0 + demieHauteurEchelle},
+        {-28.0 + demieLargeurEchelle,50.0 + demieHauteurEchelle},
+        {-28.0 - demieLargeurEchelle,50.0 - demieHauteurEchelle},
+        {-28.0 + demieLargeurEchelle,50.0 - demieHauteurEchelle}  //echelle 0 -> 1
     },
     {
-        {-21.0,55.0},{-13.0,55.0},{-21.0,5.0},{-21.0,5.0}  //echelle -1 -> 0
+        {10.0 - demieLargeurEchelle,30.0 + demieHauteurEchelle},
+        {10.0 + demieLargeurEchelle,30.0 + demieHauteurEchelle},
+        {10.0 - demieLargeurEchelle,30.0 - demieHauteurEchelle},
+        {10.0 + demieLargeurEchelle,30.0 - demieHauteurEchelle}  //echelle -1 -> 0
     },
     {
-        {-31.0,35.0},{-23.0,35.0},{-31.0,-15.0},{-23.0,-15.0}  //echelle -1 -> -2
+        {-27.0 - demieLargeurEchelle,10.0 + demieHauteurEchelle},
+        {-27.0 + demieLargeurEchelle,10.0 + demieHauteurEchelle},
+        {-27.0 - demieLargeurEchelle,10.0 - demieHauteurEchelle},
+        {-27.0 + demieLargeurEchelle,10.0 - demieHauteurEchelle}  //echelle -2 -> -1
     }
 };
 
 
 float listeDesEchellesCassees[nombreEchelleCassee][4][2] = { //{{x,y}coinSupGauche,{x,y}coinSupDroit,{x,y}coinInfGauche,{x,y}coinInfDroit}
+  
+   
     {
-        {31.0,95.0},{39.0,95.0},{31.0,45.0},{39.0,45.0}  //echelle cassee 1 -> 2
+        {10.0 - demieLargeurEchelle,90.0 + demieHauteurEchelle},
+        {10.0 + demieLargeurEchelle,90.0 + demieHauteurEchelle},
+        {10.0 - demieLargeurEchelle,90.0 - demieHauteurEchelle},
+        {10.0 + demieLargeurEchelle,90.0 - demieHauteurEchelle}  //echelle cassee 2 -> 3
     },
     {
-        {26.0,15.0},{34.0,15.0},{26.0,-15.0},{34.0,-15.0}  //echelle cassee -2 -> -1
+        {35.0 - demieLargeurEchelle,70.0 + demieHauteurEchelle},
+        {35.0 + demieLargeurEchelle,70.0 + demieHauteurEchelle},
+        {35.0 - demieLargeurEchelle,70.0 - demieHauteurEchelle},
+        {35.0 + demieLargeurEchelle,70.0 - demieHauteurEchelle}  //echelle cassee 1 -> 2
     },
     {
-        {6.0,115},{14.0,115.0},{6.0,115.0},{14.0,115.0}  //echelle cassee 2 -> 3
+        {0.0 - demieLargeurEchelle,50.0 + demieHauteurEchelle},
+        {0.0 + demieLargeurEchelle,50.0 + demieHauteurEchelle},
+        {0.0 - demieLargeurEchelle,50.0 - demieHauteurEchelle},
+        {0.0 + demieLargeurEchelle,50.0 - demieHauteurEchelle}  //echelle cassee 0 -> 1 
+    },
+    {
+        {-17.0 - demieLargeurEchelle,30.0 + demieHauteurEchelle},
+        {-17.0 + demieLargeurEchelle,30.0 + demieHauteurEchelle},
+        {-17.0 - demieLargeurEchelle,30.0 - demieHauteurEchelle},
+        {-17.0 + demieLargeurEchelle,30.0 - demieHauteurEchelle}//echelle cassee -1 -> -0 
+    },
+    {
+        {30.0 - demieLargeurEchelle,10.0 + demieHauteurEchelle},
+        {30.0 + demieLargeurEchelle,10.0 + demieHauteurEchelle},
+        {30.0 - demieLargeurEchelle,10.0 - demieHauteurEchelle},
+        {30.0 + demieLargeurEchelle,10.0 - demieHauteurEchelle}  //echelle cassee -2 -> -1
     }
+
 };
 
 GLfloat no_mat[] = { 0.0F,0.0F,0.0F,1.0F };
@@ -174,7 +225,6 @@ static void rectangle(float largeur, float hauteur) {
 
 
 static void echelle(float hauteur, float largeur) {
-    hauteur /= 2.0F;
     largeur /= 2.0F;
     float x = 1.0F;
     //montant droit
@@ -215,7 +265,6 @@ static void echelle(float hauteur, float largeur) {
 
 
 static void echelleCassee(float hauteur, float largeur) {
-    hauteur /= 2.0F;
     largeur /= 2.0F;
     float x = 1.0F;
     //montant droit
@@ -480,6 +529,7 @@ static void donkeyKong(float size) {
 
 static void placementPoutres() {
     glPushMatrix();
+
     glMaterialfv(GL_FRONT, GL_DIFFUSE, couleur_poutres);
     glPushMatrix(); //poutre victoire
     glTranslatef(-10.0, 6 * 20.0, 0.0);
@@ -487,42 +537,49 @@ static void placementPoutres() {
     glRotatef(0.0, 1.0, 0.0, 0.0);
     poutreDK(largeurPoutre, longueurPoutre/2, hauteurPoutre);
     glPopMatrix();
+
     glPushMatrix(); //poutre etage +3
     glTranslatef(5.0, 5 * 20.0, 0.0);
     glRotatef(90.0, 0.0, 1.0, 0.0);
     glRotatef (-3.5, 1.0, 0.0, 0.0);
     poutreDK(largeurPoutre, longueurPoutre, hauteurPoutre);
     glPopMatrix();
+
     glPushMatrix(); //poutre etage +2
     glTranslatef(-5.0, 4 * 20.0, 0.0);
     glRotatef(90.0, 0.0, 1.0, 0.0);
     glRotatef(3.2, 1.0, 0.0, 0.0);
     poutreDK(largeurPoutre, longueurPoutre, hauteurPoutre);
     glPopMatrix();
+
     glPushMatrix(); //poutre etage +1
     glTranslatef(5.0, 3 * 20.0, 0.0);
     glRotatef(90.0, 0.0, 1.0, 0.0);
     glRotatef(-3.5, 1.0, 0.0, 0.0);
     poutreDK(largeurPoutre, longueurPoutre, hauteurPoutre);
     glPopMatrix();
+
     glPushMatrix(); //poutre centrale
     glTranslatef(-5.0, 2 * 20.0, 0.0);
     glRotatef(90.0, 0.0, 1.0, 0.0);
     glRotatef( 3.2, 1.0, 0.0, 0.0);
     poutreDK(largeurPoutre, longueurPoutre, hauteurPoutre);
     glPopMatrix();
+
     glPushMatrix(); //poutre etage -1
     glTranslatef(5.0, 1 * 20.0, 0.0);
     glRotatef(90.0, 0.0, 1.0, 0.0);
     glRotatef(-3.5, 1.0, 0.0, 0.0);
     poutreDK(largeurPoutre, longueurPoutre, hauteurPoutre);
     glPopMatrix();
+
     glPushMatrix(); //poutre etage -2
     glTranslatef(-5.0, 0 * 20.0, 0.0);
     glRotatef(90.0, 0.0, 1.0, 0.0);
     glRotatef(3.2, 1.0, 0.0, 0.0);
     poutreDK(largeurPoutre, longueurPoutre, hauteurPoutre);
     glPopMatrix();
+
     glPopMatrix();
 
 }
@@ -530,44 +587,62 @@ static void placementPoutres() {
 static void placementEchelles() {
     glPushMatrix();
     glMaterialfv(GL_FRONT, GL_DIFFUSE, couleur_echelles);
-    glTranslatef(0.0, 50.0, -largeurPoutre / 2); //on recule pour que les échelles soit derrière les poutres
-    echelle(50.0F, 8.0F);
-    glPopMatrix();
-
-    glPushMatrix();
-    glTranslatef(-25.0, 90.0, -largeurPoutre / 2);
-    echelle(50.0F, 8.0F);
-    glPopMatrix();
-
-    glPushMatrix();
-    glTranslatef(10.0, 90.0, -largeurPoutre / 2);
-    echelleCassee(50.0F, 8.0F);
-    glPopMatrix();
-
-    glPushMatrix();
+    
+    glPushMatrix(); //echelle  3 -> 4
     glTranslatef(1.0, 110.0, -largeurPoutre / 2);
-    echelle(50.0F, 8.0F);
+    echelle(hauteurEchelle, largeurEchelle);
     glPopMatrix();
 
-    glPushMatrix();
-    glTranslatef(15.0, 70.0, -largeurPoutre/2);
-    echelle(50.0F, 8.0F);
+    glPushMatrix(); //echelle  2 -> 3
+    glTranslatef(-25.0, 90.0, -largeurPoutre / 2); //on recule pour que les échelles soit derrière les poutres
+    echelle(hauteurEchelle, largeurEchelle);
     glPopMatrix();
-    glPushMatrix();
+
+    glPushMatrix(); //echelle cassee 2 -> 3
+    glTranslatef(10.0, 90.0, -largeurPoutre / 2);
+    echelleCassee(hauteurEchelle, largeurEchelle);
+    glPopMatrix();
+
+    glPushMatrix(); //echelle  cassee 1 -> 2
     glTranslatef(35.0, 70.0, -largeurPoutre / 2);
-    echelleCassee(50.0F, 8.0F);
+    echelleCassee(hauteurEchelle, largeurEchelle);
     glPopMatrix();
-    glPushMatrix();
+
+    glPushMatrix(); //echelle  1 -> 2
+    glTranslatef(15.0, 70.0, -largeurPoutre/2);
+    echelle(hauteurEchelle, largeurEchelle);
+    glPopMatrix();
+
+    glPushMatrix(); //echelle  cassee 0 -> 1
+    glTranslatef(0.0, 50.0, -largeurPoutre / 2);
+    echelleCassee(hauteurEchelle, largeurEchelle);
+    glPopMatrix();
+
+    glPushMatrix(); //echelle 0 -> 1
+    glTranslatef(-28.0, 50.0, -largeurPoutre / 2); 
+    echelle(hauteurEchelle, largeurEchelle);
+    glPopMatrix();
+
+    glPushMatrix(); //echelle  cassee -1 -> 0
     glTranslatef(-17.0, 30.0, -largeurPoutre / 2);
-    echelle(50.0F, 8.0F); 
+    echelleCassee(hauteurEchelle, largeurEchelle);
     glPopMatrix();
-    glPushMatrix();
-    glTranslatef(30.0, 10.0, -largeurPoutre / 2);
-    echelleCassee(50.0F, 8.0F);
+
+    glPushMatrix(); //echelle -1 -> 0
+    glTranslatef(10.0, 30.0, -largeurPoutre / 2);
+    echelle(hauteurEchelle, largeurEchelle);
     glPopMatrix();
-    glPushMatrix();
-    glTranslatef(-27.0, 10.0, -largeurPoutre / 2);
-    echelle(50.0F, 8.0F);
+
+    glPushMatrix(); //echelle  cassee -2 -> -1
+    glTranslatef(30.0, 10.0, -largeurPoutre / 2);  
+    echelleCassee(hauteurEchelle, largeurEchelle);
+    glPopMatrix();
+
+    glPushMatrix(); //echelle -2 -> -1
+    glTranslatef(-27.0, 10.0, -largeurPoutre / 2); 
+    echelle(hauteurEchelle, largeurEchelle);
+    glPopMatrix();
+
     glPopMatrix();
 
 }
