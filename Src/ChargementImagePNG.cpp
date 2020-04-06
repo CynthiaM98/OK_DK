@@ -793,6 +793,7 @@ static void keyboard(unsigned char key, int x, int y) {
     bool trouveHaut = false;
     int index2 = 0;
     bool trouveBas = false;
+    float longueurPas = 0.5F;
     printf(" Touche: %c = %d \n", key, key);
     switch (key) {
 
@@ -876,7 +877,7 @@ static void keyboard(unsigned char key, int x, int y) {
         } while (index1 < nombreEchelle && !trouveHaut);
 
         if (trouveHaut) {
-            yMario -= 0.5;
+            yMario -= longueurPas;
             index1 = 0;
             trouveHaut = false;
             orientationMario = Dos;
@@ -888,59 +889,59 @@ static void keyboard(unsigned char key, int x, int y) {
        // printf("MARIO GAUCHE\n");
 
         if (yMario >= -2.8 + compensationPoutre && yMario <= 2.8 + compensationPoutre) { //Si Mario sur poutre -2 - OK
-            if(xMario<45 && xMario>-55){
+            if(xMario - longueurPas < 45 && xMario + longueurPas>-55){
                // printf("X MARIO :%f\n", xMario);
                 //printf("Y MARIO :%f\n", yMario);
                 orientationMario = Gauche;
-                xMario -= 0.5;
+                xMario -= longueurPas;
                 yMario = (-0.06 * xMario) + compensationPoutre;
             }
         }
         else {
             if (yMario >= 16.94 + compensationPoutre && yMario <= 23.06 + compensationPoutre) { //Si Mario sur poutre -1 - OK
-                if (xMario < 55 && xMario > -45) {
+                if (xMario - longueurPas < 55 && xMario + longueurPas> -45) {
                     orientationMario = Gauche;
-                    xMario -= 0.5;
+                    xMario -= longueurPas;
                     yMario = (19.69 + 0.06 * xMario) + compensationPoutre;
                 }
             }
             else {
                 if (yMario >= 37.2 + compensationPoutre && yMario <= 42.8 + compensationPoutre) { //Si Mario sur poutre 0 - OK
-                    if (xMario < 45 && xMario > -55) {
+                    if (xMario - longueurPas < 45 && xMario + longueurPas > -55) {
                         orientationMario = Gauche;
-                        xMario -= 0.5;
+                        xMario -= longueurPas;
                         yMario = (39.72 - 0.06 * xMario) + compensationPoutre;
                     }
                 }
                 else {
                     if (yMario >= 56.94 + compensationPoutre && yMario <= 63.06 + compensationPoutre) { //Si Mario sur poutre +1 - OK
-                        if (xMario < 55 && xMario > -45) {
+                        if (xMario - longueurPas < 55 && xMario + longueurPas > -45) {
                             orientationMario = Gauche;
-                            xMario -= 0.5;
+                            xMario -= longueurPas;
                             yMario = (59.69 + 0.06 * xMario) + compensationPoutre;
                         }
                     }
                     else {
                         if (yMario >= 77.2 + compensationPoutre && yMario <= 82.8 + compensationPoutre) { //Si Mario sur poutre +2 - OK
-                            if (xMario < 45 && xMario > -55) {
+                            if (xMario - longueurPas < 45 && xMario + longueurPas > -55) {
                                 orientationMario = Gauche;
-                                xMario -= 0.5;
+                                xMario -= longueurPas;
                                 yMario = (79.72 - 0.06 * xMario) + compensationPoutre;
                             }
                         }
                         else {
                             if (yMario >= 96.94 + compensationPoutre && yMario <= 103.6 + compensationPoutre) { //Si Mario sur poutre +3 - OK
-                                if (xMario < 55 && xMario > -45) {
+                                if (xMario - longueurPas < 55 && xMario + longueurPas > -45) {
                                     orientationMario = Gauche;
-                                    xMario -= 0.5;
+                                    xMario -= longueurPas;
                                     yMario = (99.69 + 0.06 * xMario) + compensationPoutre;
                                 }
                             }
                             else {
                                 if (yMario >= 120.0 + compensationPoutre && yMario <= 121.0 + compensationPoutre) { //Si Mario sur poutre victoire - OK
-                                    if (xMario < 15 && xMario > -35) {
+                                    if (xMario - longueurPas < 15 && xMario + longueurPas > -35) {
                                         orientationMario = Gauche;
-                                        xMario -= 0.5;
+                                        xMario -= longueurPas;
                                         yMario = (120) + compensationPoutre;
                                     }
                                 }
@@ -957,59 +958,59 @@ static void keyboard(unsigned char key, int x, int y) {
        // printf("MARIO DROITE\n");
 
         if (yMario >= -2.8 + compensationPoutre && yMario <= 2.8 + compensationPoutre) { //Si Mario sur poutre -2 - OK
-            if (xMario < 45 && xMario > -55) {
+            if (xMario + longueurPas < 45 && xMario - longueurPas > -55) {
               //  printf("X MARIO :%f\n",xMario);
                // printf("Y MARIO :%f\n", yMario);
                 orientationMario = Droite;
-                xMario += 0.5;
+                xMario += longueurPas;
                 yMario = (-0.06 * xMario) + compensationPoutre;
             }
         }
         else {
             if (yMario >= 16.94 + compensationPoutre && yMario <= 23.06 + compensationPoutre) { //Si Mario sur poutre -1 - OK
-                if (xMario < 55 && xMario > -45) {
+                if (xMario + longueurPas < 55 && xMario - longueurPas > -45) {
                     orientationMario = Droite;
-                    xMario += 0.5;
+                    xMario += longueurPas;
                     yMario = (19.69 + 0.06 * xMario) + compensationPoutre;
                 }
             }
             else {
                 if (yMario >= 37.2 + compensationPoutre && yMario <= 42.8 + compensationPoutre) { //Si Mario sur poutre 0 - OK
-                    if (xMario < 45 && xMario > -55) {
+                    if (xMario + longueurPas < 45 && xMario - longueurPas > -55) {
                         orientationMario = Droite;
-                        xMario += 0.5;
+                        xMario += longueurPas;
                         yMario = (39.72 - 0.06 * xMario) + compensationPoutre;
                     }
                 }
                 else {
                     if (yMario >= 56.94 + compensationPoutre && yMario <= 63.06 + compensationPoutre) { //Si Mario sur poutre +1 - OK
-                        if (xMario < 55 && xMario > -45) {
+                        if (xMario + longueurPas < 55 && xMario - longueurPas > -45) {
                             orientationMario = Droite;
-                            xMario += 0.5;
+                            xMario += longueurPas;
                             yMario = (59.69 + 0.06 * xMario) + compensationPoutre;
                         }
                     }
                     else {
                         if (yMario >= 77.2 + compensationPoutre && yMario <= 82.8 + compensationPoutre) { //Si Mario sur poutre +2 - OK
-                            if (xMario < 45 && xMario > -55) {
+                            if (xMario + longueurPas < 45 && xMario - longueurPas > -55) {
                                 orientationMario = Droite;
-                                xMario += 0.5;
+                                xMario += longueurPas;
                                 yMario = (79.72 - 0.06 * xMario) + compensationPoutre;
                             }
                         }
                         else {
                             if (yMario >= 96.94 + compensationPoutre && yMario <= 103.6 + compensationPoutre) { //Si Mario sur poutre +3 - OK
-                                if (xMario < 55 && xMario > -45) {
+                                if (xMario + longueurPas < 55 && xMario - longueurPas > -45) {
                                     orientationMario = Droite;
-                                    xMario += 0.5;
+                                    xMario += longueurPas;
                                     yMario = (99.69 + 0.06 * xMario) + compensationPoutre;
                                 }
                             }
                             else {
                                 if (yMario >= 120.0 + compensationPoutre && yMario <= 121.0 + compensationPoutre) { //Si Mario sur poutre victoire - OK
-                                    if (xMario < 15 && xMario > -35) {
+                                    if (xMario + longueurPas < 15 && xMario - longueurPas > -35) {
                                         orientationMario = Droite;
-                                        xMario += 0.5;
+                                        xMario += longueurPas;
                                         yMario = (120) + compensationPoutre;
 
                                     }
