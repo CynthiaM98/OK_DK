@@ -888,7 +888,7 @@ static void keyboard(unsigned char key, int x, int y) {
        // printf("MARIO GAUCHE\n");
 
         if (yMario >= -2.8 + compensationPoutre && yMario <= 2.8 + compensationPoutre) { //Si Mario sur poutre -2 - OK
-            if(xMario<45 && x>-55){
+            if(xMario<45 && xMario>-55){
                // printf("X MARIO :%f\n", xMario);
                 //printf("Y MARIO :%f\n", yMario);
                 orientationMario = Gauche;
@@ -898,7 +898,7 @@ static void keyboard(unsigned char key, int x, int y) {
         }
         else {
             if (yMario >= 16.94 + compensationPoutre && yMario <= 23.06 + compensationPoutre) { //Si Mario sur poutre -1 - OK
-                if (xMario < 55 && x > -45) {
+                if (xMario < 55 && xMario > -45) {
                     orientationMario = Gauche;
                     xMario -= 0.5;
                     yMario = (19.69 + 0.06 * xMario) + compensationPoutre;
@@ -906,7 +906,7 @@ static void keyboard(unsigned char key, int x, int y) {
             }
             else {
                 if (yMario >= 37.2 + compensationPoutre && yMario <= 42.8 + compensationPoutre) { //Si Mario sur poutre 0 - OK
-                    if (xMario < 45 && x > -55) {
+                    if (xMario < 45 && xMario > -55) {
                         orientationMario = Gauche;
                         xMario -= 0.5;
                         yMario = (39.72 - 0.06 * xMario) + compensationPoutre;
@@ -914,7 +914,7 @@ static void keyboard(unsigned char key, int x, int y) {
                 }
                 else {
                     if (yMario >= 56.94 + compensationPoutre && yMario <= 63.06 + compensationPoutre) { //Si Mario sur poutre +1 - OK
-                        if (xMario < 55 && x > -45) {
+                        if (xMario < 55 && xMario > -45) {
                             orientationMario = Gauche;
                             xMario -= 0.5;
                             yMario = (59.69 + 0.06 * xMario) + compensationPoutre;
@@ -922,7 +922,7 @@ static void keyboard(unsigned char key, int x, int y) {
                     }
                     else {
                         if (yMario >= 77.2 + compensationPoutre && yMario <= 82.8 + compensationPoutre) { //Si Mario sur poutre +2 - OK
-                            if (xMario < 45 && x > -55) {
+                            if (xMario < 45 && xMario > -55) {
                                 orientationMario = Gauche;
                                 xMario -= 0.5;
                                 yMario = (79.72 - 0.06 * xMario) + compensationPoutre;
@@ -930,7 +930,7 @@ static void keyboard(unsigned char key, int x, int y) {
                         }
                         else {
                             if (yMario >= 96.94 + compensationPoutre && yMario <= 103.6 + compensationPoutre) { //Si Mario sur poutre +3 - OK
-                                if (xMario < 55 && x > -45) {
+                                if (xMario < 55 && xMario > -45) {
                                     orientationMario = Gauche;
                                     xMario -= 0.5;
                                     yMario = (99.69 + 0.06 * xMario) + compensationPoutre;
@@ -938,7 +938,7 @@ static void keyboard(unsigned char key, int x, int y) {
                             }
                             else {
                                 if (yMario >= 120.0 + compensationPoutre && yMario <= 121.0 + compensationPoutre) { //Si Mario sur poutre victoire - OK
-                                    if (xMario < 15 && x > -35) {
+                                    if (xMario < 15 && xMario > -35) {
                                         orientationMario = Gauche;
                                         xMario -= 0.5;
                                         yMario = (120) + compensationPoutre;
@@ -957,7 +957,7 @@ static void keyboard(unsigned char key, int x, int y) {
        // printf("MARIO DROITE\n");
 
         if (yMario >= -2.8 + compensationPoutre && yMario <= 2.8 + compensationPoutre) { //Si Mario sur poutre -2 - OK
-            if (xMario < 45 && x > -55) {
+            if (xMario < 45 && xMario > -55) {
               //  printf("X MARIO :%f\n",xMario);
                // printf("Y MARIO :%f\n", yMario);
                 orientationMario = Droite;
@@ -967,7 +967,7 @@ static void keyboard(unsigned char key, int x, int y) {
         }
         else {
             if (yMario >= 16.94 + compensationPoutre && yMario <= 23.06 + compensationPoutre) { //Si Mario sur poutre -1 - OK
-                if (xMario < 55 && x > -45) {
+                if (xMario < 55 && xMario > -45) {
                     orientationMario = Droite;
                     xMario += 0.5;
                     yMario = (19.69 + 0.06 * xMario) + compensationPoutre;
@@ -975,7 +975,7 @@ static void keyboard(unsigned char key, int x, int y) {
             }
             else {
                 if (yMario >= 37.2 + compensationPoutre && yMario <= 42.8 + compensationPoutre) { //Si Mario sur poutre 0 - OK
-                    if (xMario < 45 && x > -55) {
+                    if (xMario < 45 && xMario > -55) {
                         orientationMario = Droite;
                         xMario += 0.5;
                         yMario = (39.72 - 0.06 * xMario) + compensationPoutre;
@@ -983,7 +983,7 @@ static void keyboard(unsigned char key, int x, int y) {
                 }
                 else {
                     if (yMario >= 56.94 + compensationPoutre && yMario <= 63.06 + compensationPoutre) { //Si Mario sur poutre +1 - OK
-                        if (xMario < 55 && x > -45) {
+                        if (xMario < 55 && xMario > -45) {
                             orientationMario = Droite;
                             xMario += 0.5;
                             yMario = (59.69 + 0.06 * xMario) + compensationPoutre;
@@ -991,7 +991,7 @@ static void keyboard(unsigned char key, int x, int y) {
                     }
                     else {
                         if (yMario >= 77.2 + compensationPoutre && yMario <= 82.8 + compensationPoutre) { //Si Mario sur poutre +2 - OK
-                            if (xMario < 45 && x > -55) {
+                            if (xMario < 45 && xMario > -55) {
                                 orientationMario = Droite;
                                 xMario += 0.5;
                                 yMario = (79.72 - 0.06 * xMario) + compensationPoutre;
@@ -999,7 +999,7 @@ static void keyboard(unsigned char key, int x, int y) {
                         }
                         else {
                             if (yMario >= 96.94 + compensationPoutre && yMario <= 103.6 + compensationPoutre) { //Si Mario sur poutre +3 - OK
-                                if (xMario < 55 && x > -45) {
+                                if (xMario < 55 && xMario > -45) {
                                     orientationMario = Droite;
                                     xMario += 0.5;
                                     yMario = (99.69 + 0.06 * xMario) + compensationPoutre;
@@ -1007,7 +1007,7 @@ static void keyboard(unsigned char key, int x, int y) {
                             }
                             else {
                                 if (yMario >= 120.0 + compensationPoutre && yMario <= 121.0 + compensationPoutre) { //Si Mario sur poutre victoire - OK
-                                    if (xMario < 15 && x > -35) {
+                                    if (xMario < 15 && xMario > -35) {
                                         orientationMario = Droite;
                                         xMario += 0.5;
                                         yMario = (120) + compensationPoutre;
