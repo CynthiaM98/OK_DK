@@ -457,19 +457,24 @@ static void membreMario(float size) {
     glutSolidCube(1.0);
 }
 
-static void mario(float size) {
-    switch (orientationMario) {
-    case Droite:
-        glPushMatrix();
-        glRotatef(-90.0, 0.0, 1.0, 0.0);
-        break;
-    case Gauche:
-        glPushMatrix();
+static void mario(float size,bool isMario) {
+    if(isMario){
+        switch (orientationMario) {
+        case Droite:
+            glPushMatrix();
+            glRotatef(-90.0, 0.0, 1.0, 0.0);
+            break;
+        case Gauche:
+            glPushMatrix();
+            glRotatef(90.0, 0.0, 1.0, 0.0);
+            break;
+        case Dos:
+            glRotatef(180.0, 0.0, 1.0, 0.0);
+            break;
+        }
+    }
+    else {
         glRotatef(90.0, 0.0, 1.0, 0.0);
-        break;
-    case Dos:
-        glRotatef(180.0, 0.0, 1.0, 0.0);
-        break;
     }
     float temp = 0.0F; //variable pour simplifier la lecture dans l'appelle des fonctions
     glPushMatrix();
@@ -520,11 +525,11 @@ static void mario(float size) {
 
 
 static void princesse(float size) {
-    mario(size);
+    mario(size,false);
 }
 
 static void donkeyKong(float size) {
-    mario(size);
+    mario(size,false);
 }
 
 static void placementPoutres() {
@@ -651,7 +656,7 @@ static void placementEchelles() {
 static void placementMario() {
     glPushMatrix();
     glTranslatef(xMario, yMario, zMario);
-    mario(tailleMario);
+    mario(tailleMario,true);
     glPopMatrix();
 }
 
