@@ -63,7 +63,8 @@ float xDonkeyKong = 40.0;
 float yDonkeyKong = (99.69 + 0.06 * xDonkeyKong) + compensationPoutre;
 float zDonkeyKong = 0.0;
 
-
+int windowWidth = 1000;
+int windowHeight = 1000;
 
 
 Orientation initOrientationMario = orientationMario;
@@ -811,7 +812,7 @@ static void keyboard(unsigned char key, int x, int y) {
         exit(0);
         break;
 
-    case 122: //faire monter Mario avec Z
+    case 122: case 90 ://faire monter Mario avec Z ou z
         printf("MARIO HAUT\n");
         printf("X MARIO :%f\n", xMario);
         printf("Y MARIO :%f\n", yMario);
@@ -848,7 +849,7 @@ static void keyboard(unsigned char key, int x, int y) {
         }
         break;
 
-    case 115: //faire descendre Mario avec S
+    case 115: case 83 ://faire descendre Mario avec S ou s
         printf("MARIO BAS\n");
         printf("X MARIO :%f\n", xMario);
         printf("Y MARIO :%f\n", yMario);
@@ -885,7 +886,7 @@ static void keyboard(unsigned char key, int x, int y) {
         }
         break;
 
-    case 113: //faire aller Mario à gauche avec Q ou q
+    case 113: case 81 : //faire aller Mario à gauche avec Q ou q
        // printf("MARIO GAUCHE\n");
 
         if (yMario >= -2.8 + compensationPoutre && yMario <= 2.8 + compensationPoutre) { //Si Mario sur poutre -2 - OK
@@ -954,7 +955,7 @@ static void keyboard(unsigned char key, int x, int y) {
         glutPostRedisplay();
         break;
 
-    case 100: //faire aller Mario à droite avec D ou d
+    case 100 : case 68: //faire aller Mario à droite avec D ou d
        // printf("MARIO DROITE\n");
 
         if (yMario >= -2.8 + compensationPoutre && yMario <= 2.8 + compensationPoutre) { //Si Mario sur poutre -2 - OK
@@ -1038,7 +1039,7 @@ int main(int argc, char** argv) {
 
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH | GLUT_DOUBLE);
-    glutInitWindowSize(1000, 1000);
+    glutInitWindowSize(windowWidth, windowHeight);
     glutInitWindowPosition(50, 50);
     glutCreateWindow("DonkeyKong");
     init();
