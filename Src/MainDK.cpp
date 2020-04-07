@@ -975,18 +975,19 @@ void update(int value) {
 				}
 			}
 			else {
-				if (yTonneau >= 56.94 + 2 * compensationPoutre && yTonneau <= 63.06 + 2 * compensationPoutre) { //Si Mario sur poutre +1 - OK
+				if (yTonneau >= 55 + 2 * compensationPoutre && yTonneau <= 63.06 + 2 * compensationPoutre) { //Si Mario sur poutre +1 - OK
 					printf("Oui4");
-					if (xTonneau - longueurPas < 55 && xTonneau + longueurPas > -45) {
+					printf("Y Tonneau :%f\n", yTonneau);
+					if (xTonneau - longueurPas < 56 && xTonneau + longueurPas > -50) {
 						printf("X Tonneau :%f\n", xTonneau);
 						printf("Y Tonneau :%f\n", yTonneau);
 						mouvementTonneau(59.69, 0.06, -longueurPas);
 					}
 				}
 				else {
-					if (yTonneau >= 77.2 + 2*compensationPoutre && yTonneau <= 82.8 + 2*compensationPoutre) { //Si Mario sur poutre +2 - OK
+					if (yTonneau >= 75 + 2*compensationPoutre && yTonneau <= 82.8 + 2*compensationPoutre) { //Si Mario sur poutre +2 - OK
 						printf("Oui5");
-						if (xTonneau - longueurPas < 45 && xTonneau + longueurPas > -55) {
+						if (xTonneau - longueurPas < 55 && xTonneau + longueurPas > -55) {
 							printf("X Tonneau :%f\n", xTonneau);
 							printf("Y Tonneau :%f\n", yTonneau);
 							mouvementTonneau(79.72, -0.06, longueurPas);
@@ -1014,8 +1015,16 @@ void update(int value) {
 			}
 		}
 	}
+
+//Deplacement vertical
+	if (yTonneau <= 77.0 + 2 * compensationPoutre && yTonneau >= 63.06 + 2 * compensationPoutre) {
+		yTonneau -= longueurPas;
+	}
+	else if (yTonneau <= 58.20 + 2 * compensationPoutre && yTonneau >= 43.0 + 2 * compensationPoutre) {
+		yTonneau -= longueurPas;
+	}
 	glutPostRedisplay();
-	glutTimerFunc(25, update, 0);
+	glutTimerFunc(1, update, 0);
 }
 int main(int argc, char** argv) {
 
@@ -1029,7 +1038,7 @@ int main(int argc, char** argv) {
     glutSpecialFunc(special);
     glutReshapeFunc(reshape);
     glutDisplayFunc(display);
-	glutTimerFunc(2000, update, 0);
+	glutTimerFunc(100, update, 0);
     glutMainLoop();
     return(0);
 }
