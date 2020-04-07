@@ -5,7 +5,7 @@
 #include <GL/glut.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
-
+#include <GLFW/glfw3.h>
 #include <math.h>
 
 #include "PNG/ChargePngFile.h"
@@ -969,9 +969,13 @@ static void clean(void) {
     }
 }
 
+void update(int value) {
+	printf("testLoop");
+	glutPostRedisplay();
+	glutTimerFunc(25, update, 0);
+	printf("testLoop2");
+}
 int main(int argc, char** argv) {
-
-	
 
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH | GLUT_DOUBLE);
@@ -983,6 +987,7 @@ int main(int argc, char** argv) {
     glutSpecialFunc(special);
     glutReshapeFunc(reshape);
     glutDisplayFunc(display);
+	glutTimerFunc(25, update, 0);
     glutMainLoop();
     return(0);
 }
