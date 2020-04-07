@@ -15,6 +15,10 @@ float Perso::getX() {
 	return this->x;
 }
 
+float Perso::getTaille() {
+	return taille;
+}
+
 float Perso::getY() {
 	return this->y;
 }
