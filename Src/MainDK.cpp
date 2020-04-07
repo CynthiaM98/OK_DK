@@ -85,8 +85,8 @@ float zDonkeyKong = 0.0;
 
 //TONNEAU
 float xTonneau = -45.0;
-float yTonneau = 82.0;
-float zTonneau = largeurPoutre/2;
+float yTonneau = 82.0+ 2 *compensationPoutre;
+float zTonneau = -largeurPoutre/2;
 
 
 //FCT ECHELLES
@@ -941,14 +941,14 @@ static void clean(void) {
 
 static void mouvementTonneau(float ordoOrigine, float coefDir, float distance) {
 	xTonneau += distance;
-	yTonneau = (ordoOrigine + coefDir * xTonneau) + compensationPoutre;
+	yTonneau = (ordoOrigine + coefDir * xTonneau) + 2*compensationPoutre;
 }
 
 void update(int value) {
 	printf("testLoopTonneau\n");
 	printf("X Tonneau debut :%f\n", xTonneau);
 	printf("Y Tonneau debut :%f\n", yTonneau);
-	if (yTonneau >= -2.8 + compensationPoutre && yTonneau <= 2.8 + compensationPoutre) { //Si Mario sur poutre -2 - OK
+	if (yTonneau >= -2.8 + 2 * compensationPoutre && yTonneau <= 2.8 + 2 * compensationPoutre) { //Si Mario sur poutre -2 - OK
 		printf("Oui1");
 		if (xTonneau - longueurPas < 45 && xTonneau + longueurPas>-55) {
 			printf("X Tonneau :%f\n", xTonneau);
@@ -957,7 +957,7 @@ void update(int value) {
 		}
 	}
 	else {
-		if (yTonneau >= 16.94 + compensationPoutre && yTonneau <= 23.06 + compensationPoutre) { //Si Mario sur poutre -1 - OK
+		if (yTonneau >= 16.94 + 2 * compensationPoutre && yTonneau <= 23.06 + 2 * compensationPoutre) { //Si Mario sur poutre -1 - OK
 			printf("Oui2");
 			if (xTonneau - longueurPas < 55 && xTonneau + longueurPas> -45) {
 				printf("X Tonneau :%f\n", xTonneau);
@@ -966,7 +966,7 @@ void update(int value) {
 			}
 		}
 		else {
-			if (yTonneau >= 37.2 + compensationPoutre && yTonneau <= 42.8 + compensationPoutre) { //Si Mario sur poutre 0 - OK
+			if (yTonneau >= 37.2 + 2 * compensationPoutre && yTonneau <= 42.8 + 2 * compensationPoutre) { //Si Mario sur poutre 0 - OK
 				printf("Oui3");
 				if (xTonneau - longueurPas < 45 && xTonneau + longueurPas > -55) {
 					printf("X Tonneau :%f\n", xTonneau);
@@ -975,7 +975,7 @@ void update(int value) {
 				}
 			}
 			else {
-				if (yTonneau >= 56.94 + compensationPoutre && yTonneau <= 63.06 + compensationPoutre) { //Si Mario sur poutre +1 - OK
+				if (yTonneau >= 56.94 + 2 * compensationPoutre && yTonneau <= 63.06 + 2 * compensationPoutre) { //Si Mario sur poutre +1 - OK
 					printf("Oui4");
 					if (xTonneau - longueurPas < 55 && xTonneau + longueurPas > -45) {
 						printf("X Tonneau :%f\n", xTonneau);
@@ -984,7 +984,7 @@ void update(int value) {
 					}
 				}
 				else {
-					if (yTonneau >= 77.2 + compensationPoutre && yTonneau <= 82.8 + compensationPoutre) { //Si Mario sur poutre +2 - OK
+					if (yTonneau >= 77.2 + 2*compensationPoutre && yTonneau <= 82.8 + 2*compensationPoutre) { //Si Mario sur poutre +2 - OK
 						printf("Oui5");
 						if (xTonneau - longueurPas < 45 && xTonneau + longueurPas > -55) {
 							printf("X Tonneau :%f\n", xTonneau);
@@ -993,7 +993,7 @@ void update(int value) {
 						}
 					}
 					else {
-						if (yTonneau >= 96.94 + compensationPoutre && yTonneau <= 103.6 + compensationPoutre) { //Si Mario sur poutre +3 - OK
+						if (yTonneau >= 96.94 + 2 * compensationPoutre && yTonneau <= 103.6 + 2 * compensationPoutre) { //Si Mario sur poutre +3 - OK
 							printf("Oui6");
 							if (xTonneau - longueurPas < 55 && xTonneau + longueurPas > -45) {
 								printf("X Tonneau :%f\n", xTonneau);
@@ -1002,7 +1002,7 @@ void update(int value) {
 							}
 						}
 						else {
-							if (yTonneau >= 120.0 + compensationPoutre && yTonneau <= 122.0 + compensationPoutre) { //Si Mario sur poutre victoire - OK
+							if (yTonneau >= 120.0 + 2 * compensationPoutre && yTonneau <= 122.0 + 2 * compensationPoutre) { //Si Mario sur poutre victoire - OK
 								if (xTonneau - longueurPas < 15 && xTonneau + longueurPas > -35) {
 									printf("X Tonneau :%f\n", xTonneau);
 									printf("Y Tonneau :%f\n", yTonneau);
