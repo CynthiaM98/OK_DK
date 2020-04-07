@@ -708,7 +708,7 @@ static void reshape(int tx, int ty) {
           break;
       case GLUT_KEY_END: //retour à la position de base de la caméra via la touche "fin"
           px = 0.0;
-          py = 40.0;
+          py = 60.0;
           pz = 10.0;
           glutPostRedisplay();
           break;
