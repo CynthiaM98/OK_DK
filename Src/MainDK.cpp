@@ -70,6 +70,8 @@ float xPrincesse = -30.0;
 float yPrincesse = 120.0;
 float zPrincesse = 0.0;
 
+Perso princess(xPrincesse, yPrincesse, zPrincesse);
+
 
 //DK
 float xDonkeyKong = 40.0;
@@ -453,10 +455,6 @@ static void tonneau(float largeur, float longueur, unsigned int* textureID) {
 
 
 
-static void princesse(float size) {
-    //mario(size,false);
-}
-
 static void donkeyKong(float size) {
     //mario(size,false);
 }
@@ -585,22 +583,22 @@ static void placementEchelles() {
 static void placementMario() {
     glPushMatrix();
     glTranslatef(mario.getX(), mario.getY(), mario.getZ());
-    mario.printPerso(true);
+    mario.printPerso();
     glPopMatrix();
 }
 
 
-/*static void placementPrincesse() {
+static void placementPrincesse() {
     glPushMatrix();
     glMaterialfv(GL_FRONT, GL_DIFFUSE, couleur_princesse); // TODO : REMPLACER LE MATERIAU PAR UNE TEXTURE
     glPushMatrix();
-    glTranslatef(xPrincesse, yPrincesse, zPrincesse);
+    glTranslatef(princess.getX(), princess.getY(), princess.getZ());
     glRotatef(90.0, 0.0, 1.0, 0.0);
-    princesse(tailleMario);
+    princess.printPerso();
     glPopMatrix();
     glPopMatrix();
 }
-
+/*
 static void placementDK() {
     glPushMatrix();
     glMaterialfv(GL_FRONT, GL_DIFFUSE, couleur_dk); // TODO : REMPLACER LE MATERIAU PAR UNE TEXTURE
@@ -632,7 +630,7 @@ static void sceneJeu() {
     glPopMatrix();
     glPushMatrix();
     placementMario();
-    //placementPrincesse();
+    placementPrincesse();
     //placementDK();
     glPopMatrix();
 }

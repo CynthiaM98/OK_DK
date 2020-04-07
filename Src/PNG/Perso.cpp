@@ -54,25 +54,22 @@ void Perso::membre(float size) {
 	glutSolidCube(1.0);
 }
 
-void Perso::printPerso(bool isMario) {
-	if (isMario) {
-		switch (orientation) {
-		case Droite:
-			glPushMatrix();
-			glRotatef(-90.0, 0.0, 1.0, 0.0);
-			break;
-		case Gauche:
-			glPushMatrix();
-			glRotatef(90.0, 0.0, 1.0, 0.0);
-			break;
-		case Dos:
-			glRotatef(180.0, 0.0, 1.0, 0.0);
-			break;
-		}
-	}
-	else {
+void Perso::printPerso() {
+	
+	switch (orientation) {
+	case Droite:
+		glPushMatrix();
+		glRotatef(-90.0, 0.0, 1.0, 0.0);
+		break;
+	case Gauche:
+		glPushMatrix();
 		glRotatef(90.0, 0.0, 1.0, 0.0);
+		break;
+	case Dos:
+		glRotatef(180.0, 0.0, 1.0, 0.0);
+		break;
 	}
+
 	float temp = 0.0F; //variable pour simplifier la lecture dans l'appelle des fonctions
 	glPushMatrix();
 

@@ -26,7 +26,7 @@ class Perso {
 		void tete(float size);
 		void corp(float size);
 		void membre(float size);
-		void printPerso(bool isMario);
+		void printPerso();
 
 	private : 
 		float x, y, z; //coordonnée
