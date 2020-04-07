@@ -817,7 +817,7 @@ static void keyboard(unsigned char key, int x, int y) {
         }
         else {
             if (mario.getY() >= 16.94 + compensationPoutre && mario.getY() <= 23.06 + compensationPoutre) { //Si Mario sur poutre -1 - OK
-                if (mario.getX() - longueurPas < 55 && mario.getY() + longueurPas> -45) {
+                if (mario.getX() - longueurPas < 55 && mario.getX() + longueurPas> -45) {
                     gaucheMario(19.69, 0.06);
                 }
             }
