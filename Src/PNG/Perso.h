@@ -19,6 +19,7 @@ class Perso {
 		float getX();
 		float getY();
 		float getZ();
+		float getTaille();
 		Orientation getOrientation();
 		void setX(float newX);
 		void setY(float newY);

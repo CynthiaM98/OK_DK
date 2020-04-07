@@ -754,7 +754,7 @@ static void keyboard(unsigned char key, int x, int y) {
                 bool tempB= mario.getX() <tempSupDroit[0] && mario.getX()>tempSupGauche[0];
                 printf("%s\n", tempB ? "OUI" : "NON");
                 printf("ON CHECK SI MARIO A UN Y ENTRE %f ET %f \n", tempInfGauche[1], tempSupGauche[1]);
-                bool tempB2 = mario.getY() >= tempInfDroit[1] && mario.getY() <= tempSupGauche[1];
+                bool tempB2 = mario.getY() + mario.getTaille()* 0.25  >= tempInfDroit[1] && mario.getY() + mario.getTaille() * 0.25 <= tempSupGauche[1];
                 printf("%s\n", tempB2 ? "OUI" : "NON");
                 printf("-------------------------------------------\n");
                 //on check si Mario est dans cette zone
@@ -788,10 +788,10 @@ static void keyboard(unsigned char key, int x, int y) {
 
             printf("-------------------------------------------\n");
             printf("ON CHECK SI MARIO A UN X ENTRE %f ET %f \n", tempSupGauche[0], tempSupDroit[0]);
-            bool tempB = mario.getX()<tempSupDroit[0] && mario.getX()>tempSupGauche[0];
+            bool tempB = mario.getX() <tempSupDroit[0] && mario.getX()>tempSupGauche[0];
             printf("%s\n", tempB ? "OUI" : "NON");
             printf("ON CHECK SI MARIO A UN Y ENTRE %f ET %f \n", tempInfGauche[1], tempSupGauche[1]);
-            bool tempB2 = mario.getY() >= tempInfDroit[1] && mario.getY() <= tempSupGauche[1];
+            bool tempB2 = mario.getY() + mario.getTaille() * 0.25 >= tempInfDroit[1] && mario.getY() + mario.getTaille() * 0.25 <= tempSupGauche[1];
             printf("%s\n", tempB2 ? "OUI" : "NON");
             printf("-------------------------------------------\n");
             //on check si Mario est dans cette zone
