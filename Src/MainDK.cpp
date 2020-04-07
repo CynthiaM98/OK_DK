@@ -83,7 +83,10 @@ float xDonkeyKong = 40.0;
 float yDonkeyKong = (99.69 + 0.06 * xDonkeyKong) + compensationPoutre;
 float zDonkeyKong = 0.0;
 
-
+//TONNEAU
+float xTonneau = -50.0;
+float yTonneau = 84.0;
+float zTonneau = largeurPoutre/2;
 
 
 //FCT ECHELLES
@@ -403,7 +406,7 @@ static void tonneau(float largeur, float longueur, unsigned int* textureID) {
     glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, couleur_tonneaux);
     float n;
     glPushMatrix();
-    glTranslatef(-50.0, 84.0, -longueur /2); //face arrière
+    glTranslatef(xTonneau, yTonneau, zTonneau); //face arrière
     glPushMatrix();
     glBindTexture(GL_TEXTURE_2D, textureID[0]);
     glPushMatrix();
@@ -936,11 +939,65 @@ static void clean(void) {
     }
 }
 
+static void mouvementTonneau(float ordoOrigine, float coefDir, float distance) {
+	xTonneau += distance;
+	yTonneau = (ordoOrigine + coefDir * xTonneau) + compensationPoutre;
+}
+
 void update(int value) {
-	printf("testLoop");
+	printf("testLoopTonneau\n");
+	if (yTonneau >= -2.8 + compensationPoutre && yTonneau <= 2.8 + compensationPoutre) { //Si Mario sur poutre -2 - OK
+		if (xTonneau - longueurPas < 45 && xTonneau + longueurPas>-55) {
+			printf("X MARIO :%f\n", mario.getX());
+			printf("Y MARIO :%f\n", mario.getY());
+			mouvementTonneau(0, -0.06, longueurPas);
+		}
+	}
+	else {
+		if (yTonneau >= 16.94 + compensationPoutre && yTonneau <= 23.06 + compensationPoutre) { //Si Mario sur poutre -1 - OK
+			if (xTonneau - longueurPas < 55 && xTonneau + longueurPas> -45) {
+				mouvementTonneau(19.69, 0.06, -longueurPas);
+			}
+		}
+		else {
+			if (yTonneau >= 37.2 + compensationPoutre && yTonneau <= 42.8 + compensationPoutre) { //Si Mario sur poutre 0 - OK
+				if (xTonneau - longueurPas < 45 && xTonneau + longueurPas > -55) {
+					mouvementTonneau(39.72, -0.06, longueurPas);
+				}
+			}
+			else {
+				if (yTonneau >= 56.94 + compensationPoutre && yTonneau <= 63.06 + compensationPoutre) { //Si Mario sur poutre +1 - OK
+					if (xTonneau - longueurPas < 55 && xTonneau + longueurPas > -45) {
+						mouvementTonneau(59.69, 0.06, -longueurPas);
+					}
+				}
+				else {
+					if (yTonneau >= 77.2 + compensationPoutre && yTonneau <= 82.8 + compensationPoutre) { //Si Mario sur poutre +2 - OK
+						if (xTonneau - longueurPas < 45 && xTonneau + longueurPas > -55) {
+							mouvementTonneau(79.72, -0.06, longueurPas);
+						}
+					}
+					else {
+						if (yTonneau >= 96.94 + compensationPoutre && yTonneau <= 103.6 + compensationPoutre) { //Si Mario sur poutre +3 - OK
+							if (xTonneau - longueurPas < 55 && xTonneau + longueurPas > -45) {
+								gaucheMario(99.69, 0.06);
+								mouvementTonneau(99.69, 0.06, -longueurPas);
+							}
+						}
+						else {
+							if (yTonneau >= 120.0 + compensationPoutre && yTonneau <= 122.0 + compensationPoutre) { //Si Mario sur poutre victoire - OK
+								if (xTonneau - longueurPas < 15 && xTonneau + longueurPas > -35) {
+							
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 	glutPostRedisplay();
 	glutTimerFunc(25, update, 0);
-	printf("testLoop2");
 }
 int main(int argc, char** argv) {
 
@@ -954,7 +1011,7 @@ int main(int argc, char** argv) {
     glutSpecialFunc(special);
     glutReshapeFunc(reshape);
     glutDisplayFunc(display);
-	//glutTimerFunc(25, update, 0);
+	glutTimerFunc(25, update, 0);
     glutMainLoop();
     return(0);
 }
