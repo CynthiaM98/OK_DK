@@ -14,9 +14,14 @@
 
 static unsigned int textureID[1] = { 0 };
 
+
 static double px = 0.0;
 static double py = 60.0;
 static double pz = 10.0;
+
+static double initCamX = px;
+static double initCamY = py;
+static double initCamZ = pz;
 
 static float rxs = 0.0;
 static float rys = 0.0;
@@ -681,9 +686,9 @@ static void reshape(int tx, int ty) {
           glutPostRedisplay();
           break;
       case GLUT_KEY_END: //retour à la position de base de la caméra via la touche "fin"
-          px = 0.0;
-          py = 60.0;
-          pz = 10.0;
+          px = initCamX;
+          py = initCamY;
+          pz = initCamZ;
           glutPostRedisplay();
           break;
       }
