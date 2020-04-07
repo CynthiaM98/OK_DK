@@ -957,18 +957,19 @@ void update(int value) {
 		}
 	}
 	else {
-		if (yTonneau >= 16.94 + 2 * compensationPoutre && yTonneau <= 23.06 + 2 * compensationPoutre) { //Si Mario sur poutre -1 - OK
+		if (yTonneau >= 16.94 + 2 * compensationPoutre && yTonneau <= 23.0 + 2 * compensationPoutre) { //Si Mario sur poutre -1 - OK
 			printf("Oui2");
-			if (xTonneau - longueurPas < 55 && xTonneau + longueurPas> -45) {
+			if (xTonneau - longueurPas < 56 && xTonneau + longueurPas> -45) {
 				printf("X Tonneau :%f\n", xTonneau);
 				printf("Y Tonneau :%f\n", yTonneau);
 				mouvementTonneau(19.69, 0.06, -longueurPas);
 			}
 		}
 		else {
-			if (yTonneau >= 37.2 + 2 * compensationPoutre && yTonneau <= 42.8 + 2 * compensationPoutre) { //Si Mario sur poutre 0 - OK
+			if (yTonneau >= 35.2 + 2 * compensationPoutre && yTonneau <= 42.8 + 2 * compensationPoutre) { //Si Mario sur poutre 0 - OK
 				printf("Oui3");
-				if (xTonneau - longueurPas < 45 && xTonneau + longueurPas > -55) {
+				printf("Y Tonneau :%f\n", yTonneau);
+				if (xTonneau - longueurPas < 55 && xTonneau + longueurPas > -55) {
 					printf("X Tonneau :%f\n", xTonneau);
 					printf("Y Tonneau :%f\n", yTonneau);
 					mouvementTonneau(39.72, -0.06, longueurPas);
@@ -977,7 +978,6 @@ void update(int value) {
 			else {
 				if (yTonneau >= 55 + 2 * compensationPoutre && yTonneau <= 63.06 + 2 * compensationPoutre) { //Si Mario sur poutre +1 - OK
 					printf("Oui4");
-					printf("Y Tonneau :%f\n", yTonneau);
 					if (xTonneau - longueurPas < 56 && xTonneau + longueurPas > -50) {
 						printf("X Tonneau :%f\n", xTonneau);
 						printf("Y Tonneau :%f\n", yTonneau);
@@ -1021,6 +1021,12 @@ void update(int value) {
 		yTonneau -= longueurPas;
 	}
 	else if (yTonneau <= 58.20 + 2 * compensationPoutre && yTonneau >= 43.0 + 2 * compensationPoutre) {
+		yTonneau -= longueurPas;
+	}
+	else if (yTonneau <= 37.9 + 2 * compensationPoutre && yTonneau >= 23.0 + 2 * compensationPoutre) {
+		yTonneau -= longueurPas;
+	}
+	else if (yTonneau <= 17.0 + 2 * compensationPoutre && yTonneau >= 2.7 + 2 * compensationPoutre) {
 		yTonneau -= longueurPas;
 	}
 	glutPostRedisplay();
