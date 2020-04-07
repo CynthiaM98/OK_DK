@@ -585,7 +585,7 @@ static void placementEchelles() {
 static void placementMario() {
     glPushMatrix();
     glTranslatef(mario.getX(), mario.getY(), mario.getZ());
-    mario.printMario(true);
+    mario.printPerso(true);
     glPopMatrix();
 }
 

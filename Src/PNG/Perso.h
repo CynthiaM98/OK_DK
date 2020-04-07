@@ -23,10 +23,10 @@ class Perso {
 		void setX(float newX);
 		void setY(float newY);
 		void setOrientation(Orientation newOr);
-		void teteMario(float size);
-		void corpMario(float size);
-		void membreMario(float size);
-		void printMario(bool isMario);
+		void tete(float size);
+		void corp(float size);
+		void membre(float size);
+		void printPerso(bool isMario);
 
 	private : 
 		float x, y, z; //coordonnée

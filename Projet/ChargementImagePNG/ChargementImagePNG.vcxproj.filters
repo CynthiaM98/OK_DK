@@ -24,9 +24,6 @@
     <Library Include="..\..\Lib\glut32.ms.lib" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Src\ChargementImagePNG.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Src\PNG\ChargePngFile.cpp">
       <Filter>Source Files\ChargePngFile</Filter>
     </ClCompile>
@@ -123,5 +120,16 @@
     <ClCompile Include="..\..\Src\PNG\Png\zutil.c">
       <Filter>Source Files\ChargePngFile\Png</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Src\MainDK.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\PNG\Perso.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Src\PNG\Perso.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
