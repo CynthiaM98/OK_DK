@@ -1042,6 +1042,10 @@ static void mouvementTonneau(float ordoOrigine, float coefDir, float distance, i
 }
 
 void updateTonneau(int value) {
+	float hauteur = mario.getTaille();
+	float posXMario = mario.getX();
+	float posYMario = mario.getY();
+	float longueurMario = hauteur / 6 * 0.75;
 	float supprimerTonneau = -1;
 	float vitesseTonneau = longueurPas / 2;
 	for (int i = 0; i < nbTonneau; ++i) {
@@ -1113,7 +1117,11 @@ void updateTonneau(int value) {
 		else if (tabTonneau[i][1] <= -10 + 2 * compensationPoutre) {//modif à 30 pour affichage propre
 			supprimerTonneau = i;
 		}
+		if (tabTonneau[i][0] == posXMario && tabTonneau[i][1] == posYMario) {
+			printf("aOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO0UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUIIIIIIIIIIIIIII");
+		}
 	}
+	
 	if(supprimerTonneau >= 0){
 		decalerTableauTonneau(supprimerTonneau);
 		supprimerTonneau = -1;
