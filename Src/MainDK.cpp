@@ -9,6 +9,7 @@
 
 #include "PNG/ChargePngFile.h"
 #include "PNG/Perso.h"
+#include "PNG/Poutre.h"
 
 
 
@@ -174,16 +175,16 @@ float listeDesEchellesCassees[nombreEchelleCassee][4][2] = { //{{x,y}coinSupGauc
 };
 
 //FCT POUTRES
-float listePoutre[nombrePoutre][6] = { //{numeroPoutre,yCentre,xGauche,xDroit,ordoOrigine,coefDir}
-    {-2,0,-55,45,0,-0.06},
-    {-1,20,-45,55,19.69,0.06},
-    {0,40,-55,45,39.72,-0.06},
-    {1,60,-45,55,59.69,0.06},
-    {2,80,-55,45,79.72,-0.06},
-    {3,100,-45,55,99.69,0.06},
-    {4,120,-35,15,120.0,0.0}
-};
 
+Poutre p0(-2, 0, -55, 45, 0, -0.06);
+Poutre p1(-1, 20, -45, 55, 19.69, 0.06);
+Poutre p2(0, 40, -55, 45, 39.72, -0.06);
+Poutre p3(1, 60, -45, 55, 59.69, 0.06);
+Poutre p4(2, 80, -55, 45, 79.72, -0.06);
+Poutre p5(3, 100, -45, 55, 99.69, 0.06);
+Poutre p6(4, 120, -35, 15, 120.0, 0.0);
+
+Poutre listePoutre[nombrePoutre] = { p0, p1, p2, p3, p4, p5, p6 };
 
 
 //TEXTURES
@@ -196,7 +197,7 @@ GLfloat no_shininess[] = { 0.0F };
 GLfloat low_shininess[] = { 5.0F };
 GLfloat high_shininess[] = { 100.0F };
 GLfloat mat_emission[] = { 0.3F,0.2F,0.2F,0.0F };
-GLfloat couleur_poutres[] = { 2.50,2.4,1.45F,1.0F };
+
 GLfloat couleur_echelles[] = { 0.1F,0.5F,0.8F,1.0F };
 GLfloat couleur_tonneaux[] = { 0.1F,0.5F,0.8F,1.0F };
 GLfloat couleur_princesse[] = { 5.5F,0.5F,5.5F,1.0F };
@@ -338,85 +339,7 @@ static void echelleCassee(float hauteur, float largeur) {
 
 }
 
-static void planchePoutre(float largeur, float longueur, float hauteur) {
-    largeur /= 2.0;
-    longueur /= 2.0;
-    hauteur /= 2.0;
-    glBegin(GL_QUADS);
-    glPushMatrix();
-    float couleur[4] = { (2.50,2.4,1.45F,1.0F) };
-    glMaterialfv(GL_FRONT, GL_DIFFUSE, couleur);
-    glColor4f(1.0f, 0.0f, 0.0f, 0.0f);//red);
-    //face avant
-    glNormal3f(0.0F, 0.0F, 1.0F);
-    glColor4f(1.0f, 0.0f, 0.0f, 0.0f);//red
-    glVertex3d(largeur, hauteur, longueur); // 1
-    glVertex3d(-largeur, hauteur, longueur); // 2
-    glVertex3d(-largeur, -hauteur, longueur); // 3
-    glVertex3d(largeur, -hauteur, longueur); // 4
 
-    //face supérieure
-    glNormal3f(0.0F, 1.0F, 0.0F);
-    glVertex3d(largeur, hauteur, longueur); // 1
-    glVertex3d(largeur, hauteur, -longueur); // 5
-    glVertex3d(-largeur, hauteur, -longueur); // 6
-    glVertex3d(-largeur, hauteur, longueur); // 2
-
-    //face droite
-    glNormal3f(1.0F, 0.0F, 0.0F);
-    glVertex3d(largeur, hauteur, longueur); // 1
-    glVertex3d(largeur, -hauteur, longueur); // 4
-    glVertex3d(largeur, -hauteur, -longueur); // 7
-    glVertex3d(largeur, hauteur, -longueur); // 5
-
-    //face inférieure
-    glNormal3f(0.0F, -1.0F, 0.0F);
-    glVertex3d(largeur, -hauteur, longueur); // 4
-    glVertex3d(-largeur, -hauteur, longueur); // 3
-    glVertex3d(-largeur, -hauteur, -longueur); // 8
-    glVertex3d(largeur, -hauteur, -longueur); // 7
-
-    //face gauche
-    glNormal3f(-1.0F, 0.0F, 0.0F);
-    glVertex3d(-largeur, -hauteur, longueur); // 3
-    glVertex3d(-largeur, hauteur, longueur); // 2
-    glVertex3d(-largeur, hauteur, -longueur); // 6
-    glVertex3d(-largeur, -hauteur, -longueur); // 8
-
-    //face arrière
-    glNormal3f(0.0F, 0.0F, -1.0F);
-    glVertex3d(-largeur, hauteur, -longueur); // 6
-    glVertex3d(largeur, hauteur, -longueur); // 5
-    glVertex3d(largeur, -hauteur, -longueur); // 7
-    glVertex3d(-largeur, -hauteur, -longueur); // 8
-    glPopMatrix();
-    glEnd();
-
-}
-
-static void poutreDK(float largeurPlateforme, float longueurPlateforme, float hauteurPlateforme) {
-    double largeurSurDix = largeurPlateforme / 10.0;
-
-    glPushMatrix();
-   
-    glRotatef(90.0, 1.0f, 0.0f, 0.0f);
-    glPushMatrix();
-
-    //plateforme supérieure
-    glTranslatef(0.0F, 0.0F, 2 * hauteurPlateforme);
-    planchePoutre(largeurPlateforme, hauteurPlateforme, longueurPlateforme);
-    glPopMatrix();
-
-    //plateforme inférieure
-    glTranslatef(0.0F, 0.0F, -2 * hauteurPlateforme);
-    planchePoutre(largeurPlateforme, hauteurPlateforme, longueurPlateforme);
-    glPopMatrix();
-
-
-    //barre de soutien de la poutre
-    planchePoutre(largeurPlateforme / 2, longueurPlateforme, hauteurPlateforme * 4);
-
-}
 
 static void tonneau(float xTonneau, float yTonneau, float zTonneau) {
 	float largeur = 3.0;
@@ -457,62 +380,7 @@ static void donkeyKong(float size) {
     //mario(size,false);
 }
 
-static void placementPoutres() {
-    glPushMatrix();
 
-    glMaterialfv(GL_FRONT, GL_DIFFUSE, couleur_poutres);
-    glPushMatrix(); //poutre victoire
-    glTranslatef(-10.0, 6 * 20.0, 0.0);
-    glRotatef(90.0, 0.0, 1.0, 0.0);
-    glRotatef(0.0, 1.0, 0.0, 0.0);
-    poutreDK(largeurPoutre, longueurPoutre/2, hauteurPoutre);
-    glPopMatrix();
-
-    glPushMatrix(); //poutre etage +3
-    glTranslatef(5.0, 5 * 20.0, 0.0);
-    glRotatef(90.0, 0.0, 1.0, 0.0);
-    glRotatef (-3.5, 1.0, 0.0, 0.0);
-    poutreDK(largeurPoutre, longueurPoutre, hauteurPoutre);
-    glPopMatrix();
-
-    glPushMatrix(); //poutre etage +2
-    glTranslatef(-5.0, 4 * 20.0, 0.0);
-    glRotatef(90.0, 0.0, 1.0, 0.0);
-    glRotatef(3.2, 1.0, 0.0, 0.0);
-    poutreDK(largeurPoutre, longueurPoutre, hauteurPoutre);
-    glPopMatrix();
-
-    glPushMatrix(); //poutre etage +1
-    glTranslatef(5.0, 3 * 20.0, 0.0);
-    glRotatef(90.0, 0.0, 1.0, 0.0);
-    glRotatef(-3.5, 1.0, 0.0, 0.0);
-    poutreDK(largeurPoutre, longueurPoutre, hauteurPoutre);
-    glPopMatrix();
-
-    glPushMatrix(); //poutre centrale
-    glTranslatef(-5.0, 2 * 20.0, 0.0);
-    glRotatef(90.0, 0.0, 1.0, 0.0);
-    glRotatef( 3.2, 1.0, 0.0, 0.0);
-    poutreDK(largeurPoutre, longueurPoutre, hauteurPoutre);
-    glPopMatrix();
-
-    glPushMatrix(); //poutre etage -1
-    glTranslatef(5.0, 1 * 20.0, 0.0);
-    glRotatef(90.0, 0.0, 1.0, 0.0);
-    glRotatef(-3.5, 1.0, 0.0, 0.0);
-    poutreDK(largeurPoutre, longueurPoutre, hauteurPoutre);
-    glPopMatrix();
-
-    glPushMatrix(); //poutre etage -2
-    glTranslatef(-5.0, 0 * 20.0, 0.0);
-    glRotatef(90.0, 0.0, 1.0, 0.0);
-    glRotatef(3.2, 1.0, 0.0, 0.0);
-    poutreDK(largeurPoutre, longueurPoutre, hauteurPoutre);
-    glPopMatrix();
-
-    glPopMatrix();
-
-}
 
 static void placementEchelles() {
     glPushMatrix();
@@ -617,7 +485,7 @@ static void sceneJeu() {
     glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
     glMaterialfv(GL_FRONT, GL_SHININESS, high_shininess);
     glMaterialfv(GL_FRONT, GL_EMISSION, no_mat);
-    placementPoutres();
+    Poutre::placementPoutres();
     placementEchelles();
     glTranslatef(-3.75F,3.0F,0.0F);
     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, mat_ambient);
@@ -728,18 +596,18 @@ static void reshape(int tx, int ty) {
           }
           else {
               int indice = poutre + 2;
-              mario.setY((listePoutre[indice][4] + listePoutre[indice][5] * mario.getX()) + compensationPoutre);
+              mario.setY((listePoutre[indice].getOrdoOrigine() + listePoutre[indice].getCoefDir() * mario.getX()) + compensationPoutre);
           }
           break;
       case -1: case 1: case 3:
           if (mario.getX() >= 55 || mario.getX() <= -45) {
               int indice = poutre + 1;
               mario.setX(-45.0);
-              mario.setY((listePoutre[indice][4] + listePoutre[indice][5] * mario.getX()) + compensationPoutre);
+              mario.setY((listePoutre[indice].getOrdoOrigine() + listePoutre[indice].getCoefDir() * mario.getX()) + compensationPoutre);
           }
           else {
               int indice = poutre + 2;
-              mario.setY((listePoutre[indice][4] + listePoutre[indice][5] * mario.getX()) + compensationPoutre);
+              mario.setY((listePoutre[indice].getOrdoOrigine() + listePoutre[indice].getCoefDir() * mario.getX()) + compensationPoutre);
           }
           break;
       case 4: //on ne peux pas tomber mais on gagne si mario arrive dans la zone de peach
@@ -761,7 +629,7 @@ static void reshape(int tx, int ty) {
           }
           else {
               int indice = poutre + 2;
-              mario.setY((listePoutre[indice][4] + listePoutre[indice][5] * mario.getX()) + compensationPoutre);
+              mario.setY((listePoutre[indice].getOrdoOrigine() + listePoutre[indice].getCoefDir() * mario.getX()) + compensationPoutre);
             
           }
           break;
@@ -772,7 +640,7 @@ static void reshape(int tx, int ty) {
           }
           else {
               int indice = poutre + 2;
-              mario.setY((listePoutre[indice][4] + listePoutre[indice][5] * mario.getX()) + compensationPoutre);
+              mario.setY((listePoutre[indice].getOrdoOrigine() + listePoutre[indice].getCoefDir() * mario.getX()) + compensationPoutre);
           }
           break;
       case 0: case 2:
@@ -780,18 +648,18 @@ static void reshape(int tx, int ty) {
           if (mario.getX() >= 45 || mario.getX() <= -55) {
               int indice = poutre + 1;
               mario.setX(45.0);
-              mario.setY((listePoutre[indice][4] + listePoutre[indice][5] * mario.getX()) + compensationPoutre);
+              mario.setY((listePoutre[indice].getOrdoOrigine() + listePoutre[indice].getCoefDir() * mario.getX()) + compensationPoutre);
           }
           else {
               int indice = poutre + 2;
-              mario.setY((listePoutre[indice][4] + listePoutre[indice][5] * mario.getX()) + compensationPoutre);
+              mario.setY((listePoutre[indice].getOrdoOrigine() + listePoutre[indice].getCoefDir() * mario.getX()) + compensationPoutre);
           }
           break;
       case 4:
           int indice = poutre + 1;
           if (mario.getX() >= 15) {
               mario.setX(15.0);
-              mario.setY((listePoutre[indice][4] + listePoutre[indice][5] * mario.getX()) + compensationPoutre);
+              mario.setY((listePoutre[indice].getOrdoOrigine() + listePoutre[indice].getCoefDir() * mario.getX()) + compensationPoutre);
           }
           break;
 
