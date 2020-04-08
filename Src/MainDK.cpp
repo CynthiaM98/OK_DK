@@ -84,9 +84,11 @@ float yDonkeyKong = (99.69 + 0.06 * xDonkeyKong) + compensationPoutre;
 float zDonkeyKong = 0.0;
 
 //TONNEAU
-float xTonneau = -45.0;
-float yTonneau = 82.0+ 2 *compensationPoutre;
-float zTonneau = -largeurPoutre/2;
+float xTonneauBegin = -45.0;
+float yTonneauBegin = 82.0+ 2 *compensationPoutre;
+float zTonneauBegin = -largeurPoutre/2;
+int nbTonneau = 0;
+float tabTonneau[100][100];
 
 bool gameover = false;
 
@@ -415,7 +417,8 @@ static void poutreDK(float largeurPlateforme, float longueurPlateforme, float ha
 
 }
 
-static void tonneau(float largeur, float longueur, unsigned int* textureID) {
+static void tonneau(float xTonneau, float yTonneau, float zTonneau) {
+	float largeur = 3.0;
     glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, couleur_tonneaux);
     float n;
     glPushMatrix();
@@ -430,7 +433,7 @@ static void tonneau(float largeur, float longueur, unsigned int* textureID) {
     }
     glEnd();
     glPopMatrix();
-    glTranslatef(0.0, 0.0, longueur); //face avant
+    glTranslatef(0.0, 0.0, largeurPoutre); //face avant
     glRotatef(180.0, 0.0, 1.0, 0.0);
     glBegin(GL_POLYGON);
     for (int i = 0; i < 360; i++) {
@@ -441,10 +444,12 @@ static void tonneau(float largeur, float longueur, unsigned int* textureID) {
     glPopMatrix();
     glBegin(GL_POLYGON);
     GLUquadric* glNewQuad = gluNewQuadric();
-    gluCylinder(glNewQuad, largeur, largeur, longueur, 30.0, 30.0);
+    gluCylinder(glNewQuad, largeur, largeur, largeurPoutre, 30.0, 30.0);
     glEnd();
 
     glPopMatrix();
+	tabTonneau[nbTonneau][0] = xTonneau;
+	tabTonneau[nbTonneau][1] = yTonneau;
 }
 
 
@@ -621,11 +626,13 @@ static void sceneJeu() {
     glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, no_mat);
     glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, no_shininess);
     glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, mat_emission);
-    tonneau(3.0, largeurPoutre, textureID);
     glPopMatrix();
     glPushMatrix();
     placementMario();
     placementPrincesse();
+	for (int i = 0; i < nbTonneau; ++i) {
+		tonneau(tabTonneau[i][0], tabTonneau[i][1], zTonneauBegin);
+	}
     //placementDK();
     glPopMatrix();
 }
@@ -1011,74 +1018,75 @@ static void clean(void) {
     }
 }
 
-static void mouvementTonneau(float ordoOrigine, float coefDir, float distance) {
-	xTonneau += distance;
-	yTonneau = (ordoOrigine + coefDir * xTonneau) + 2*compensationPoutre;
+static void mouvementTonneau(float ordoOrigine, float coefDir, float distance, int i) {
+	tabTonneau[i][0] += distance;
+	tabTonneau[i][1] = (ordoOrigine + coefDir * tabTonneau[i][0]) + 2*compensationPoutre;
 }
 
-void update(int value) {
-	printf("testLoopTonneau\n");
-	printf("X Tonneau debut :%f\n", xTonneau);
-	printf("Y Tonneau debut :%f\n", yTonneau);
-	if (yTonneau >= -2.8 + 2 * compensationPoutre && yTonneau <= 2.8 + 2 * compensationPoutre) { //Si Mario sur poutre -2 - OK
-		printf("Oui1");
-		if (xTonneau - longueurPas < 45 && xTonneau + longueurPas>-55) {
-			printf("X Tonneau :%f\n", xTonneau);
-			printf("Y Tonneau :%f\n", yTonneau);
-			mouvementTonneau(0, -0.06, longueurPas);
-		}
-	}
-	else {
-		if (yTonneau >= 16.94 + 2 * compensationPoutre && yTonneau <= 23.0 + 2 * compensationPoutre) { //Si Mario sur poutre -1 - OK
-			printf("Oui2");
-			if (xTonneau - longueurPas < 56 && xTonneau + longueurPas> -45) {
-				printf("X Tonneau :%f\n", xTonneau);
-				printf("Y Tonneau :%f\n", yTonneau);
-				mouvementTonneau(19.69, 0.06, -longueurPas);
+void updateTonneau(int value) {
+	for (int i = 0; i < nbTonneau; ++i) {
+		//printf("X Tonneau debut :%f\n", xTonneau);
+		//printf("Y Tonneau debut :%f\n", yTonneau);
+		if (tabTonneau[i][1] >= -2.8 + 2 * compensationPoutre && tabTonneau[i][1] <= 2.8 + 2 * compensationPoutre) { //Si Mario sur poutre -2 - OK
+			printf("Oui1");
+			if (tabTonneau[i][0] - longueurPas < 45 && tabTonneau[i][0] + longueurPas>-55) {
+				printf("X Tonneau :%f\n", tabTonneau[i][0]);
+				printf("Y Tonneau :%f\n", tabTonneau[i][1]);
+				mouvementTonneau(0, -0.06, longueurPas,i);
 			}
 		}
 		else {
-			if (yTonneau >= 35.2 + 2 * compensationPoutre && yTonneau <= 42.8 + 2 * compensationPoutre) { //Si Mario sur poutre 0 - OK
-				printf("Oui3");
-				printf("Y Tonneau :%f\n", yTonneau);
-				if (xTonneau - longueurPas < 55 && xTonneau + longueurPas > -55) {
-					printf("X Tonneau :%f\n", xTonneau);
-					printf("Y Tonneau :%f\n", yTonneau);
-					mouvementTonneau(39.72, -0.06, longueurPas);
+			if (tabTonneau[i][1] >= 16.94 + 2 * compensationPoutre && tabTonneau[i][1] <= 23.0 + 2 * compensationPoutre) { //Si Mario sur poutre -1 - OK
+				printf("Oui2");
+				if (tabTonneau[i][0] - longueurPas < 56 && tabTonneau[i][0] + longueurPas> -45) {
+					printf("X Tonneau :%f\n", tabTonneau[i][0]);
+					printf("Y Tonneau :%f\n", tabTonneau[i][1]);
+					mouvementTonneau(19.69, 0.06, -longueurPas, i);
 				}
 			}
 			else {
-				if (yTonneau >= 55 + 2 * compensationPoutre && yTonneau <= 63.06 + 2 * compensationPoutre) { //Si Mario sur poutre +1 - OK
-					printf("Oui4");
-					if (xTonneau - longueurPas < 56 && xTonneau + longueurPas > -50) {
-						printf("X Tonneau :%f\n", xTonneau);
-						printf("Y Tonneau :%f\n", yTonneau);
-						mouvementTonneau(59.69, 0.06, -longueurPas);
+				if (tabTonneau[i][1] >= 35.2 + 2 * compensationPoutre && tabTonneau[i][1] <= 42.8 + 2 * compensationPoutre) { //Si Mario sur poutre 0 - OK
+					printf("Oui3");
+					printf("Y Tonneau :%f\n", tabTonneau[i][1]);
+					if (tabTonneau[i][0] - longueurPas < 55 && tabTonneau[i][0] + longueurPas > -55) {
+						printf("X Tonneau :%f\n", tabTonneau[i][0]);
+						printf("Y Tonneau :%f\n", tabTonneau[i][1]);
+						mouvementTonneau(39.72, -0.06, longueurPas, i);
 					}
 				}
 				else {
-					if (yTonneau >= 75 + 2*compensationPoutre && yTonneau <= 82.8 + 2*compensationPoutre) { //Si Mario sur poutre +2 - OK
-						printf("Oui5");
-						if (xTonneau - longueurPas < 55 && xTonneau + longueurPas > -55) {
-							printf("X Tonneau :%f\n", xTonneau);
-							printf("Y Tonneau :%f\n", yTonneau);
-							mouvementTonneau(79.72, -0.06, longueurPas);
+					if (tabTonneau[i][1] >= 55 + 2 * compensationPoutre && tabTonneau[i][1] <= 63.06 + 2 * compensationPoutre) { //Si Mario sur poutre +1 - OK
+						printf("Oui4");
+						if (tabTonneau[i][0] - longueurPas < 56 && tabTonneau[i][0] + longueurPas > -50) {
+							printf("X Tonneau :%f\n", tabTonneau[i][0]);
+							printf("Y Tonneau :%f\n", tabTonneau[i][1]);
+							mouvementTonneau(59.69, 0.06, -longueurPas, i);
 						}
 					}
 					else {
-						if (yTonneau >= 96.94 + 2 * compensationPoutre && yTonneau <= 103.6 + 2 * compensationPoutre) { //Si Mario sur poutre +3 - OK
-							printf("Oui6");
-							if (xTonneau - longueurPas < 55 && xTonneau + longueurPas > -45) {
-								printf("X Tonneau :%f\n", xTonneau);
-								printf("Y Tonneau :%f\n", yTonneau);
-								mouvementTonneau(99.69, 0.06, -longueurPas);
+						if (tabTonneau[i][1] >= 75 + 2 * compensationPoutre && tabTonneau[i][1] <= 82.8 + 2 * compensationPoutre) { //Si Mario sur poutre +2 - OK
+							printf("Oui5");
+							if (tabTonneau[i][0] - longueurPas < 55 && tabTonneau[i][0] + longueurPas > -55) {
+								printf("X Tonneau :%f\n", tabTonneau[i][0]);
+								printf("Y Tonneau :%f\n", tabTonneau[i][1]);
+								mouvementTonneau(79.72, -0.06, longueurPas, i);
 							}
 						}
 						else {
-							if (yTonneau >= 120.0 + 2 * compensationPoutre && yTonneau <= 122.0 + 2 * compensationPoutre) { //Si Mario sur poutre victoire - OK
-								if (xTonneau - longueurPas < 15 && xTonneau + longueurPas > -35) {
-									printf("X Tonneau :%f\n", xTonneau);
-									printf("Y Tonneau :%f\n", yTonneau);
+							if (tabTonneau[i][1] >= 96.94 + 2 * compensationPoutre && tabTonneau[i][1] <= 103.6 + 2 * compensationPoutre) { //Si Mario sur poutre +3 - OK
+								printf("Oui6");
+								if (tabTonneau[i][0] - longueurPas < 55 && tabTonneau[i][0] + longueurPas > -45) {
+									printf("X Tonneau :%f\n", tabTonneau[i][0]);
+									printf("Y Tonneau :%f\n", tabTonneau[i][1]);
+									mouvementTonneau(99.69, 0.06, -longueurPas, i);
+								}
+							}
+							else {
+								if (tabTonneau[i][1] >= 120.0 + 2 * compensationPoutre && tabTonneau[i][1] <= 122.0 + 2 * compensationPoutre) { //Si Mario sur poutre victoire - OK
+									if (tabTonneau[i][0] - longueurPas < 15 && tabTonneau[i][0] + longueurPas > -35) {
+										printf("X Tonneau :%f\n", tabTonneau[i][0]);
+										printf("Y Tonneau :%f\n", tabTonneau[i][1]);
+									}
 								}
 							}
 						}
@@ -1086,23 +1094,29 @@ void update(int value) {
 				}
 			}
 		}
-	}
 
-//Deplacement vertical
-	if (yTonneau <= 77.0 + 2 * compensationPoutre && yTonneau >= 63.06 + 2 * compensationPoutre) {
-		yTonneau -= longueurPas;
-	}
-	else if (yTonneau <= 58.20 + 2 * compensationPoutre && yTonneau >= 43.0 + 2 * compensationPoutre) {
-		yTonneau -= longueurPas;
-	}
-	else if (yTonneau <= 37.9 + 2 * compensationPoutre && yTonneau >= 23.0 + 2 * compensationPoutre) {
-		yTonneau -= longueurPas;
-	}
-	else if (yTonneau <= 17.0 + 2 * compensationPoutre && yTonneau >= 2.7 + 2 * compensationPoutre) {
-		yTonneau -= longueurPas;
+		//Deplacement vertical
+		if (tabTonneau[i][1] <= 77.0 + 2 * compensationPoutre && tabTonneau[i][1] >= 63.06 + 2 * compensationPoutre) {
+			tabTonneau[i][1] -= longueurPas;
+		}
+		else if (tabTonneau[i][1] <= 58.20 + 2 * compensationPoutre && tabTonneau[i][1] >= 43.0 + 2 * compensationPoutre) {
+			tabTonneau[i][1] -= longueurPas;
+		}
+		else if (tabTonneau[i][1] <= 37.9 + 2 * compensationPoutre && tabTonneau[i][1] >= 23.0 + 2 * compensationPoutre) {
+			tabTonneau[i][1] -= longueurPas;
+		}
+		else if (tabTonneau[i][1] <= 17.0 + 2 * compensationPoutre && tabTonneau[i][1] >= 2.7 + 2 * compensationPoutre) {
+			tabTonneau[i][1] -= longueurPas;
+		}
 	}
 	glutPostRedisplay();
-	glutTimerFunc(1, update, 0);
+	glutTimerFunc(25,updateTonneau, 0);
+}
+
+static void ajoutTonneau(int value) {
+	tonneau(xTonneauBegin, yTonneauBegin, zTonneauBegin);
+	nbTonneau++;
+	glutTimerFunc(5000, ajoutTonneau, 0);
 }
 int main(int argc, char** argv) {
 
@@ -1116,7 +1130,9 @@ int main(int argc, char** argv) {
     glutSpecialFunc(special);
     glutReshapeFunc(reshape);
     glutDisplayFunc(display);
-	glutTimerFunc(100, update, 0);
+	glutTimerFunc(5, ajoutTonneau, 0);
+	glutTimerFunc(100, updateTonneau, 0);
+	
     glutMainLoop();
     return(0);
 }
