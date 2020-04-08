@@ -86,7 +86,7 @@ float zDonkeyKong = 0.0;
 
 //TONNEAU
 float xTonneauBegin = -45.0;
-float yTonneauBegin = 82.0+ 2 *compensationPoutre;
+float yTonneauBegin = 82.0 + 2 *compensationPoutre;
 float zTonneauBegin = -largeurPoutre/3;
 int nbTonneau = 0;
 float tabTonneau[100][100];
@@ -452,9 +452,6 @@ static void tonneau(float xTonneau, float yTonneau, float zTonneau) {
 	tabTonneau[nbTonneau][0] = xTonneau;
 	tabTonneau[nbTonneau][1] = yTonneau;
 }
-
-
-
 
 static void donkeyKong(float size) {
     //mario(size,false);
@@ -1023,21 +1020,38 @@ static void clean(void) {
     }
 }
 
+static void decalerTableauTonneau(float indice) {
+	if (nbTonneau == 1) {// Cas 1 seul élément
+		nbTonneau = 0;
+		return;
+	}
+	else if (nbTonneau == indice + 1) {//Cas dernière case enlevé
+		nbTonneau--;
+		return;
+	}
+	for (int i = indice; i < nbTonneau - 1; ++i) {//Cas classique
+		tabTonneau[i][0] = tabTonneau[i + 1][0];
+		tabTonneau[i][1] = tabTonneau[i + 1][1];
+	}
+	nbTonneau--;
+}
+
 static void mouvementTonneau(float ordoOrigine, float coefDir, float distance, int i) {
 	tabTonneau[i][0] += distance;
 	tabTonneau[i][1] = (ordoOrigine + coefDir * tabTonneau[i][0]) + 2*compensationPoutre;
 }
 
 void updateTonneau(int value) {
+	float supprimerTonneau = -1;
 	for (int i = 0; i < nbTonneau; ++i) {
-		if (tabTonneau[i][1] >= -2.8 + 2 * compensationPoutre && tabTonneau[i][1] <= 2.8 + 2 * compensationPoutre) { //Si Mario sur poutre -2 - OK
-			if (tabTonneau[i][0] - longueurPas < 45 && tabTonneau[i][0] + longueurPas>-55) {
+		if (tabTonneau[i][1] >= -3.0 + 2 * compensationPoutre && tabTonneau[i][1] <= 2.8 + 2 * compensationPoutre) { //Si Mario sur poutre -2 - OK
+			if (tabTonneau[i][0] - longueurPas < 55 && tabTonneau[i][0] + longueurPas>-55) {
 				mouvementTonneau(0, -0.06, longueurPas,i);
 			}
 		}
 		else {
-			if (tabTonneau[i][1] >= 16.94 + 2 * compensationPoutre && tabTonneau[i][1] <= 23.0 + 2 * compensationPoutre) { //Si Mario sur poutre -1 - OK
-				if (tabTonneau[i][0] - longueurPas < 56 && tabTonneau[i][0] + longueurPas> -45) {
+			if (tabTonneau[i][1] >= 16.2 + 2 * compensationPoutre && tabTonneau[i][1] <= 23.0 + 2 * compensationPoutre) { //Si Mario sur poutre -1 - OK
+				if (tabTonneau[i][0] - longueurPas < 56 && tabTonneau[i][0] + longueurPas> -50) {
 					mouvementTonneau(19.69, 0.06, -longueurPas, i);
 				}
 			}
@@ -1083,18 +1097,28 @@ void updateTonneau(int value) {
 		if (tabTonneau[i][1] <= 77.0 + 2 * compensationPoutre && tabTonneau[i][1] >= 63.06 + 2 * compensationPoutre) {
 			tabTonneau[i][1] -= longueurPas;
 		}
-		else if (tabTonneau[i][1] <= 58.20 + 2 * compensationPoutre && tabTonneau[i][1] >= 43.0 + 2 * compensationPoutre) {
+		else if (tabTonneau[i][1] <= 57.0 + 2 * compensationPoutre && tabTonneau[i][1] >= 43.0 + 2 * compensationPoutre) {
 			tabTonneau[i][1] -= longueurPas;
 		}
-		else if (tabTonneau[i][1] <= 37.9 + 2 * compensationPoutre && tabTonneau[i][1] >= 23.0 + 2 * compensationPoutre) {
+		else if (tabTonneau[i][1] <= 36.5 + 2 * compensationPoutre && tabTonneau[i][1] >= 23.0 + 2 * compensationPoutre) {
 			tabTonneau[i][1] -= longueurPas;
 		}
 		else if (tabTonneau[i][1] <= 17.0 + 2 * compensationPoutre && tabTonneau[i][1] >= 2.7 + 2 * compensationPoutre) {
 			tabTonneau[i][1] -= longueurPas;
 		}
+		else if (tabTonneau[i][1] <= -2.9 + 2 * compensationPoutre && tabTonneau[i][1] >= -10 + 2 * compensationPoutre) {
+			tabTonneau[i][1] -= longueurPas;
+		}
+		else if (tabTonneau[i][1] <= -10 + 2 * compensationPoutre) {//modif à 30 pour affichage propre
+			supprimerTonneau = i;
+		}
+	}
+	if(supprimerTonneau >= 0){
+		decalerTableauTonneau(supprimerTonneau);
+		supprimerTonneau = -1;
 	}
 	glutPostRedisplay();
-	glutTimerFunc(25,updateTonneau, 0);
+	glutTimerFunc(10,updateTonneau, 0);
 }
 
 static void ajoutTonneau(int value) {
@@ -1102,6 +1126,7 @@ static void ajoutTonneau(int value) {
 	nbTonneau++;
 	glutTimerFunc(5000, ajoutTonneau, 0);
 }
+
 int main(int argc, char** argv) {
 
     glutInit(&argc, argv);
