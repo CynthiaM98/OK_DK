@@ -86,7 +86,7 @@ float zDonkeyKong = 0.0;
 //TONNEAU
 float xTonneau = -45.0;
 float yTonneau = 82.0+ 2 *compensationPoutre;
-float zTonneau = -largeurPoutre/2;
+float zTonneau = -largeurPoutre/3;
 
 bool gameover = false;
 
@@ -430,7 +430,7 @@ static void tonneau(float largeur, float longueur, unsigned int* textureID) {
     }
     glEnd();
     glPopMatrix();
-    glTranslatef(0.0, 0.0, longueur); //face avant
+    glTranslatef(0.0, 0.0, longueur*0.75); //face avant
     glRotatef(180.0, 0.0, 1.0, 0.0);
     glBegin(GL_POLYGON);
     for (int i = 0; i < 360; i++) {
@@ -441,7 +441,7 @@ static void tonneau(float largeur, float longueur, unsigned int* textureID) {
     glPopMatrix();
     glBegin(GL_POLYGON);
     GLUquadric* glNewQuad = gluNewQuadric();
-    gluCylinder(glNewQuad, largeur, largeur, longueur, 30.0, 30.0);
+    gluCylinder(glNewQuad, largeur, largeur, longueur*0.75, 30.0, 30.0);
     glEnd();
 
     glPopMatrix();
