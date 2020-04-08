@@ -63,6 +63,7 @@ const int nombrePoutre = 7;
 
 //MARIO
 float initXMario = 5.0;
+//oui
 //float initYMario = 120+ compensationPoutre;
 float initYMario = (-0.06 * initXMario) + compensationPoutre;
 float initZMario = -1.0;
