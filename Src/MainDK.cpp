@@ -711,7 +711,7 @@ static void reshape(int tx, int ty) {
   }
 
 
-  static void gaucheMario(float ordoOrigine, float coefDir, int poutre) {
+  static void gaucheMario(int poutre) {
 
       mario.setOrientation(Perso::Orientation::Gauche);
       mario.setX(mario.getX() - longueurPas);
@@ -722,7 +722,8 @@ static void reshape(int tx, int ty) {
               gameover = true;
           }
           else {
-              mario.setY((ordoOrigine + coefDir * mario.getX()) + compensationPoutre);
+              int indice = poutre + 2;
+              mario.setY((listePoutre[indice][4] + listePoutre[indice][5] * mario.getX()) + compensationPoutre);
           }
           break;
       case -1: case 1: case 3:
@@ -732,7 +733,8 @@ static void reshape(int tx, int ty) {
               mario.setY((listePoutre[indice][4] + listePoutre[indice][5] * mario.getX()) + compensationPoutre);
           }
           else {
-              mario.setY((ordoOrigine + coefDir * mario.getX()) + compensationPoutre);
+              int indice = poutre + 2;
+              mario.setY((listePoutre[indice][4] + listePoutre[indice][5] * mario.getX()) + compensationPoutre);
           }
           break;
       case 4:
@@ -743,7 +745,7 @@ static void reshape(int tx, int ty) {
   }
 
 
-  static void droiteMario(float ordoOrigine, float coefDir, int poutre) {
+  static void droiteMario(int poutre) {
       mario.setOrientation(Perso::Orientation::Droite);
       mario.setX(mario.getX() + longueurPas);
       switch (poutre) {
@@ -753,7 +755,9 @@ static void reshape(int tx, int ty) {
               gameover = true;
           }
           else {
-              mario.setY((ordoOrigine + coefDir * mario.getX()) + compensationPoutre);
+              int indice = poutre + 2;
+              mario.setY((listePoutre[indice][4] + listePoutre[indice][5] * mario.getX()) + compensationPoutre);
+            
           }
           break;
       case -2:
@@ -762,7 +766,8 @@ static void reshape(int tx, int ty) {
               gameover = true;
           }
           else {
-              mario.setY((ordoOrigine + coefDir * mario.getX()) + compensationPoutre);
+              int indice = poutre + 2;
+              mario.setY((listePoutre[indice][4] + listePoutre[indice][5] * mario.getX()) + compensationPoutre);
           }
           break;
       case 0: case 2:
@@ -773,7 +778,8 @@ static void reshape(int tx, int ty) {
               mario.setY((listePoutre[indice][4] + listePoutre[indice][5] * mario.getX()) + compensationPoutre);
           }
           else {
-              mario.setY((ordoOrigine + coefDir * mario.getX()) + compensationPoutre);
+              int indice = poutre + 2;
+              mario.setY((listePoutre[indice][4] + listePoutre[indice][5] * mario.getX()) + compensationPoutre);
           }
           break;
       case 4:
@@ -887,26 +893,26 @@ static void reshape(int tx, int ty) {
               if (mario.getX() < 45 && mario.getX() > -55) {
                   printf("X MARIO :%f\n", mario.getX());
                   printf("Y MARIO :%f\n", mario.getY());
-                  gaucheMario(0, -0.06, -2);
+                  gaucheMario (-2);
               }
           }
           else {
               if (mario.getY() >= 16.94 + compensationPoutre && mario.getY() <= 26.0 + compensationPoutre) { //Si Mario sur poutre -1 - OK
                   if (mario.getX() < 55 && mario.getX() > -45) {
-                      gaucheMario(19.69, 0.06, -1);
+                      gaucheMario(-1);
                   }
               }
               else {
                   if (mario.getY() >= 37.2 + compensationPoutre && mario.getY() <= 45.0 + compensationPoutre) { //Si Mario sur poutre 0 - OK
                       if (mario.getX() < 45 && mario.getX() > -55) {
-                          gaucheMario(39.72, -0.06, 0);
+                          gaucheMario(0);
 
                       }
                   }
                   else {
                       if (mario.getY() >= 56.94 + compensationPoutre && mario.getY() <= 66.0 + compensationPoutre) { //Si Mario sur poutre +1 - OK
                           if (mario.getX() < 55 && mario.getX() > -45) {
-                              gaucheMario(59.69, 0.06, 1);
+                              gaucheMario(1);
 
 
                           }
@@ -914,21 +920,21 @@ static void reshape(int tx, int ty) {
                       else {
                           if (mario.getY() >= 77.2 + compensationPoutre && mario.getY() <= 85.0 + compensationPoutre) { //Si Mario sur poutre +2 - OK
                               if (mario.getX() < 45 && mario.getX() > -55) {
-                                  gaucheMario(79.72, -0.06, 2);
+                                  gaucheMario(2);
 
                               }
                           }
                           else {
                               if (mario.getY() >= 96.94 + compensationPoutre && mario.getY() <= 103.6 + compensationPoutre) { //Si Mario sur poutre +3 - OK
                                   if (mario.getX() < 55 && mario.getX() > -45) {
-                                      gaucheMario(99.69, 0.06, 3);
+                                      gaucheMario(3);
 
                                   }
                               }
                               else {
                                   if (mario.getY() >= 120.0 + compensationPoutre && mario.getY() <= 122.0 + compensationPoutre) { //Si Mario sur poutre victoire - OK
                                       if (mario.getX() < 15 && mario.getX() > -35) {
-                                          gaucheMario(120.0, 1.00, 4);
+                                          gaucheMario(4);
 
                                       }
                                   }
@@ -948,47 +954,47 @@ static void reshape(int tx, int ty) {
               if (mario.getX() < 45 && mario.getX() > -55) {
                   printf("X MARIO :%f\n", mario.getX());
                   printf("Y MARIO :%f\n", mario.getY());
-                  droiteMario(0.0, -0.06, -2);
+                  droiteMario(-2);
               }
           }
           else {
               if (mario.getY() >= 16.94 + compensationPoutre && mario.getY() <= 26.0 + compensationPoutre) { //Si Mario sur poutre -1 - OK
                   if (mario.getX() < 55 && mario.getX() > -45) {
-                      droiteMario(19.69, 0.06, -1);
+                      droiteMario(-1);
                   }
               }
               else {
                   if (mario.getY() >= 35.0 + compensationPoutre && mario.getY() <= 45.0 + compensationPoutre) { //Si Mario sur poutre 0 - OK
                       if (mario.getX() <= 45 && mario.getX() > -55) {
-                          droiteMario(39.72, -0.06, 0);
+                          droiteMario(0);
 
                       }
                   }
                   else {
                       if (mario.getY() >= 54.0 + compensationPoutre && mario.getY() <= 66.0 + compensationPoutre) { //Si Mario sur poutre +1 - OK
                           if (mario.getX() < 55 && mario.getX() > -45) {
-                              droiteMario(59.69, 0.06, 1);
+                              droiteMario(1);
 
                           }
                       }
                       else {
                           if (mario.getY() >= 75.0 + compensationPoutre && mario.getY() <= 85.0 + compensationPoutre) { //Si Mario sur poutre +2 - OK
                               if (mario.getX() < 45 && mario.getX() > -55) {
-                                  droiteMario(79.72, -0.06, 2);
+                                  droiteMario(2);
 
                               }
                           }
                           else {
                               if (mario.getY() >= 94.0 + compensationPoutre && mario.getY() <= 106.0 + compensationPoutre) { //Si Mario sur poutre +3 - OK
                                   if (mario.getX() < 55 && mario.getX() > -45) {
-                                      droiteMario(99.69, 0.06, 3);
+                                      droiteMario(3);
 
                                   }
                               }
                               else {
                                   if (mario.getY() >= 120.0 + compensationPoutre && mario.getY() <= 125.0 + compensationPoutre) { //Si Mario sur poutre victoire - OK
                                       if (mario.getX() < 15 && mario.getX() > -35) {
-                                          droiteMario(120, 0.00, 4);
+                                          droiteMario(4);
 
                                       }
                                   }
