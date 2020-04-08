@@ -86,7 +86,7 @@ float zDonkeyKong = 0.0;
 
 //TONNEAU
 float xTonneauBegin = -45.0;
-float yTonneauBegin = 82.0+ 2 *compensationPoutre;
+float yTonneauBegin = 82.0 + 2 *compensationPoutre;
 float zTonneauBegin = -largeurPoutre/3;
 int nbTonneau = 0;
 float tabTonneau[100][100];
@@ -1109,6 +1109,7 @@ static void ajoutTonneau(int value) {
 	nbTonneau++;
 	glutTimerFunc(5000, ajoutTonneau, 0);
 }
+
 int main(int argc, char** argv) {
 
     glutInit(&argc, argv);
