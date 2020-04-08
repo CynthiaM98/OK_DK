@@ -1049,40 +1049,41 @@ static void mouvementTonneau(float ordoOrigine, float coefDir, float distance, i
 
 void updateTonneau(int value) {
 	float supprimerTonneau = -1;
+	float vitesseTonneau = longueurPas / 2;
 	for (int i = 0; i < nbTonneau; ++i) {
 		if (tabTonneau[i][1] >= -3.0 + 2 * compensationPoutre && tabTonneau[i][1] <= 2.8 + 2 * compensationPoutre) { //Si Mario sur poutre -2 - OK
 			if (tabTonneau[i][0] - longueurPas < 55 && tabTonneau[i][0] + longueurPas>-55) {
-				mouvementTonneau(0, -0.06, longueurPas,i);
+				mouvementTonneau(0, -0.06, vitesseTonneau,i);
 			}
 		}
 		else {
 			if (tabTonneau[i][1] >= 16.2 + 2 * compensationPoutre && tabTonneau[i][1] <= 23.0 + 2 * compensationPoutre) { //Si Mario sur poutre -1 - OK
 				if (tabTonneau[i][0] - longueurPas < 56 && tabTonneau[i][0] + longueurPas> -50) {
-					mouvementTonneau(19.69, 0.06, -longueurPas, i);
+					mouvementTonneau(19.69, 0.06, -vitesseTonneau, i);
 				}
 			}
 			else {
 				if (tabTonneau[i][1] >= 35.2 + 2 * compensationPoutre && tabTonneau[i][1] <= 42.8 + 2 * compensationPoutre) { //Si Mario sur poutre 0 - OK
 					if (tabTonneau[i][0] - longueurPas < 55 && tabTonneau[i][0] + longueurPas > -55) {
-						mouvementTonneau(39.72, -0.06, longueurPas, i);
+						mouvementTonneau(39.72, -0.06, vitesseTonneau, i);
 					}
 				}
 				else {
 					if (tabTonneau[i][1] >= 55 + 2 * compensationPoutre && tabTonneau[i][1] <= 63.06 + 2 * compensationPoutre) { //Si Mario sur poutre +1 - OK
 						if (tabTonneau[i][0] - longueurPas < 56 && tabTonneau[i][0] + longueurPas > -50) {
-							mouvementTonneau(59.69, 0.06, -longueurPas, i);
+							mouvementTonneau(59.69, 0.06, -vitesseTonneau, i);
 						}
 					}
 					else {
 						if (tabTonneau[i][1] >= 75 + 2 * compensationPoutre && tabTonneau[i][1] <= 82.8 + 2 * compensationPoutre) { //Si Mario sur poutre +2 - OK
 							if (tabTonneau[i][0] - longueurPas < 55 && tabTonneau[i][0] + longueurPas > -55) {
-								mouvementTonneau(79.72, -0.06, longueurPas, i);
+								mouvementTonneau(79.72, -0.06, vitesseTonneau, i);
 							}
 						}
 						else {
 							if (tabTonneau[i][1] >= 96.94 + 2 * compensationPoutre && tabTonneau[i][1] <= 103.6 + 2 * compensationPoutre) { //Si Mario sur poutre +3 - OK
 								if (tabTonneau[i][0] - longueurPas < 55 && tabTonneau[i][0] + longueurPas > -45) {
-									mouvementTonneau(99.69, 0.06, -longueurPas, i);
+									mouvementTonneau(99.69, 0.06, -vitesseTonneau, i);
 								}
 							}
 							else {
