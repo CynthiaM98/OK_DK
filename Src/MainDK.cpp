@@ -813,9 +813,9 @@ static void reshape(int tx, int ty) {
           break;
 
       case 122: case 90://faire monter Mario avec Z ou z
-          printf("MARIO HAUT\n");
-          printf("X MARIO :%f\n", mario.getX());
-          printf("Y MARIO :%f\n", mario.getY());
+         // printf("MARIO HAUT\n");
+         // printf("X MARIO :%f\n", mario.getX());
+          //printf("Y MARIO :%f\n", mario.getY());
           do {
               //on récupère les coordonnées des 4 coins de la zone échelle
               float tempSupGauche[2] = { listeDesEchelles[index1][0][0],listeDesEchelles[index1][0][1] };
@@ -823,17 +823,17 @@ static void reshape(int tx, int ty) {
               float tempInfGauche[2] = { listeDesEchelles[index1][2][0],listeDesEchelles[index1][2][1] };
               float tempInfDroit[2] = { listeDesEchelles[index1][3][0],listeDesEchelles[index1][3][1] };
 
-              printf("-------------------------------------------\n");
-              printf("ON CHECK SI MARIO A UN X ENTRE %f ET %f \n", tempSupGauche[0], tempSupDroit[0]);
+              // printf("-------------------------------------------\n");
+              // printf("ON CHECK SI MARIO A UN X ENTRE %f ET %f \n", tempSupGauche[0], tempSupDroit[0]);
               bool tempB = mario.getX() < tempSupDroit[0] && mario.getX() > tempSupGauche[0];
-              printf("%s\n", tempB ? "OUI" : "NON");
-              printf("ON CHECK SI MARIO A UN Y ENTRE %f ET %f \n", tempInfGauche[1], tempSupGauche[1]);
+              //printf("%s\n", tempB ? "OUI" : "NON");
+              // printf("ON CHECK SI MARIO A UN Y ENTRE %f ET %f \n", tempInfGauche[1], tempSupGauche[1]);
               bool tempB2 = mario.getY() + mario.getTaille() * 0.25 >= tempInfDroit[1] && mario.getY() + mario.getTaille() * 0.25 <= tempSupGauche[1];
-              printf("%s\n", tempB2 ? "OUI" : "NON");
-              printf("-------------------------------------------\n");
+              // printf("%s\n", tempB2 ? "OUI" : "NON");
+              // printf("-------------------------------------------\n");
               //on check si Mario est dans cette zone
               if (tempB && tempB2) {
-                  printf("OUI\n");
+                  //    printf("OUI\n");
                   trouveHaut = true;
               }
               index1++;
@@ -850,9 +850,9 @@ static void reshape(int tx, int ty) {
           break;
 
       case 115: case 83://faire descendre Mario avec S ou s
-          printf("MARIO BAS\n");
-          printf("X MARIO :%f\n", mario.getX());
-          printf("Y MARIO :%f\n", mario.getY());
+         // printf("MARIO BAS\n");
+         // printf("X MARIO :%f\n", mario.getX());
+         // printf("Y MARIO :%f\n", mario.getY());
           do {
               //on récupère les coordonnées des 4 coins de la zone échelle
               float tempSupGauche[2] = { listeDesEchelles[index1][0][0],listeDesEchelles[index1][0][1] };
@@ -860,17 +860,17 @@ static void reshape(int tx, int ty) {
               float tempInfGauche[2] = { listeDesEchelles[index1][2][0],listeDesEchelles[index1][2][1] };
               float tempInfDroit[2] = { listeDesEchelles[index1][3][0],listeDesEchelles[index1][3][1] };
 
-              printf("-------------------------------------------\n");
-              printf("ON CHECK SI MARIO A UN X ENTRE %f ET %f \n", tempSupGauche[0], tempSupDroit[0]);
+              //printf("-------------------------------------------\n");
+              //printf("ON CHECK SI MARIO A UN X ENTRE %f ET %f \n", tempSupGauche[0], tempSupDroit[0]);
               bool tempB = mario.getX() < tempSupDroit[0] && mario.getX() > tempSupGauche[0];
-              printf("%s\n", tempB ? "OUI" : "NON");
-              printf("ON CHECK SI MARIO A UN Y ENTRE %f ET %f \n", tempInfGauche[1], tempSupGauche[1]);
+              // printf("%s\n", tempB ? "OUI" : "NON");
+             // printf("ON CHECK SI MARIO A UN Y ENTRE %f ET %f \n", tempInfGauche[1], tempSupGauche[1]);
               bool tempB2 = mario.getY() + mario.getTaille() * 0.25 >= tempInfDroit[1] && mario.getY() + mario.getTaille() * 0.25 <= tempSupGauche[1];
-              printf("%s\n", tempB2 ? "OUI" : "NON");
-              printf("-------------------------------------------\n");
+              //printf("%s\n", tempB2 ? "OUI" : "NON");
+              //printf("-------------------------------------------\n");
               //on check si Mario est dans cette zone
               if (tempB && tempB2) {
-                  printf("OUI\n");
+                  // printf("OUI\n");
                   trouveHaut = true;
               }
               index1++;
