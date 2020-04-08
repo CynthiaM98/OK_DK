@@ -62,6 +62,7 @@ const int nombrePoutre = 7;
 
 //MARIO
 float initXMario = 5.0;
+//float initYMario = 120+ compensationPoutre;
 float initYMario = (-0.06 * initXMario) + compensationPoutre;
 float initZMario = -1.0;
 float longueurPas = 0.5F;
@@ -737,7 +738,7 @@ static void reshape(int tx, int ty) {
               mario.setY((listePoutre[indice][4] + listePoutre[indice][5] * mario.getX()) + compensationPoutre);
           }
           break;
-      case 4:
+      case 4: //on ne peux pas tomber mais on gagne si mario arrive dans la zone de peach
           break;
       default:
           break;
@@ -783,9 +784,13 @@ static void reshape(int tx, int ty) {
           }
           break;
       case 4:
+          int indice = poutre + 1;
+          if (mario.getX() >= 15) {
+              mario.setX(15.0);
+              mario.setY((listePoutre[indice][4] + listePoutre[indice][5] * mario.getX()) + compensationPoutre);
+          }
           break;
-      default:
-          break;
+
       }
   }
 
