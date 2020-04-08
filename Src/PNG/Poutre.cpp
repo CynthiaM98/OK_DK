@@ -5,14 +5,15 @@ float hauteur = 0.5F;
 float longueur = 100.0F;
 
 GLfloat couleur_poutres[] = { 2.50,2.4,1.45F,1.0F };
-
-Poutre::Poutre(float id, float yCentre, float xG, float xD, float ordoOrigine, float coefDir) {
+Poutre::Poutre(float id, float yCentre, float xCentre, float xG, float xD, float ordoOrigine, float coefDir,float angle) {
 	this->id = id;
 	this->yCentre = yCentre;
+	this->xCentre = xCentre;
 	this->xG = xG;
 	this->xD = xD;
 	this->ordoOrigine = ordoOrigine;
 	this->coefDir = coefDir;
+	this->angle = angle;
 }
 
 float Poutre::getId() {
@@ -21,6 +22,11 @@ float Poutre::getId() {
 
 float Poutre::getYCentre() {
 	return this->yCentre;
+}
+
+
+float Poutre::getXCentre() {
+	return this->xCentre;
 }
 
 float Poutre::getXG() {
@@ -37,6 +43,10 @@ float Poutre::getOrdoOrigine() {
 
 float Poutre::getCoefDir() {
 	return this->coefDir;
+}
+
+float Poutre::getAngle() {
+	return this->angle;
 }
 
 
@@ -120,59 +130,18 @@ void Poutre::poutreDK(float largeurPlateforme, float longueurPlateforme, float h
 
 }
 
-void Poutre::placementPoutres() {
+void Poutre::dessinerPoutre(bool isTheLastPoutre) {
 	glPushMatrix();
-
 	glMaterialfv(GL_FRONT, GL_DIFFUSE, couleur_poutres);
-	glPushMatrix(); //poutre victoire
-	glTranslatef(-10.0, 6 * 20.0, 0.0);
+	glTranslatef(this->xCentre, this->yCentre, 0.0);
 	glRotatef(90.0, 0.0, 1.0, 0.0);
-	glRotatef(0.0, 1.0, 0.0, 0.0);
-	poutreDK(largeur, longueur / 2, hauteur);
+	glRotatef(this->angle, 1.0, 0.0, 0.0);
+	if (isTheLastPoutre) {
+		poutreDK(largeur, longueur/2, hauteur);
+	}
+	else {
+		poutreDK(largeur, longueur, hauteur);
+	}
 	glPopMatrix();
-
-	glPushMatrix(); //poutre etage +3
-	glTranslatef(5.0, 5 * 20.0, 0.0);
-	glRotatef(90.0, 0.0, 1.0, 0.0);
-	glRotatef(-3.5, 1.0, 0.0, 0.0);
-	poutreDK(largeur, longueur, hauteur);
-	glPopMatrix();
-
-	glPushMatrix(); //poutre etage +2
-	glTranslatef(-5.0, 4 * 20.0, 0.0);
-	glRotatef(90.0, 0.0, 1.0, 0.0);
-	glRotatef(3.2, 1.0, 0.0, 0.0);
-	poutreDK(largeur, longueur, hauteur);
-	glPopMatrix();
-
-	glPushMatrix(); //poutre etage +1
-	glTranslatef(5.0, 3 * 20.0, 0.0);
-	glRotatef(90.0, 0.0, 1.0, 0.0);
-	glRotatef(-3.5, 1.0, 0.0, 0.0);
-	poutreDK(largeur, longueur, hauteur);
-	glPopMatrix();
-
-	glPushMatrix(); //poutre centrale
-	glTranslatef(-5.0, 2 * 20.0, 0.0);
-	glRotatef(90.0, 0.0, 1.0, 0.0);
-	glRotatef(3.2, 1.0, 0.0, 0.0);
-	poutreDK(largeur, longueur, hauteur);
-	glPopMatrix();
-
-	glPushMatrix(); //poutre etage -1
-	glTranslatef(5.0, 1 * 20.0, 0.0);
-	glRotatef(90.0, 0.0, 1.0, 0.0);
-	glRotatef(-3.5, 1.0, 0.0, 0.0);
-	poutreDK(largeur, longueur, hauteur);
-	glPopMatrix();
-
-	glPushMatrix(); //poutre etage -2
-	glTranslatef(-5.0, 0 * 20.0, 0.0);
-	glRotatef(90.0, 0.0, 1.0, 0.0);
-	glRotatef(3.2, 1.0, 0.0, 0.0);
-	poutreDK(largeur, longueur, hauteur);
-	glPopMatrix();
-
-	glPopMatrix();
-
 }
+
