@@ -900,8 +900,8 @@ static void reshape(int tx, int ty) {
 
           if (mario.getY() >= -2.8 + compensationPoutre && mario.getY() <= 5.0 + compensationPoutre) { //Si Mario sur poutre -2 - OK
               if (mario.getX() < 45 && mario.getX() > -55) {
-                  printf("X MARIO :%f\n", mario.getX());
-                  printf("Y MARIO :%f\n", mario.getY());
+                  //printf("X MARIO :%f\n", mario.getX());
+                  //printf("Y MARIO :%f\n", mario.getY());
                   gaucheMario (-2);
               }
           }
@@ -955,8 +955,8 @@ static void reshape(int tx, int ty) {
 
           if (mario.getY() >= -2.8 + compensationPoutre && mario.getY() <= 5.0 + compensationPoutre) { //Si Mario sur poutre -2 - OK
               if (mario.getX() < 45 && mario.getX() > -55) {
-                  printf("X MARIO :%f\n", mario.getX());
-                  printf("Y MARIO :%f\n", mario.getY());
+                  //printf("X MARIO :%f\n", mario.getX());
+                  //printf("Y MARIO :%f\n", mario.getY());
                   droiteMario(-2);
               }
           }
@@ -1087,8 +1087,8 @@ void updateTonneau(int value) {
 							else {
 								if (tabTonneau[i][1] >= 120.0 + 2 * compensationPoutre && tabTonneau[i][1] <= 122.0 + 2 * compensationPoutre) { //Si Mario sur poutre victoire - OK
 									if (tabTonneau[i][0] - longueurPas < 15 && tabTonneau[i][0] + longueurPas > -35) {
-										printf("X Tonneau :%f\n", tabTonneau[i][0]);
-										printf("Y Tonneau :%f\n", tabTonneau[i][1]);
+                                        //printf("X Tonneau :%f\n", tabTonneau[i][0]);
+                                        //printf("Y Tonneau :%f\n", tabTonneau[i][1]);
 									}
 								}
 							}
