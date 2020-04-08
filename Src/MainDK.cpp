@@ -99,10 +99,10 @@ float listeDesEchelles[nombreEchelle][4][2] = { //{{x,y}coinSupGauche,{x,y}coinS
     
     
     {
-        {1.0 - demieLargeurEchelle,110.0 + demieHauteurEchelle},
-        {1.0 + demieLargeurEchelle,110.0 + demieHauteurEchelle},
+        {1.0 - demieLargeurEchelle,110.0 + demieHauteurEchelle + mario.getTaille() * 0.125},
+        {1.0 + demieLargeurEchelle,110.0 + demieHauteurEchelle + mario.getTaille() * 0.125},
         {1.0 - demieLargeurEchelle,110.0 - demieHauteurEchelle},
-        {1.0 + demieLargeurEchelle,110.0 - demieHauteurEchelle}  //echelle 3 -> -4
+        {1.0 + demieLargeurEchelle,110.0 - demieHauteurEchelle}  //echelle 3 -> 4
     },
     {  
         {-25.0 - demieLargeurEchelle,90.0 + demieHauteurEchelle},
@@ -825,9 +825,9 @@ static void reshape(int tx, int ty) {
           break;
 
       case 122: case 90://faire monter Mario avec Z ou z
-         // printf("MARIO HAUT\n");
+          //printf("MARIO HAUT\n");
          // printf("X MARIO :%f\n", mario.getX());
-          //printf("Y MARIO :%f\n", mario.getY());
+         // printf("Y MARIO :%f\n", mario.getY());
           do {
               //on récupère les coordonnées des 4 coins de la zone échelle
               float tempSupGauche[2] = { listeDesEchelles[index1][0][0],listeDesEchelles[index1][0][1] };
@@ -838,14 +838,14 @@ static void reshape(int tx, int ty) {
               // printf("-------------------------------------------\n");
               // printf("ON CHECK SI MARIO A UN X ENTRE %f ET %f \n", tempSupGauche[0], tempSupDroit[0]);
               bool tempB = mario.getX() < tempSupDroit[0] && mario.getX() > tempSupGauche[0];
-              //printf("%s\n", tempB ? "OUI" : "NON");
+              // printf("%s\n", tempB ? "OUI" : "NON");
               // printf("ON CHECK SI MARIO A UN Y ENTRE %f ET %f \n", tempInfGauche[1], tempSupGauche[1]);
               bool tempB2 = mario.getY() + mario.getTaille() * 0.25 >= tempInfDroit[1] && mario.getY() + mario.getTaille() * 0.25 <= tempSupGauche[1];
-              // printf("%s\n", tempB2 ? "OUI" : "NON");
-              // printf("-------------------------------------------\n");
+              //  printf("%s\n", tempB2 ? "OUI" : "NON");
+               //  printf("-------------------------------------------\n");
               //on check si Mario est dans cette zone
               if (tempB && tempB2) {
-                  //    printf("OUI\n");
+                  //  printf("OUI\n");
                   trouveHaut = true;
               }
               index1++;
@@ -863,7 +863,7 @@ static void reshape(int tx, int ty) {
 
       case 115: case 83://faire descendre Mario avec S ou s
          // printf("MARIO BAS\n");
-         // printf("X MARIO :%f\n", mario.getX());
+          //printf("X MARIO :%f\n", mario.getX());
          // printf("Y MARIO :%f\n", mario.getY());
           do {
               //on récupère les coordonnées des 4 coins de la zone échelle
@@ -872,17 +872,17 @@ static void reshape(int tx, int ty) {
               float tempInfGauche[2] = { listeDesEchelles[index1][2][0],listeDesEchelles[index1][2][1] };
               float tempInfDroit[2] = { listeDesEchelles[index1][3][0],listeDesEchelles[index1][3][1] };
 
-              //printf("-------------------------------------------\n");
+              // printf("-------------------------------------------\n");
               //printf("ON CHECK SI MARIO A UN X ENTRE %f ET %f \n", tempSupGauche[0], tempSupDroit[0]);
               bool tempB = mario.getX() < tempSupDroit[0] && mario.getX() > tempSupGauche[0];
               // printf("%s\n", tempB ? "OUI" : "NON");
-             // printf("ON CHECK SI MARIO A UN Y ENTRE %f ET %f \n", tempInfGauche[1], tempSupGauche[1]);
-              bool tempB2 = mario.getY() + mario.getTaille() * 0.25 >= tempInfDroit[1] && mario.getY() + mario.getTaille() * 0.25 <= tempSupGauche[1];
+               //printf("ON CHECK SI MARIO A UN Y ENTRE %f ET %f \n", tempInfGauche[1], tempSupGauche[1]);
+              bool tempB2 = mario.getY() - mario.getTaille() * 0.25 >= tempInfDroit[1] && mario.getY() - mario.getTaille()*0.25 <= tempSupDroit[1];
               //printf("%s\n", tempB2 ? "OUI" : "NON");
               //printf("-------------------------------------------\n");
               //on check si Mario est dans cette zone
               if (tempB && tempB2) {
-                  // printf("OUI\n");
+                  //printf("OUI\n");
                   trouveHaut = true;
               }
               index1++;
@@ -918,36 +918,30 @@ static void reshape(int tx, int ty) {
                   if (mario.getY() >= 37.2 + compensationPoutre && mario.getY() <= 45.0 + compensationPoutre) { //Si Mario sur poutre 0 - OK
                       if (mario.getX() < 45 && mario.getX() > -55) {
                           gaucheMario(0);
-
                       }
                   }
                   else {
                       if (mario.getY() >= 56.94 + compensationPoutre && mario.getY() <= 66.0 + compensationPoutre) { //Si Mario sur poutre +1 - OK
                           if (mario.getX() < 55 && mario.getX() > -45) {
                               gaucheMario(1);
-
-
                           }
                       }
                       else {
                           if (mario.getY() >= 77.2 + compensationPoutre && mario.getY() <= 85.0 + compensationPoutre) { //Si Mario sur poutre +2 - OK
                               if (mario.getX() < 45 && mario.getX() > -55) {
                                   gaucheMario(2);
-
                               }
                           }
                           else {
                               if (mario.getY() >= 96.94 + compensationPoutre && mario.getY() <= 103.6 + compensationPoutre) { //Si Mario sur poutre +3 - OK
                                   if (mario.getX() < 55 && mario.getX() > -45) {
                                       gaucheMario(3);
-
                                   }
                               }
                               else {
-                                  if (mario.getY() >= 120.0 + compensationPoutre && mario.getY() <= 122.0 + compensationPoutre) { //Si Mario sur poutre victoire - OK
+                                  if (mario.getY() >= 119.0 + compensationPoutre && mario.getY() <= 122.0 + compensationPoutre) { //Si Mario sur poutre victoire - OK
                                       if (mario.getX() < 15 && mario.getX() > -35) {
                                           gaucheMario(4);
-
                                       }
                                   }
                               }
@@ -1004,7 +998,7 @@ static void reshape(int tx, int ty) {
                                   }
                               }
                               else {
-                                  if (mario.getY() >= 120.0 + compensationPoutre && mario.getY() <= 125.0 + compensationPoutre) { //Si Mario sur poutre victoire - OK
+                                  if (mario.getY() >= 119.0 + compensationPoutre && mario.getY() <= 125.0 + compensationPoutre) { //Si Mario sur poutre victoire - OK
                                       if (mario.getX() < 15 && mario.getX() > -35) {
                                           droiteMario(4);
 
