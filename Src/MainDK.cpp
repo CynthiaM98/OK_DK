@@ -423,7 +423,7 @@ static void tonneau(float xTonneau, float yTonneau, float zTonneau) {
     glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, couleur_tonneaux);
     float n;
     glPushMatrix();
-    glTranslatef(xTonneau, yTonneau, zTonneau); //face arrière
+    glTranslatef(xTonneau, yTonneau+4*compensationPoutre, zTonneau); //face arrière
     glPushMatrix();
     glBindTexture(GL_TEXTURE_2D, textureID[0]);
     glPushMatrix();
@@ -434,7 +434,6 @@ static void tonneau(float xTonneau, float yTonneau, float zTonneau) {
     }
     glEnd();
     glPopMatrix();
-    glTranslatef(0.0, 0.0, largeurPoutre); //face arrière
 	glTranslatef(0.0, 0.0, largeurPoutre* 0.75);//face avant
 	glRotatef(180.0, 0.0, 1.0, 0.0);
     glBegin(GL_POLYGON);
