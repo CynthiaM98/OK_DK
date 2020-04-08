@@ -1005,7 +1005,7 @@ static void ajoutTonneau(int value) {
 	glutTimerFunc(5000, ajoutTonneau, 0);
 }
 
-int main(int argc, char** argv) {
+int main(int argc, char* argv[]) {
 
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH | GLUT_DOUBLE);
