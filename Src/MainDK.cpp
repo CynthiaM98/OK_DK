@@ -1020,6 +1020,7 @@ void updateTonneau(int value) {
 				}
 			}
 		}
+		//Descendre échelles cassees
 		if (!descendreEchelle) {
 			for (int j = 0; j < nombreEchelleCassee; ++j) {
 				float tempSupGauche[2] = { listeDesEchellesCassees[j][0][0],listeDesEchellesCassees[j][0][1] };
@@ -1043,43 +1044,43 @@ void updateTonneau(int value) {
 		}
 		if (!descendreEchelle && !descendreEchelleCassees) {
 			tabTonneau[i][2] = 0;
-			if (tabTonneau[i][1] >= -3.0 + 2 * compensationPoutre && tabTonneau[i][1] <= 2.8 + 2 * compensationPoutre) { //Si Mario sur poutre -2 - OK
+			if (tabTonneau[i][1] >= -3.0 + 2 * compensationPoutre && tabTonneau[i][1] <= 2.8 + 2 * compensationPoutre) {
 				if (tabTonneau[i][0] - longueurPas < 55 && tabTonneau[i][0] + longueurPas>-55) {
 					mouvementTonneau(0, -0.06, vitesseTonneau, i);
 				}
 			}
 			else {
-				if (tabTonneau[i][1] >= 16.2 + 2 * compensationPoutre && tabTonneau[i][1] <= 23.0 + 2 * compensationPoutre) { //Si Mario sur poutre -1 - OK
+				if (tabTonneau[i][1] >= 16.2 + 2 * compensationPoutre && tabTonneau[i][1] <= 23.0 + 2 * compensationPoutre) {
 					if (tabTonneau[i][0] - longueurPas < 56 && tabTonneau[i][0] + longueurPas> -50) {
 						mouvementTonneau(19.69, 0.06, -vitesseTonneau, i);
 					}
 				}
 				else {
-					if (tabTonneau[i][1] >= 36.0 + 2 * compensationPoutre && tabTonneau[i][1] <= 42.8 + 2 * compensationPoutre) { //Si Mario sur poutre 0 - OK
+					if (tabTonneau[i][1] >= 36.0 + 2 * compensationPoutre && tabTonneau[i][1] <= 42.8 + 2 * compensationPoutre) {
 						if (tabTonneau[i][0] - longueurPas < 50 && tabTonneau[i][0] + longueurPas > -55) {
 							mouvementTonneau(39.72, -0.06, vitesseTonneau, i);
 						}
 					}
 					else {
-						if (tabTonneau[i][1] >= 55 + 2 * compensationPoutre && tabTonneau[i][1] <= 63.06 + 2 * compensationPoutre) { //Si Mario sur poutre +1 - OK
+						if (tabTonneau[i][1] >= 55 + 2 * compensationPoutre && tabTonneau[i][1] <= 63.06 + 2 * compensationPoutre) {
 							if (tabTonneau[i][0] - longueurPas < 56 && tabTonneau[i][0] + longueurPas > -50) {
 								mouvementTonneau(59.69, 0.06, -vitesseTonneau, i);
 							}
 						}
 						else {
-							if (tabTonneau[i][1] >= 75 + 2 * compensationPoutre && tabTonneau[i][1] <= 82.8 + 2 * compensationPoutre) { //Si Mario sur poutre +2 - OK
+							if (tabTonneau[i][1] >= 75 + 2 * compensationPoutre && tabTonneau[i][1] <= 82.8 + 2 * compensationPoutre) {
 								if (tabTonneau[i][0] - longueurPas < 50 && tabTonneau[i][0] + longueurPas > -55) {
 									mouvementTonneau(79.72, -0.06, vitesseTonneau, i);
 								}
 							}
 							else {
-								if (tabTonneau[i][1] >= 96.94 + 2 * compensationPoutre && tabTonneau[i][1] <= 103.6 + 2 * compensationPoutre) { //Si Mario sur poutre +3 - OK
+								if (tabTonneau[i][1] >= 96.94 + 2 * compensationPoutre && tabTonneau[i][1] <= 103.6 + 2 * compensationPoutre) {
 									if (tabTonneau[i][0] - longueurPas < 55 && tabTonneau[i][0] + longueurPas > -45) {
 										mouvementTonneau(99.69, 0.06, -vitesseTonneau, i);
 									}
 								}
 								else {
-									if (tabTonneau[i][1] >= 120.0 + 2 * compensationPoutre && tabTonneau[i][1] <= 122.0 + 2 * compensationPoutre) { //Si Mario sur poutre victoire - OK
+									if (tabTonneau[i][1] >= 120.0 + 2 * compensationPoutre && tabTonneau[i][1] <= 122.0 + 2 * compensationPoutre) {
 										if (tabTonneau[i][0] - longueurPas < 15 && tabTonneau[i][0] + longueurPas > -35) {
 											//printf("X Tonneau :%f\n", tabTonneau[i][0]);
 											//printf("Y Tonneau :%f\n", tabTonneau[i][1]);
@@ -1108,7 +1109,7 @@ void updateTonneau(int value) {
 			else if (tabTonneau[i][1] <= -2.9 + 2 * compensationPoutre && tabTonneau[i][1] >= -1 + 2 * compensationPoutre) {
 				tabTonneau[i][1] -= longueurPas;
 			}
-			else if (tabTonneau[i][1] <= -30 + 2 * compensationPoutre) {//modif à 30 pour affichage propre
+			else if (tabTonneau[i][1] <= -30 + 2 * compensationPoutre) {
 				supprimerTonneau = i;
 			}
 		}
@@ -1152,7 +1153,6 @@ int main(int argc, char* argv[]) {
     glutDisplayFunc(display);
     glutTimerFunc(5, ajoutTonneau, 0);
     glutTimerFunc(100, updateTonneau, 0);
-
     glutMainLoop();
     return(0);
 }
