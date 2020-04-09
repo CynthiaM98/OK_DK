@@ -7,6 +7,7 @@
 #include <GL/glu.h>
 #include <math.h>
 #include <iostream>
+#include <string>
 
 #include "PNG/ChargePngFile.h"
 #include "PNG/Perso.h"
@@ -45,7 +46,7 @@ static int lumiere = 0;
 
 int windowWidth = 1000;
 int windowHeight = 1000;
-
+int WindowDK;
 
 //POUTRES
 float largeurPoutre = 8.0F;
@@ -555,6 +556,74 @@ static void sceneJeu() {
     glPopMatrix();
 }
 
+static void sceneGameOver() {
+    glPushAttrib(GL_CURRENT_BIT);
+    glColor3f(1.0, 1.0, 1.0);
+    std::string textGO = "GAME OVER !!";
+    std::string pointilleGO = "------------";
+    glMatrixMode(GL_MODELVIEW);
+    glPushMatrix();
+    glLoadIdentity();
+
+    glMatrixMode(GL_PROJECTION);
+    glPushMatrix();
+    glLoadIdentity();
+    gluOrtho2D(0, windowWidth / 2, 0, windowHeight / 2);
+
+    glRasterPos2f(windowWidth * 0.20, windowHeight / 4);
+    for (int i = 0;i < textGO.length();i++) {
+        glutBitmapCharacter(GLUT_BITMAP_9_BY_15, textGO[i]);
+    }
+    glRasterPos2f(windowWidth * 0.20, windowHeight * 0.27);
+    for (int i = 0;i < pointilleGO.length();i++) {
+        glutBitmapCharacter(GLUT_BITMAP_9_BY_15, pointilleGO[i]);
+    }
+    glRasterPos2f(windowWidth * 0.20, windowHeight * 0.23);
+    for (int i = 0;i < pointilleGO.length();i++) {
+        glutBitmapCharacter(GLUT_BITMAP_9_BY_15, pointilleGO[i]);
+    }
+    glPopMatrix();
+    glMatrixMode(GL_MODELVIEW);
+    glPopMatrix();
+
+    glPopAttrib();
+}
+
+
+static void sceneVictory() {
+    glPushAttrib(GL_CURRENT_BIT);
+    glColor3f(1.0, 1.0, 1.0);
+    std::string textGO = "C'EST GAGNE !!";
+    std::string pointilleGO = "------------";
+    glMatrixMode(GL_MODELVIEW);
+    glPushMatrix();
+    glLoadIdentity();
+
+    glMatrixMode(GL_PROJECTION);
+    glPushMatrix();
+    glLoadIdentity();
+    gluOrtho2D(0, windowWidth / 2, 0, windowHeight / 2);
+
+    glRasterPos2f(windowWidth * 0.20, windowHeight / 4);
+    for (int i = 0;i < textGO.length();i++) {
+        glutBitmapCharacter(GLUT_BITMAP_9_BY_15, textGO[i]);
+    }
+    glRasterPos2f(windowWidth * 0.20, windowHeight * 0.27);
+    for (int i = 0;i < pointilleGO.length();i++) {
+        glutBitmapCharacter(GLUT_BITMAP_9_BY_15, pointilleGO[i]);
+    }
+    glRasterPos2f(windowWidth * 0.20, windowHeight * 0.23);
+    for (int i = 0;i < pointilleGO.length();i++) {
+        glutBitmapCharacter(GLUT_BITMAP_9_BY_15, pointilleGO[i]);
+    }
+    glPopMatrix();
+    glMatrixMode(GL_MODELVIEW);
+    glPopMatrix();
+
+    glPopAttrib();
+}
+
+
 static void display(void) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     const GLfloat light0_position[] = { 0.0,0.0,10.0,1.0 };
@@ -585,6 +654,37 @@ static void display(void) {
         printf("Erreur OpenGL: %d\n", error);
 }
 
+
+
+
+
+static void displayWGO(void) {
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    sceneGameOver();
+    glFlush();
+    glutSwapBuffers();
+    int error = glGetError();
+    if (error != GL_NO_ERROR)
+        printf("Erreur OpenGL: %d\n", error);
+
+}
+
+static void displayWVictoire(void) {
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    sceneVictory();
+    glFlush();
+    glutSwapBuffers();
+    int error = glGetError();
+    if (error != GL_NO_ERROR)
+        printf("Erreur OpenGL: %d\n", error);
+
+}
+
+
+
+
+
+
 static void reshape(int tx, int ty) {
     glViewport(0, 0, tx, ty);
     glMatrixMode(GL_PROJECTION);
@@ -597,6 +697,25 @@ static void reshape(int tx, int ty) {
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 }
+
+static void reshapeWGO(int tx, int ty) {
+    glViewport(0, 0, tx, ty);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glutReshapeWindow(windowWidth / 2, windowHeight / 2);
+    gluOrtho2D(-windowWidth / 4, windowWidth / 4, -windowHeight / 4, windowHeight / 4);
+}
+
+
+
+static void reshapeWVictoire(int tx, int ty) {
+    glViewport(0, 0, tx, ty);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glutReshapeWindow(windowWidth / 2, windowHeight / 2);
+    gluOrtho2D(-windowWidth / 4, windowWidth / 4, -windowHeight / 4, windowHeight / 4);
+}
+
 
 static void special(int key, int x, int y) {
     //printf("K  x=%d y=%d z=%d\n", px, py, pz);
@@ -639,6 +758,7 @@ static void tomber(int value) {
 	if (mario.getY() <= value) {
 		if (chute) {
 			gameover = true;
+            return;
 		}
 		sautEnCours = false;
 		return;
@@ -680,6 +800,12 @@ static void gaucheMario(int poutre) {
     case 4: 
         if (mario.getX() <= -25) {
             victoire = true;
+            glutDestroyWindow(WindowDK);
+            glutInitWindowSize(windowWidth / 2, windowHeight / 2);
+            glutInitWindowPosition(50, 50);
+            glutCreateWindow("DonkeyKong - VICTOIRE !"); //creer la fenetre de gameOver
+            glutReshapeFunc(reshapeWVictoire);
+            glutDisplayFunc(displayWVictoire);
         }
         break;
     default:
@@ -714,6 +840,7 @@ static void droiteMario(int poutre) {
         else {
             if (mario.getX() >= 40) { //gameover quand mario "marche" sur donkeyKong
                 gameover = true;
+                return;
             }
             else {
                 int indice = poutre + 2;
@@ -1158,8 +1285,9 @@ void updateTonneau(int value) {
 		//Collisions tonneaux
         if (tabTonneau[i][0] + 3.0 >= posXMario - largeurMario && tabTonneau[i][0] - 3.0 <= posXMario + largeurMario) {
 			if (tabTonneau[i][1] + largeurTonneau >= posYMario && tabTonneau[i][1] <= posYMario + hauteurMario) {
-				printf("Aie partout\n");
-				//gameover = true;
+				//printf("Aie partout\n");
+                //gameover = true;
+                return;
 			}
         }
     }
@@ -1171,7 +1299,7 @@ void updateTonneau(int value) {
     glutPostRedisplay();
     
     }
-    glutTimerFunc(50, updateTonneau, 0);
+    glutTimerFunc(25, updateTonneau, 0);
 }
 
 static void ajoutTonneau(int value) {
@@ -1180,14 +1308,52 @@ static void ajoutTonneau(int value) {
 		nbTonneau++;
 		glutTimerFunc(5000, ajoutTonneau, 0);
 	}
+    else {
+        if (gameover) {
+            glutDestroyWindow(WindowDK);
+            
+        }
+    }
 }
+
+
+static void printWVictoire(int value) {
+    if (victoire) {
+        victoire = false;
+        glutDestroyWindow(WindowDK);
+        glutInitWindowSize(windowWidth / 2, windowHeight / 2);
+        glutInitWindowPosition(50, 50);
+        glutCreateWindow("DonkeyKong - VICTOIRE !"); //creer la fenetre de gameOver
+        glutReshapeFunc(reshapeWVictoire);
+        glutDisplayFunc(displayWVictoire);   // Register display callback
+
+    }
+
+    glutTimerFunc(2, printWVictoire, value);
+}
+
+static void printWGameOver(int value) {
+    if (gameover) {
+        gameover = false;
+        glutDestroyWindow(WindowDK);
+        glutInitWindowSize(windowWidth / 2, windowHeight / 2);
+        glutInitWindowPosition(50, 50);
+        glutCreateWindow("DonkeyKong - GAME OVER !"); //creer la fenetre de gameOver
+        glutReshapeFunc(reshapeWGO);
+        glutDisplayFunc(displayWGO);   // Register display callback
+
+    }
+
+    glutTimerFunc(2, printWGameOver, value);
+}
+
 
 int main(int argc, char* argv[]) {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH | GLUT_DOUBLE);
     glutInitWindowSize(windowWidth, windowHeight);
     glutInitWindowPosition(50, 50);
-    glutCreateWindow("DonkeyKong");
+    WindowDK=glutCreateWindow("DonkeyKong");
     init();
     glutKeyboardFunc(keyboard);
     glutSpecialFunc(special);
@@ -1195,6 +1361,8 @@ int main(int argc, char* argv[]) {
     glutDisplayFunc(display);
     glutTimerFunc(5, ajoutTonneau, 0);
     glutTimerFunc(100, updateTonneau, 0);
+    glutTimerFunc(5, printWGameOver, 0);
+    glutTimerFunc(5, printWVictoire, 0);
     glutMainLoop();
     return(0);
 }
