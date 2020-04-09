@@ -197,7 +197,6 @@ GLfloat no_shininess[] = { 0.0F };
 GLfloat low_shininess[] = { 5.0F };
 GLfloat high_shininess[] = { 100.0F };
 GLfloat mat_emission[] = { 0.3F,0.2F,0.2F,0.0F };
-
 GLfloat couleur_echelles[] = { 0.1F,0.5F,0.8F,1.0F };
 GLfloat couleur_tonneaux[] = { 0.1F,0.5F,0.8F,1.0F };
 GLfloat couleur_princesse[] = { 5.5F,0.5F,5.5F,1.0F };
