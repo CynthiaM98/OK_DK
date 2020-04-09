@@ -649,8 +649,13 @@ static void droiteMario(int poutre) {
             gameover = true;
         }
         else {
-            int indice = poutre + 2;
-            mario.setY((listePoutre[indice].getOrdoOrigine() + listePoutre[indice].getCoefDir() * mario.getX()) + compensationPoutre);
+            if (mario.getX() >= 40) { //gameover quand mario "marche" sur donkeyKong
+                gameover = true;
+            }
+            else{
+                int indice = poutre + 2;
+                mario.setY((listePoutre[indice].getOrdoOrigine() + listePoutre[indice].getCoefDir() * mario.getX()) + compensationPoutre);
+            }
 
         }
         break;
