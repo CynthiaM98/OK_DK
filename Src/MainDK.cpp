@@ -350,16 +350,11 @@ static void tonneau(float xTonneau, float yTonneau, float zTonneau, bool echelle
     glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, couleur_tonneaux);
     float n;
     glPushMatrix();
-	if (echelle) {
-		glTranslatef(xTonneau - demieLargeurEchelle, yTonneau + 4 * compensationPoutre, zTonneau); //face arrière
-	}
-	else {
-		glTranslatef(xTonneau, yTonneau + 4 * compensationPoutre, zTonneau); //face arrière
-	}
+	glTranslatef(xTonneau, yTonneau + 4 * compensationPoutre, zTonneau); //face arrière
 	if (echelle) {
 		glRotatef(90.0, 0.0, 1.0, 0.0);
 	}
-	glPushMatrix();
+	
     //glBindTexture(GL_TEXTURE_2D, textureID[0]);
 	glPushMatrix();
     glBegin(GL_POLYGON);
@@ -369,6 +364,7 @@ static void tonneau(float xTonneau, float yTonneau, float zTonneau, bool echelle
     }
     glEnd();
     glPopMatrix();
+	glPushMatrix();
     glTranslatef(0.0, 0.0, largeurPoutre * 0.75);//face avant
     glRotatef(180.0, 0.0, 1.0, 0.0);
     glBegin(GL_POLYGON);
@@ -990,10 +986,10 @@ static void mouvementTonneau(float ordoOrigine, float coefDir, float distance, i
 
 void updateTonneau(int value) {
     if(!gameover && !pause && !victoire){
-    float hauteur = mario.getTaille();
+    float hauteurMario = mario.getTaille();
     float posXMario = mario.getX();
     float posYMario = mario.getY();
-    float longueurMario = hauteur / 6 * 0.75;
+    float largeurMario = hauteurMario / 6 * 0.75;
     float supprimerTonneau = -1;
     float vitesseTonneau = longueurPas *0.75;
 
@@ -1006,7 +1002,7 @@ void updateTonneau(int value) {
 			float tempSupDroit[2] = { listeDesEchelles[j][1][0],listeDesEchelles[j][1][1] };
 			float tempInfGauche[2] = { listeDesEchelles[j][2][0],listeDesEchelles[j][2][1] };
 			float tempInfDroit[2] = { listeDesEchelles[j][3][0],listeDesEchelles[j][3][1] };
-			bool tempX = tabTonneau[i][0] > tempSupGauche[0] + demieLargeurEchelle - vitesseTonneau && tabTonneau[i][0] < tempSupDroit[0] - demieLargeurEchelle + vitesseTonneau;
+			bool tempX = tabTonneau[i][0] > tempSupGauche[0] + demieLargeurEchelle/3 - vitesseTonneau && tabTonneau[i][0] < tempSupDroit[0] - demieLargeurEchelle - demieLargeurEchelle*2/3 + vitesseTonneau;
 			bool tempY = tabTonneau[i][1] <= tempSupGauche[1] + largeurTonneau && tabTonneau[i][1] >= tempInfGauche[1] + largeurTonneau * 2;
 			if (tempX && tempY) {
 				if (tabTonneau[i][2] == 0) {
@@ -1027,7 +1023,7 @@ void updateTonneau(int value) {
 				float tempSupDroit[2] = { listeDesEchellesCassees[j][1][0],listeDesEchellesCassees[j][1][1] };
 				float tempInfGauche[2] = { listeDesEchellesCassees[j][2][0],listeDesEchellesCassees[j][2][1] };
 				float tempInfDroit[2] = { listeDesEchellesCassees[j][3][0],listeDesEchellesCassees[j][3][1] };
-				bool tempX = tabTonneau[i][0] > tempSupGauche[0] + demieLargeurEchelle - vitesseTonneau && tabTonneau[i][0] < tempSupDroit[0] - demieLargeurEchelle + vitesseTonneau;
+				bool tempX = tabTonneau[i][0] >= tempSupGauche[0]  && tabTonneau[i][0] <= tempSupDroit[0] - largeurEchelle;
 				bool tempY = tabTonneau[i][1] <= tempSupGauche[1] + largeurTonneau && tabTonneau[i][1] >= tempInfGauche[1] + largeurTonneau * 2;
 				if (tempX && tempY) {
 					if (tabTonneau[i][2] == 0) {
@@ -1106,7 +1102,7 @@ void updateTonneau(int value) {
 			else if (tabTonneau[i][1] <= 17.0 + 2 * compensationPoutre && tabTonneau[i][1] >= 2.7 + 2 * compensationPoutre) {
 				tabTonneau[i][1] -= longueurPas;
 			}
-			else if (tabTonneau[i][1] <= -2.9 + 2 * compensationPoutre && tabTonneau[i][1] >= -1 + 2 * compensationPoutre) {
+			else if (tabTonneau[i][1] <= -2.9 + 2 * compensationPoutre && tabTonneau[i][1] >= -30 + 2 * compensationPoutre) {
 				tabTonneau[i][1] -= longueurPas;
 			}
 			else if (tabTonneau[i][1] <= -30 + 2 * compensationPoutre) {
@@ -1114,9 +1110,10 @@ void updateTonneau(int value) {
 			}
 		}
 
-        if (tabTonneau[i][0] + 3.0 >= posXMario - longueurMario && tabTonneau[i][0] - 3.0 <= posXMario +  longueurMario) {
-			if (tabTonneau[i][1] + 3.0 > posYMario && tabTonneau[i][1] - 3.0 < posYMario) {
-				printf("aie\n");
+		//Collisions tonneaux
+        if (tabTonneau[i][0] + 3.0 >= posXMario - largeurMario && tabTonneau[i][0] - 3.0 <= posXMario + largeurMario) {
+			if (tabTonneau[i][1] + largeurTonneau >= posYMario && tabTonneau[i][1] <= posYMario + hauteurMario) {
+				printf("Aie partout");
 				//gameover = true;
 			}
         }
