@@ -713,7 +713,7 @@ static void keyboard(unsigned char key, int x, int y) {
     printf(" Touche: %c = %d \n", key, key);
     switch (key) {
 
-    case 0x20: //mode fil de fer en appuyant sur la barre espace
+    case 109: case 77: //mode fil de fer en appuyant sur la touche m
         filDeFer = (filDeFer + 1) % 2;
         glutPostRedisplay();
         break;
@@ -726,6 +726,7 @@ static void keyboard(unsigned char key, int x, int y) {
     case 0x1B: //quitter en appuyant sur échap
         exit(0);
         break;
+    case 0x20 : //saut de mario avec la barre espace
 
     case 122: case 90://faire monter Mario avec Z ou z
         //printf("MARIO HAUT\n");
