@@ -1040,6 +1040,8 @@ void updateTonneau(int value) {
         }
 
         if (tabTonneau[i][0] + 3.0 >= posXMario - longueurMario && tabTonneau[i][0] - 3.0 <= posXMario +  longueurMario) {
+			printf("Pos y mario : %f\n", posYMario);
+			printf("Pos y tonneau : %f\n", tabTonneau[i][1]);
 			if (tabTonneau[i][1] + 3.0 > posYMario && tabTonneau[i][1] - 3.0 < posYMario) {
 				printf("aie\n");
 			}
@@ -1053,7 +1055,7 @@ void updateTonneau(int value) {
     glutPostRedisplay();
     
     }
-    glutTimerFunc(25, updateTonneau, 0);
+    glutTimerFunc(250, updateTonneau, 0);
 }
 
 static void ajoutTonneau(int value) {
