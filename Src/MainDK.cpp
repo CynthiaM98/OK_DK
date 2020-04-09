@@ -18,13 +18,13 @@
 static unsigned int textureID[1] = { 0 };
 
 
-static double px = 0.0;
-static double py = 60.0;
-static double pz = 10.0;
+static float px = 0.0;
+static float py = 60.0;
+static float pz = 10.0;
 
-static double initCamX = px;
-static double initCamY = py;
-static double initCamZ = pz;
+static float initCamX = px;
+static float initCamY = py;
+static float initCamZ = pz;
 
 static float rxs = 0.0;
 static float rys = 0.0;
@@ -108,40 +108,40 @@ float listeDesEchelles[nombreEchelle][4][2] = { //{{x,y}coinSupGauche,{x,y}coinS
 
 
     {
-        {1.0 - demieLargeurEchelle,110.0 + demieHauteurEchelle + mario.getTaille() * 0.125},
-        {1.0 + demieLargeurEchelle,110.0 + demieHauteurEchelle + mario.getTaille() * 0.125},
-        {1.0 - demieLargeurEchelle,110.0 - demieHauteurEchelle},
-        {1.0 + demieLargeurEchelle,110.0 - demieHauteurEchelle}  //echelle 3 -> 4
+        {1.0F - demieLargeurEchelle,110.0F + demieHauteurEchelle + mario.getTaille() * 0.125F},
+        {1.0F + demieLargeurEchelle,110.0F + demieHauteurEchelle + mario.getTaille() * 0.125F},
+        {1.0F - demieLargeurEchelle,110.0F - demieHauteurEchelle},
+        {1.0F + demieLargeurEchelle,110.0F - demieHauteurEchelle}  //echelle 3 -> 4
     },
     {
-        {-25.0 - demieLargeurEchelle,90.0 + demieHauteurEchelle},
-        {-25.0 + demieLargeurEchelle,90.0 + demieHauteurEchelle},
-        {-25.0 - demieLargeurEchelle,90.0 - demieHauteurEchelle},
-        {-25.0 + demieLargeurEchelle,90.0 - demieHauteurEchelle}  //echelle 2 -> 3
+        {-25.0F - demieLargeurEchelle,90.0F + demieHauteurEchelle},
+        {-25.0F + demieLargeurEchelle,90.0F + demieHauteurEchelle},
+        {-25.0F - demieLargeurEchelle,90.0F - demieHauteurEchelle},
+        {-25.0F + demieLargeurEchelle,90.0F - demieHauteurEchelle}  //echelle 2 -> 3
     },
     {
-        {15.0 - demieLargeurEchelle,70.0 + demieHauteurEchelle},
-        {15.0 + demieLargeurEchelle,70.0 + demieHauteurEchelle},
-        {15.0 - demieLargeurEchelle,70.0 - demieHauteurEchelle},
-        {15.0 + demieLargeurEchelle,70.0 - demieHauteurEchelle}  //echelle 1 -> 2
+        {15.0F - demieLargeurEchelle,70.0F + demieHauteurEchelle},
+        {15.0F + demieLargeurEchelle,70.0F + demieHauteurEchelle},
+        {15.0F - demieLargeurEchelle,70.0F - demieHauteurEchelle},
+        {15.0F + demieLargeurEchelle,70.0F - demieHauteurEchelle}  //echelle 1 -> 2
     },
     {
-        {-28.0 - demieLargeurEchelle,50.0 + demieHauteurEchelle},
-        {-28.0 + demieLargeurEchelle,50.0 + demieHauteurEchelle},
-        {-28.0 - demieLargeurEchelle,50.0 - demieHauteurEchelle},
-        {-28.0 + demieLargeurEchelle,50.0 - demieHauteurEchelle}  //echelle 0 -> 1
+        {-28.0F - demieLargeurEchelle,50.0F + demieHauteurEchelle},
+        {-28.0F + demieLargeurEchelle,50.0F + demieHauteurEchelle},
+        {-28.0F - demieLargeurEchelle,50.0F - demieHauteurEchelle},
+        {-28.0F + demieLargeurEchelle,50.0F - demieHauteurEchelle}  //echelle 0 -> 1
     },
     {
-        {10.0 - demieLargeurEchelle,30.0 + demieHauteurEchelle},
-        {10.0 + demieLargeurEchelle,30.0 + demieHauteurEchelle},
-        {10.0 - demieLargeurEchelle,30.0 - demieHauteurEchelle},
-        {10.0 + demieLargeurEchelle,30.0 - demieHauteurEchelle}  //echelle -1 -> 0
+        {10.0F - demieLargeurEchelle,30.0F + demieHauteurEchelle},
+        {10.0F + demieLargeurEchelle,30.0F + demieHauteurEchelle},
+        {10.0F - demieLargeurEchelle,30.0F - demieHauteurEchelle},
+        {10.0F + demieLargeurEchelle,30.0F - demieHauteurEchelle}  //echelle -1 -> 0
     },
     {
-        {-27.0 - demieLargeurEchelle,10.0 + demieHauteurEchelle},
-        {-27.0 + demieLargeurEchelle,10.0 + demieHauteurEchelle},
-        {-27.0 - demieLargeurEchelle,10.0 - demieHauteurEchelle},
-        {-27.0 + demieLargeurEchelle,10.0 - demieHauteurEchelle}  //echelle -2 -> -1
+        {-27.0F - demieLargeurEchelle,10.0F + demieHauteurEchelle},
+        {-27.0F + demieLargeurEchelle,10.0F + demieHauteurEchelle},
+        {-27.0F - demieLargeurEchelle,10.0F - demieHauteurEchelle},
+        {-27.0F + demieLargeurEchelle,10.0F - demieHauteurEchelle}  //echelle -2 -> -1
     }
 };
 
@@ -150,48 +150,48 @@ float listeDesEchellesCassees[nombreEchelleCassee][4][2] = { //{{x,y}coinSupGauc
 
 
     {
-        {10.0 - demieLargeurEchelle,90.0 + demieHauteurEchelle},
-        {10.0 + demieLargeurEchelle,90.0 + demieHauteurEchelle},
-        {10.0 - demieLargeurEchelle,90.0 - demieHauteurEchelle},
-        {10.0 + demieLargeurEchelle,90.0 - demieHauteurEchelle}  //echelle cassee 2 -> 3
+        {10.0F - demieLargeurEchelle,90.0F + demieHauteurEchelle},
+        {10.0F + demieLargeurEchelle,90.0F + demieHauteurEchelle},
+        {10.0F - demieLargeurEchelle,90.0F - demieHauteurEchelle},
+        {10.0F + demieLargeurEchelle,90.0F - demieHauteurEchelle}  //echelle cassee 2 -> 3
     },
     {
-        {35.0 - demieLargeurEchelle,70.0 + demieHauteurEchelle},
-        {35.0 + demieLargeurEchelle,70.0 + demieHauteurEchelle},
-        {35.0 - demieLargeurEchelle,70.0 - demieHauteurEchelle},
-        {35.0 + demieLargeurEchelle,70.0 - demieHauteurEchelle}  //echelle cassee 1 -> 2
+        {35.0F - demieLargeurEchelle,70.0F + demieHauteurEchelle},
+        {35.0F + demieLargeurEchelle,70.0F + demieHauteurEchelle},
+        {35.0F - demieLargeurEchelle,70.0F - demieHauteurEchelle},
+        {35.0F + demieLargeurEchelle,70.0F - demieHauteurEchelle}  //echelle cassee 1 -> 2
     },
     {
-        {0.0 - demieLargeurEchelle,50.0 + demieHauteurEchelle},
-        {0.0 + demieLargeurEchelle,50.0 + demieHauteurEchelle},
-        {0.0 - demieLargeurEchelle,50.0 - demieHauteurEchelle},
-        {0.0 + demieLargeurEchelle,50.0 - demieHauteurEchelle}  //echelle cassee 0 -> 1 
+        {0.0F - demieLargeurEchelle,50.0F + demieHauteurEchelle},
+        {0.0F + demieLargeurEchelle,50.0F + demieHauteurEchelle},
+        {0.0F - demieLargeurEchelle,50.0F - demieHauteurEchelle},
+        {0.0F + demieLargeurEchelle,50.0F - demieHauteurEchelle}  //echelle cassee 0 -> 1 
     },
     {
-        {-17.0 - demieLargeurEchelle,30.0 + demieHauteurEchelle},
-        {-17.0 + demieLargeurEchelle,30.0 + demieHauteurEchelle},
-        {-17.0 - demieLargeurEchelle,30.0 - demieHauteurEchelle},
-        {-17.0 + demieLargeurEchelle,30.0 - demieHauteurEchelle}//echelle cassee -1 -> -0 
+        {-17.0F - demieLargeurEchelle,30.0F + demieHauteurEchelle},
+        {-17.0F + demieLargeurEchelle,30.0F + demieHauteurEchelle},
+        {-17.0F - demieLargeurEchelle,30.0F - demieHauteurEchelle},
+        {-17.0F + demieLargeurEchelle,30.0F - demieHauteurEchelle}//echelle cassee -1 -> -0 
     },
     {
-        {30.0 - demieLargeurEchelle,10.0 + demieHauteurEchelle},
-        {30.0 + demieLargeurEchelle,10.0 + demieHauteurEchelle},
-        {30.0 - demieLargeurEchelle,10.0 - demieHauteurEchelle},
-        {30.0 + demieLargeurEchelle,10.0 - demieHauteurEchelle}  //echelle cassee -2 -> -1
+        {30.0F - demieLargeurEchelle,10.0F + demieHauteurEchelle},
+        {30.0F + demieLargeurEchelle,10.0F + demieHauteurEchelle},
+        {30.0F - demieLargeurEchelle,10.0F - demieHauteurEchelle},
+        {30.0F + demieLargeurEchelle,10.0F - demieHauteurEchelle}  //echelle cassee -2 -> -1
     }
 
 };
 
 //FCT POUTRES
 //numeroPoutre,yCentre,xCentre,xGauche,xDroit,ordoOrigine,coefDir,angle
-Poutre p0(-2, 0, -5.0, -55, 45, 0, -0.06, 3.2);
-Poutre p1(-1, 20, 5.0, -45, 55, 19.69, 0.06, -3.5);
-Poutre p2(0, 40, -5.0, -55, 45, 39.72, -0.06, 3.2);
-Poutre p3(1, 60, 5.0, -45, 55, 59.69, 0.06, -3.5);
-Poutre p4(2, 80, -5.0, -55, 45, 79.72, -0.06, 3.2);
-Poutre p5(3, 100, 5.0, -45, 55, 99.69, 0.06, -3.5);
-Poutre p6(4, 120, -10, -35, 15, 120.0, 0.0, 0.0);
-Poutre p7(42, 103.0, 64, 54, 74, 103.0, 0, 0);
+Poutre p0(-2.0F, 0.0F, -5.0F, -55.0F, 45.0F, 0.0F, -0.06F, 3.2F);
+Poutre p1(-1.0F, 20.0F, 5.0F, -45.0F, 55.0F, 19.69F, 0.06F, -3.5F);
+Poutre p2(0.0F, 40.0F, -5.0F, -55.0F, 45.0F, 39.72F, -0.06F, 3.2F);
+Poutre p3(1.0F, 60.0F, 5.0F, -45.0F, 55.0F, 59.69F, 0.06F, -3.5F);
+Poutre p4(2.0F, 80.0F, -5.0F, -55.0F, 45.0F, 79.72F, -0.06F, 3.2F);
+Poutre p5(3.0F, 100.0F, 5.0F, -45.0F, 55.0F, 99.69F, 0.06F, -3.5F);
+Poutre p6(4.0F, 120.0F, -10.0, -35.0F, 15.0F, 120.0F, 0.0F, 0.0F);
+Poutre p7(42.0F, 103.0F, 64.0, 54.0F, 74.0F, 103.0F, 0.0F, 0.0F);
 
 Poutre listePoutre[nombrePoutre] = { p0, p1, p2, p3, p4, p5, p6,p7 };
 
@@ -635,7 +635,7 @@ static void special(int key, int x, int y) {
 }
 
 static void tomber(int value) {
-	mario.setY(mario.getY() - 0.05);
+	mario.setY(mario.getY() - 0.2);
 	if (mario.getY() <= value) {
 		if (chute) {
 			gameover = true;
@@ -644,7 +644,7 @@ static void tomber(int value) {
 		return;
 	}
 	glutPostRedisplay();
-	glutTimerFunc(2, tomber, value);
+	glutTimerFunc(1, tomber, value);
 }
 
 
@@ -667,10 +667,8 @@ static void gaucheMario(int poutre) {
     case -1: case 1: case 3:
         if (mario.getX() >= 55 || mario.getX() <= -45) {
             int indice = poutre + 1;
-            //mario.setX(-45.0);
 			sautEnCours = true;
 			tomber((listePoutre[indice].getOrdoOrigine() + listePoutre[indice].getCoefDir() * mario.getX()) + compensationPoutre);
-            //mario.setY((listePoutre[indice].getOrdoOrigine() + listePoutre[indice].getCoefDir() * mario.getX()) + compensationPoutre);
         }
         else {
             int indice = poutre + 2;
@@ -1112,8 +1110,8 @@ void updateTonneau(int value) {
 								}
 							}
 							else {
-								if (tabTonneau[i][1] >= 96.94 + 2 * compensationPoutre && tabTonneau[i][1] <= 103.6 + 2 * compensationPoutre) {
-									if (tabTonneau[i][0] - longueurPas < 55 && tabTonneau[i][0] + longueurPas > -45) {
+								if (tabTonneau[i][1] >= 95.00 + 2 * compensationPoutre && tabTonneau[i][1] <= 103.6 + 2 * compensationPoutre) {
+									if (tabTonneau[i][0] - longueurPas < 55 && tabTonneau[i][0] + longueurPas > -50) {
 										mouvementTonneau(99.69, 0.06, -vitesseTonneau, i);
 									}
 								}
@@ -1171,7 +1169,7 @@ void updateTonneau(int value) {
     glutPostRedisplay();
     
     }
-    glutTimerFunc(50, updateTonneau, 0);
+    glutTimerFunc(25, updateTonneau, 0);
 }
 
 static void ajoutTonneau(int value) {
