@@ -1056,7 +1056,7 @@ void updateTonneau(int value) {
     glutPostRedisplay();
     
     }
-    glutTimerFunc(5, updateTonneau, 0);
+    glutTimerFunc(25, updateTonneau, 0);
 }
 
 static void ajoutTonneau(int value) {
