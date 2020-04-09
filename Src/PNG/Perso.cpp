@@ -8,7 +8,7 @@ Perso::Perso(float x, float y, float z) {
 	this->y = y;
 	this->z = z;
 	this->orientation = Gauche;
-
+	this->surEchelle = false;
 }
 
 float Perso::getX() {
@@ -28,6 +28,9 @@ float Perso::getZ() {
 Perso::Orientation Perso::getOrientation() {
 	return this->orientation;
 }
+bool Perso::getSurEchelle() {
+	return this->surEchelle;
+}
 
 void Perso::setX(float newX) {
 	this->x = newX;
@@ -38,6 +41,10 @@ void Perso::setY(float newY) {
 
 void Perso::setOrientation(Perso::Orientation newOr) {
 	this->orientation = newOr;
+}
+
+void Perso::setSurEchelle(bool status) {
+	this->surEchelle = status;
 }
 
 void Perso::tete(float size) {
