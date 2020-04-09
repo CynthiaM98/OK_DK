@@ -367,11 +367,8 @@ static void tonneau(float xTonneau, float yTonneau, float zTonneau) {
     }
     glEnd();
     glPopMatrix();
-    glBegin(GL_POLYGON);
-    GLUquadric* glNewQuad = gluNewQuadric();
-    gluCylinder(glNewQuad, largeur, largeur, largeurPoutre * 0.75, 30.0, 30.0);
-    glEnd();
-
+	GLUquadric *glNewQuad = gluNewQuadric();
+	gluCylinder(glNewQuad, largeur, largeur, largeurPoutre * 0.75, 30.0, 30.0);
     glPopMatrix();
     tabTonneau[nbTonneau][0] = xTonneau;
     tabTonneau[nbTonneau][1] = yTonneau;
@@ -1076,8 +1073,8 @@ int main(int argc, char* argv[]) {
     glutSpecialFunc(special);
     glutReshapeFunc(reshape);
     glutDisplayFunc(display);
-    //glutTimerFunc(5, ajoutTonneau, 0);
-    //glutTimerFunc(100, updateTonneau, 0);
+    glutTimerFunc(5, ajoutTonneau, 0);
+    glutTimerFunc(100, updateTonneau, 0);
 
     glutMainLoop();
     return(0);
