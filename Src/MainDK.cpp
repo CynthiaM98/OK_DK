@@ -450,7 +450,7 @@ static void placementEchelles() {
 static void placementMario() {
     glPushMatrix();
     glTranslatef(mario.getX(), mario.getY(), mario.getZ());
-    mario.printPerso();
+    mario.printPerso(sautEnCours);
     glPopMatrix();
 }
 
@@ -461,7 +461,7 @@ static void placementPrincesse() {
     glPushMatrix();
     glTranslatef(princess.getX(), princess.getY(), princess.getZ());
     glRotatef(90.0, 0.0, 1.0, 0.0);
-    princess.printPerso();
+    princess.printPerso(false);
     glPopMatrix();
     glPopMatrix();
 }

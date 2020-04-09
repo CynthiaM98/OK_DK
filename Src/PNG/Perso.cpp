@@ -58,7 +58,7 @@ void Perso::membre(float size) {
 	glutSolidCube(1.0);
 }
 
-void Perso::printPerso() {
+void Perso::printPerso(bool sautEnCours) {
 	
 	switch (orientation) {
 	case Droite:
@@ -73,7 +73,7 @@ void Perso::printPerso() {
 		glRotatef(180.0, 0.0, 1.0, 0.0);
 		break;
 	}
-
+	
 	float temp = 0.0F; //variable pour simplifier la lecture dans l'appelle des fonctions
 	glPushMatrix();
 
@@ -88,33 +88,65 @@ void Perso::printPerso() {
 	glTranslatef(0.0F, temp, 0.0F); //niveau corp
 	corp(taille);
 
-	glPushMatrix(); //bras droit
-	temp = taille / 4.0;
-	glTranslatef(-temp, 0.0F, 0.0F);
-	membre(taille);
-	glPopMatrix(); //retour au niveau du corp
+	if (!sautEnCours) {
+		glPushMatrix(); //bras droit
 
-	glPushMatrix(); //bras gauche
-	glTranslatef(temp, 0.0F, 0.0F);
-	membre(taille);
-	glPopMatrix(); //retour au niveau du corp
+		temp = taille / 4.0;
+		glTranslatef(-temp, 0.0F, 0.0F);
+		membre(taille);
+		glPopMatrix(); //retour au niveau du corp
 
+		glPushMatrix(); //bras gauche
+		glTranslatef(temp, 0.0F, 0.0F);
+		membre(taille);
+		glPopMatrix(); //retour au niveau du corp
+	}
+	else {
+		glPushMatrix(); //bras droit
+
+		temp = taille / 4.0;
+		glTranslatef(-temp, 0.0F, 0.0F);
+		glRotatef(90.0, 0.0, 0.0, 1.0);
+		membre(taille);
+		glPopMatrix(); //retour au niveau du corp
+
+		glPushMatrix(); //bras gauche
+		glTranslatef(temp, 0.0F, 0.0F);
+		glRotatef(90.0, 0.0, 0.0, 1.0);
+		membre(taille);
+		glPopMatrix(); //retour au niveau du corp
+	}
 	glPopMatrix(); //retour origine
 
 	glPushMatrix();
 	temp = taille / 6.0;
 	glTranslatef(0.0F, temp, 0.0F); //niveau jambe
+	if (!sautEnCours) {
+		glPushMatrix(); //jambe droite
+		temp = taille / 12.0;
+		glTranslatef(-temp, 0.0F, 0.0F);
+		membre(taille);
+		glPopMatrix();
 
-	glPushMatrix(); //jambe droite
-	temp = taille / 12.0;
-	glTranslatef(-temp, 0.0F, 0.0F);
-	membre(taille);
-	glPopMatrix();
+		glPushMatrix();//jambe gauche
+		glTranslatef(temp, 0.0F, 0.0F);
+		membre(taille);
+		glPopMatrix();
+	}
+	else {
+		glPushMatrix(); //jambe droite
+		temp = taille / 12.0;
+		glTranslatef(-temp, 0.5F, 0.0F);
+		glRotatef(-45.0, 1.0, 0.0, 0.0);
+		membre(taille);
+		glPopMatrix();
 
-	glPushMatrix();//jambe gauche
-	glTranslatef(temp, 0.0F, 0.0F);
-	membre(taille);
-	glPopMatrix();
+		glPushMatrix();//jambe gauche
+		glTranslatef(temp, 0.5F, 0.0F);
+		glRotatef(-45.0, 1.0, 0.0, 0.0);
+		membre(taille);
+		glPopMatrix();
+	}
 	glPopMatrix();
 
 	glPopMatrix();
