@@ -54,8 +54,8 @@ void Poutre::planchePoutre(float largeur, float longueur, float hauteur) {
 	largeur /= 2.0;
 	longueur /= 2.0;
 	hauteur /= 2.0;
-	glBegin(GL_QUADS);
 	glPushMatrix();
+	glBegin(GL_QUADS);
 	float couleur[4] = { (2.50,2.4,1.45F,1.0F) };
 	glMaterialfv(GL_FRONT, GL_DIFFUSE, couleur);
 	glColor4f(1.0f, 0.0f, 0.0f, 0.0f);//red);
@@ -101,9 +101,8 @@ void Poutre::planchePoutre(float largeur, float longueur, float hauteur) {
 	glVertex3d(largeur, hauteur, -longueur); // 5
 	glVertex3d(largeur, -hauteur, -longueur); // 7
 	glVertex3d(-largeur, -hauteur, -longueur); // 8
-	glPopMatrix();
 	glEnd();
-
+	glPopMatrix();
 }
 
 void Poutre::poutreDK(float largeurPlateforme, float longueurPlateforme, float hauteurPlateforme) {

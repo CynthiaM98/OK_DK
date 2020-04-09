@@ -238,7 +238,7 @@ static void init(void) {
     glEnable(GL_NORMALIZE);
     glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, 1);
     glGenTextures(1, textureID);
-    chargementTexture("Wood.jpg", textureID[0]);
+    //chargementTexture("Wood.jpg", textureID[0]);
 }
 
 void idle(void) {
@@ -548,7 +548,6 @@ static void display(void) {
     sceneJeu();
 
     glPopMatrix();
-    glPopAttrib();
     glFlush();
     glutSwapBuffers();
     int error = glGetError();
@@ -1063,7 +1062,7 @@ static void ajoutTonneau(int value) {
     glutTimerFunc(5000, ajoutTonneau, 0);
 }
 
-int main(int argc, char** argv) {
+int main(int argc, char* argv[]) {
     printf("%f\n",p0.getXCentre());
     printf("%f\n", p1.getXCentre());
     printf("%f\n", p2.getXCentre());
@@ -1077,8 +1076,8 @@ int main(int argc, char** argv) {
     glutSpecialFunc(special);
     glutReshapeFunc(reshape);
     glutDisplayFunc(display);
-    glutTimerFunc(5, ajoutTonneau, 0);
-    glutTimerFunc(100, updateTonneau, 0);
+    //glutTimerFunc(5, ajoutTonneau, 0);
+    //glutTimerFunc(100, updateTonneau, 0);
 
     glutMainLoop();
     return(0);
