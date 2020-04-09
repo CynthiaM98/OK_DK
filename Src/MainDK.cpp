@@ -6,10 +6,12 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <math.h>
+#include <iostream>
 
 #include "PNG/ChargePngFile.h"
 #include "PNG/Perso.h"
 #include "PNG/Poutre.h"
+
 
 
 
@@ -86,8 +88,8 @@ float yDonkeyKong = (99.69 + 0.06 * xDonkeyKong) + compensationPoutre;
 float zDonkeyKong = 0.0;
 
 //TONNEAU
-float xTonneauBegin = -45.0;
-float yTonneauBegin = 82.0 + 2 * compensationPoutre;
+float xTonneauBegin = 30;
+float yTonneauBegin = 102 + 2 * compensationPoutre;
 float zTonneauBegin = -largeurPoutre / 3;
 int nbTonneau = 0;
 float tabTonneau[100][3];
@@ -1107,6 +1109,9 @@ void updateTonneau(int value) {
 			}
 
 			//Deplacement vertical
+            if (tabTonneau[i][1] <= 97.0 + 2 * compensationPoutre && tabTonneau[i][1] >= 83.06 + 2 * compensationPoutre) {
+                tabTonneau[i][1] -= longueurPas;
+            }
 			if (tabTonneau[i][1] <= 77.0 + 2 * compensationPoutre && tabTonneau[i][1] >= 63.06 + 2 * compensationPoutre) {
 				tabTonneau[i][1] -= longueurPas;
 			}
