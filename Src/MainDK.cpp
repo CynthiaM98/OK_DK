@@ -59,7 +59,7 @@ float demieLargeurEchelle = largeurEchelle / 2.0;
 
 const int nombreEchelle = 6;
 const int nombreEchelleCassee = 5;
-const int nombrePoutre = 7;
+const int nombrePoutre = 8;
 
 //MARIO
 float initXMario = 5.0;
@@ -180,7 +180,7 @@ float listeDesEchellesCassees[nombreEchelleCassee][4][2] = { //{{x,y}coinSupGauc
 };
 
 //FCT POUTRES
-
+//numeroPoutre,yCentre,xCentre,xGauche,xDroit,ordoOrigine,coefDir,angle
 Poutre p0(-2, 0, -5.0, -55, 45, 0, -0.06, 3.2);
 Poutre p1(-1, 20, 5.0, -45, 55, 19.69, 0.06, -3.5);
 Poutre p2(0, 40, -5.0, -55, 45, 39.72, -0.06, 3.2);
@@ -188,8 +188,9 @@ Poutre p3(1, 60, 5.0, -45, 55, 59.69, 0.06, -3.5);
 Poutre p4(2, 80, -5.0, -55, 45, 79.72, -0.06, 3.2);
 Poutre p5(3, 100, 5.0, -45, 55, 99.69, 0.06, -3.5);
 Poutre p6(4, 120, -10, -35, 15, 120.0, 0.0, 0.0);
+Poutre p7(42, 103.0, 64, 54, 74, 103.0, 0, 0);
 
-Poutre listePoutre[nombrePoutre] = { p0, p1, p2, p3, p4, p5, p6 };
+Poutre listePoutre[nombrePoutre] = { p0, p1, p2, p3, p4, p5, p6,p7 };
 
 
 //TEXTURES
@@ -485,20 +486,22 @@ static void placementDK() {
 
 void placementPoutres() {
     glPushMatrix();
- 
-    p6.dessinerPoutre(true);
+    
+    p7.dessinerPoutre(1);
 
-    p5.dessinerPoutre(false);
+    p6.dessinerPoutre(2);
 
-    p4.dessinerPoutre(false);
+    p5.dessinerPoutre(0);
 
-    p3.dessinerPoutre(false);
+    p4.dessinerPoutre(0);
 
-    p2.dessinerPoutre(false);
+    p3.dessinerPoutre(0);
 
-    p1.dessinerPoutre(false);
+    p2.dessinerPoutre(0);
 
-    p0.dessinerPoutre(false);
+    p1.dessinerPoutre(0);
+
+    p0.dessinerPoutre(0);
 
     glPopMatrix();
 

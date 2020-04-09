@@ -129,17 +129,25 @@ void Poutre::poutreDK(float largeurPlateforme, float longueurPlateforme, float h
 
 }
 
-void Poutre::dessinerPoutre(bool isTheLastPoutre) {
+void Poutre::dessinerPoutre(int isASpecialPoutre) {
 	glPushMatrix();
 	glMaterialfv(GL_FRONT, GL_DIFFUSE, couleur_poutres);
 	glTranslatef(this->xCentre, this->yCentre, 0.0);
 	glRotatef(90.0, 0.0, 1.0, 0.0);
 	glRotatef(this->angle, 1.0, 0.0, 0.0);
-	if (isTheLastPoutre) {
-		poutreDK(largeur, longueur/2, hauteur);
-	}
-	else {
-		poutreDK(largeur, longueur, hauteur);
+	
+	switch(isASpecialPoutre){
+	case 2:
+		poutreDK(largeur, longueur/2, hauteur); //poutre Peach
+		break;
+	case 1 :
+		poutreDK(largeur, longueur / 5, hauteur); //poutre Tas tonneau
+		break;
+	case 0: 
+		poutreDK(largeur, longueur, hauteur); //poutre normale
+		break;
+	default:
+		break;
 	}
 	glPopMatrix();
 }
