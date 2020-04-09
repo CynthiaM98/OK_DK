@@ -69,6 +69,7 @@ float initXMario = 5.0;
 float initYMario = (-0.06 * initXMario) + compensationPoutre;
 float initZMario = -1.0;
 float longueurPas = 0.5F;
+bool chute = false;
 
 Perso mario(initXMario, initYMario, initZMario);
 
@@ -633,6 +634,19 @@ static void special(int key, int x, int y) {
     }
 }
 
+static void tomber(int value) {
+	mario.setY(mario.getY() - 0.05);
+	if (mario.getY() <= value) {
+		if (chute) {
+			gameover = true;
+		}
+		sautEnCours = false;
+		return;
+	}
+	glutPostRedisplay();
+	glutTimerFunc(2, tomber, value);
+}
+
 
 static void gaucheMario(int poutre) {
 	mario.setSurEchelle(false);
@@ -641,8 +655,9 @@ static void gaucheMario(int poutre) {
     switch (poutre) {
     case -2: case 0: case 2:
         if (mario.getX() >= 45 || mario.getX() <= -55) {
-            mario.setY(-20.0);
-            gameover = true;
+			chute = true;
+			sautEnCours = true;
+			tomber(-20);
         }
         else {
             int indice = poutre + 2;
@@ -652,8 +667,10 @@ static void gaucheMario(int poutre) {
     case -1: case 1: case 3:
         if (mario.getX() >= 55 || mario.getX() <= -45) {
             int indice = poutre + 1;
-            mario.setX(-45.0);
-            mario.setY((listePoutre[indice].getOrdoOrigine() + listePoutre[indice].getCoefDir() * mario.getX()) + compensationPoutre);
+            //mario.setX(-45.0);
+			sautEnCours = true;
+			tomber((listePoutre[indice].getOrdoOrigine() + listePoutre[indice].getCoefDir() * mario.getX()) + compensationPoutre);
+            //mario.setY((listePoutre[indice].getOrdoOrigine() + listePoutre[indice].getCoefDir() * mario.getX()) + compensationPoutre);
         }
         else {
             int indice = poutre + 2;
@@ -678,8 +695,9 @@ static void droiteMario(int poutre) {
     switch (poutre) {
     case -1: case 1: 
         if (mario.getX() >= 55 || mario.getX() <= -45) {
-            mario.setY(-20.0);
-            gameover = true;
+			chute = true;
+			sautEnCours = true;
+			tomber(-20);
         }
         else {
             int indice = poutre + 2;
@@ -689,8 +707,9 @@ static void droiteMario(int poutre) {
         break;
     case 3:
         if (mario.getX() >= 55 || mario.getX() <= -45) {
-            mario.setY(-20.0);
-            gameover = true;
+			chute = true;
+			sautEnCours = true;
+            tomber(-20.0);
         }
         else {
             if (mario.getX() >= 40) { //gameover quand mario "marche" sur donkeyKong
@@ -706,8 +725,9 @@ static void droiteMario(int poutre) {
 
     case -2:
         if (mario.getX() >= 45 || mario.getX() <= -55) {
-            mario.setY(-20.0);
-            gameover = true;
+            chute = true;
+			sautEnCours = true;
+			tomber(-20.0);
         }
         else {
             int indice = poutre + 2;
@@ -718,8 +738,10 @@ static void droiteMario(int poutre) {
 
         if (mario.getX() >= 45 || mario.getX() <= -55) {
             int indice = poutre + 1;
-            mario.setX(45.0);
-            mario.setY((listePoutre[indice].getOrdoOrigine() + listePoutre[indice].getCoefDir() * mario.getX()) + compensationPoutre);
+			sautEnCours = true;
+			tomber(listePoutre[indice].getOrdoOrigine() + listePoutre[indice].getCoefDir() * mario.getX() + compensationPoutre);
+            //mario.setX(45.0);
+            //mario.setY((listePoutre[indice].getOrdoOrigine() + listePoutre[indice].getCoefDir() * mario.getX()) + compensationPoutre);
         }
         else {
             int indice = poutre + 2;
@@ -729,11 +751,12 @@ static void droiteMario(int poutre) {
     case 4:
         int indice = poutre + 1;
         if (mario.getX() >= 15) {
-            mario.setX(15.0);
-            mario.setY((listePoutre[indice].getOrdoOrigine() + listePoutre[indice].getCoefDir() * mario.getX()) + compensationPoutre);
+			sautEnCours = true;
+			tomber(listePoutre[indice].getOrdoOrigine() + listePoutre[indice].getCoefDir() * mario.getX() + compensationPoutre);
+            //mario.setX(15.0);
+            //mario.setY((listePoutre[indice].getOrdoOrigine() + listePoutre[indice].getCoefDir() * mario.getX()) + compensationPoutre);
         }
         break;
-
     } 
 }
 
@@ -1135,7 +1158,7 @@ void updateTonneau(int value) {
 		//Collisions tonneaux
         if (tabTonneau[i][0] + 3.0 >= posXMario - largeurMario && tabTonneau[i][0] - 3.0 <= posXMario + largeurMario) {
 			if (tabTonneau[i][1] + largeurTonneau >= posYMario && tabTonneau[i][1] <= posYMario + hauteurMario) {
-				printf("Aie partout");
+				printf("Aie partout\n");
 				//gameover = true;
 			}
         }
@@ -1148,7 +1171,7 @@ void updateTonneau(int value) {
     glutPostRedisplay();
     
     }
-    glutTimerFunc(25, updateTonneau, 0);
+    glutTimerFunc(50, updateTonneau, 0);
 }
 
 static void ajoutTonneau(int value) {
