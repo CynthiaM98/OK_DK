@@ -66,14 +66,12 @@ void Perso::membre(float size) {
 }
 
 void Perso::printPerso(bool sautEnCours) {
-	
+	glPushMatrix();
 	switch (orientation) {
 	case Droite:
-		glPushMatrix();
 		glRotatef(-90.0, 0.0, 1.0, 0.0);
 		break;
 	case Gauche:
-		glPushMatrix();
 		glRotatef(90.0, 0.0, 1.0, 0.0);
 		break;
 	case Dos:
