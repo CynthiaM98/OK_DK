@@ -982,8 +982,9 @@ void updateTonneau(int value) {
                 }
             }
             else {
-                if (tabTonneau[i][1] >= 35.2 + 2 * compensationPoutre && tabTonneau[i][1] <= 42.8 + 2 * compensationPoutre) { //Si Mario sur poutre 0 - OK
-                    if (tabTonneau[i][0] - longueurPas < 55 && tabTonneau[i][0] + longueurPas > -55) {
+                if (tabTonneau[i][1] >= 36.0 + 2 * compensationPoutre && tabTonneau[i][1] <= 42.8 + 2 * compensationPoutre) { //Si Mario sur poutre 0 - OK
+					printf("Y : %f\n", tabTonneau[i][1]);
+					if (tabTonneau[i][0] - longueurPas < 50 && tabTonneau[i][0] + longueurPas > -55) {
                         mouvementTonneau(39.72, -0.06, vitesseTonneau, i);
                     }
                 }
@@ -995,7 +996,7 @@ void updateTonneau(int value) {
                     }
                     else {
                         if (tabTonneau[i][1] >= 75 + 2 * compensationPoutre && tabTonneau[i][1] <= 82.8 + 2 * compensationPoutre) { //Si Mario sur poutre +2 - OK
-                            if (tabTonneau[i][0] - longueurPas < 55 && tabTonneau[i][0] + longueurPas > -55) {
+                            if (tabTonneau[i][0] - longueurPas < 50 && tabTonneau[i][0] + longueurPas > -55) {
                                 mouvementTonneau(79.72, -0.06, vitesseTonneau, i);
                             }
                         }
@@ -1026,7 +1027,7 @@ void updateTonneau(int value) {
         else if (tabTonneau[i][1] <= 57.0 + 2 * compensationPoutre && tabTonneau[i][1] >= 43.0 + 2 * compensationPoutre) {
             tabTonneau[i][1] -= longueurPas;
         }
-        else if (tabTonneau[i][1] <= 36.5 + 2 * compensationPoutre && tabTonneau[i][1] >= 23.0 + 2 * compensationPoutre) {
+        else if (tabTonneau[i][1] <= 38.2 + 2 * compensationPoutre && tabTonneau[i][1] >= 23.0 + 2 * compensationPoutre) {
             tabTonneau[i][1] -= longueurPas;
         }
         else if (tabTonneau[i][1] <= 17.0 + 2 * compensationPoutre && tabTonneau[i][1] >= 2.7 + 2 * compensationPoutre) {
@@ -1040,10 +1041,9 @@ void updateTonneau(int value) {
         }
 
         if (tabTonneau[i][0] + 3.0 >= posXMario - longueurMario && tabTonneau[i][0] - 3.0 <= posXMario +  longueurMario) {
-			printf("Pos y mario : %f\n", posYMario);
-			printf("Pos y tonneau : %f\n", tabTonneau[i][1]);
 			if (tabTonneau[i][1] + 3.0 > posYMario && tabTonneau[i][1] - 3.0 < posYMario) {
 				printf("aie\n");
+				//gameover = true;
 			}
         }
     }
@@ -1055,7 +1055,7 @@ void updateTonneau(int value) {
     glutPostRedisplay();
     
     }
-    glutTimerFunc(250, updateTonneau, 0);
+    glutTimerFunc(5, updateTonneau, 0);
 }
 
 static void ajoutTonneau(int value) {
