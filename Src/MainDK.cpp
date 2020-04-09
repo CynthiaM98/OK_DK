@@ -93,7 +93,7 @@ int nbTonneau = 0;
 float tabTonneau[100][100];
 
 bool gameover = false;
-
+bool pause = false;
 //FCT ECHELLES
 
 float listeDesEchelles[nombreEchelle][4][2] = { //{{x,y}coinSupGauche,{x,y}coinSupDroit,{x,y}coinInfGauche,{x,y}coinInfDroit}
@@ -714,36 +714,38 @@ static void keyboard(unsigned char key, int x, int y) {
         //printf("MARIO HAUT\n");
        // printf("X MARIO :%f\n", mario.getX());
        // printf("Y MARIO :%f\n", mario.getY());
-        do {
-            //on récupère les coordonnées des 4 coins de la zone échelle
-            float tempSupGauche[2] = { listeDesEchelles[index1][0][0],listeDesEchelles[index1][0][1] };
-            float tempSupDroit[2] = { listeDesEchelles[index1][1][0],listeDesEchelles[index1][1][1] };
-            float tempInfGauche[2] = { listeDesEchelles[index1][2][0],listeDesEchelles[index1][2][1] };
-            float tempInfDroit[2] = { listeDesEchelles[index1][3][0],listeDesEchelles[index1][3][1] };
+        if (!gameover && !pause) {
+            do {
+                //on récupère les coordonnées des 4 coins de la zone échelle
+                float tempSupGauche[2] = { listeDesEchelles[index1][0][0],listeDesEchelles[index1][0][1] };
+                float tempSupDroit[2] = { listeDesEchelles[index1][1][0],listeDesEchelles[index1][1][1] };
+                float tempInfGauche[2] = { listeDesEchelles[index1][2][0],listeDesEchelles[index1][2][1] };
+                float tempInfDroit[2] = { listeDesEchelles[index1][3][0],listeDesEchelles[index1][3][1] };
 
-            // printf("-------------------------------------------\n");
-            // printf("ON CHECK SI MARIO A UN X ENTRE %f ET %f \n", tempSupGauche[0], tempSupDroit[0]);
-            bool tempB = mario.getX() < tempSupDroit[0] && mario.getX() > tempSupGauche[0];
-            // printf("%s\n", tempB ? "OUI" : "NON");
-            // printf("ON CHECK SI MARIO A UN Y ENTRE %f ET %f \n", tempInfGauche[1], tempSupGauche[1]);
-            bool tempB2 = mario.getY() + mario.getTaille() * 0.25 >= tempInfDroit[1] && mario.getY() + mario.getTaille() * 0.25 <= tempSupGauche[1];
-            //  printf("%s\n", tempB2 ? "OUI" : "NON");
-             //  printf("-------------------------------------------\n");
-            //on check si Mario est dans cette zone
-            if (tempB && tempB2) {
-                //  printf("OUI\n");
-                trouveHaut = true;
+                // printf("-------------------------------------------\n");
+                // printf("ON CHECK SI MARIO A UN X ENTRE %f ET %f \n", tempSupGauche[0], tempSupDroit[0]);
+                bool tempB = mario.getX() < tempSupDroit[0] && mario.getX() > tempSupGauche[0];
+                // printf("%s\n", tempB ? "OUI" : "NON");
+                // printf("ON CHECK SI MARIO A UN Y ENTRE %f ET %f \n", tempInfGauche[1], tempSupGauche[1]);
+                bool tempB2 = mario.getY() + mario.getTaille() * 0.25 >= tempInfDroit[1] && mario.getY() + mario.getTaille() * 0.25 <= tempSupGauche[1];
+                //  printf("%s\n", tempB2 ? "OUI" : "NON");
+                 //  printf("-------------------------------------------\n");
+                //on check si Mario est dans cette zone
+                if (tempB && tempB2) {
+                    //  printf("OUI\n");
+                    trouveHaut = true;
+                }
+                index1++;
+
+            } while (index1 < nombreEchelle && !trouveHaut);
+
+            if (trouveHaut) {
+                mario.setY(mario.getY() + 0.5);
+                index1 = 0;
+                trouveHaut = false;
+                mario.setOrientation(Perso::Orientation::Dos);
+                glutPostRedisplay();
             }
-            index1++;
-
-        } while (index1 < nombreEchelle && !trouveHaut);
-
-        if (trouveHaut) {
-            mario.setY(mario.getY() + 0.5);
-            index1 = 0;
-            trouveHaut = false;
-            mario.setOrientation(Perso::Orientation::Dos);
-            glutPostRedisplay();
         }
         break;
 
@@ -751,83 +753,86 @@ static void keyboard(unsigned char key, int x, int y) {
        // printf("MARIO BAS\n");
         //printf("X MARIO :%f\n", mario.getX());
        // printf("Y MARIO :%f\n", mario.getY());
-        do {
-            //on récupère les coordonnées des 4 coins de la zone échelle
-            float tempSupGauche[2] = { listeDesEchelles[index1][0][0],listeDesEchelles[index1][0][1] };
-            float tempSupDroit[2] = { listeDesEchelles[index1][1][0],listeDesEchelles[index1][1][1] };
-            float tempInfGauche[2] = { listeDesEchelles[index1][2][0],listeDesEchelles[index1][2][1] };
-            float tempInfDroit[2] = { listeDesEchelles[index1][3][0],listeDesEchelles[index1][3][1] };
+        if (!gameover && !pause) {
+            do {
+                //on récupère les coordonnées des 4 coins de la zone échelle
+                float tempSupGauche[2] = { listeDesEchelles[index1][0][0],listeDesEchelles[index1][0][1] };
+                float tempSupDroit[2] = { listeDesEchelles[index1][1][0],listeDesEchelles[index1][1][1] };
+                float tempInfGauche[2] = { listeDesEchelles[index1][2][0],listeDesEchelles[index1][2][1] };
+                float tempInfDroit[2] = { listeDesEchelles[index1][3][0],listeDesEchelles[index1][3][1] };
 
-            // printf("-------------------------------------------\n");
-            //printf("ON CHECK SI MARIO A UN X ENTRE %f ET %f \n", tempSupGauche[0], tempSupDroit[0]);
-            bool tempB = mario.getX() < tempSupDroit[0] && mario.getX() > tempSupGauche[0];
-            // printf("%s\n", tempB ? "OUI" : "NON");
-             //printf("ON CHECK SI MARIO A UN Y ENTRE %f ET %f \n", tempInfGauche[1], tempSupGauche[1]);
-            bool tempB2 = mario.getY() - mario.getTaille() * 0.25 >= tempInfDroit[1] && mario.getY() - mario.getTaille() * 0.25 <= tempSupDroit[1];
-            //printf("%s\n", tempB2 ? "OUI" : "NON");
-            //printf("-------------------------------------------\n");
-            //on check si Mario est dans cette zone
-            if (tempB && tempB2) {
-                //printf("OUI\n");
-                trouveHaut = true;
+                // printf("-------------------------------------------\n");
+                //printf("ON CHECK SI MARIO A UN X ENTRE %f ET %f \n", tempSupGauche[0], tempSupDroit[0]);
+                bool tempB = mario.getX() < tempSupDroit[0] && mario.getX() > tempSupGauche[0];
+                // printf("%s\n", tempB ? "OUI" : "NON");
+                 //printf("ON CHECK SI MARIO A UN Y ENTRE %f ET %f \n", tempInfGauche[1], tempSupGauche[1]);
+                bool tempB2 = mario.getY() - mario.getTaille() * 0.25 >= tempInfDroit[1] && mario.getY() - mario.getTaille() * 0.25 <= tempSupDroit[1];
+                //printf("%s\n", tempB2 ? "OUI" : "NON");
+                //printf("-------------------------------------------\n");
+                //on check si Mario est dans cette zone
+                if (tempB && tempB2) {
+                    //printf("OUI\n");
+                    trouveHaut = true;
+                }
+                index1++;
+
+            } while (index1 < nombreEchelle && !trouveHaut);
+
+            if (trouveHaut) {
+                mario.setY(mario.getY() - longueurPas);
+                index1 = 0;
+                trouveHaut = false;
+                mario.setOrientation(Perso::Orientation::Dos);
+                glutPostRedisplay();
             }
-            index1++;
-
-        } while (index1 < nombreEchelle && !trouveHaut);
-
-        if (trouveHaut) {
-            mario.setY(mario.getY() - longueurPas);
-            index1 = 0;
-            trouveHaut = false;
-            mario.setOrientation(Perso::Orientation::Dos);
-            glutPostRedisplay();
         }
         break;
 
     case 113: case 81: //faire aller Mario à gauche avec Q ou q
        // printf("MARIO GAUCHE\n");
-
-        if (mario.getY() >= -2.8 + compensationPoutre && mario.getY() <= 5.0 + compensationPoutre) { //Si Mario sur poutre -2 - OK
-            if (mario.getX() < 45 && mario.getX() > -55) {
-                //printf("X MARIO :%f\n", mario.getX());
-                //printf("Y MARIO :%f\n", mario.getY());
-                gaucheMario(-2);
-            }
-        }
-        else {
-            if (mario.getY() >= 16.94 + compensationPoutre && mario.getY() <= 26.0 + compensationPoutre) { //Si Mario sur poutre -1 - OK
-                if (mario.getX() < 55 && mario.getX() > -45) {
-                    gaucheMario(-1);
+        if (!gameover && !pause) {
+            if (mario.getY() >= -2.8 + compensationPoutre && mario.getY() <= 5.0 + compensationPoutre) { //Si Mario sur poutre -2 - OK
+                if (mario.getX() < 45 && mario.getX() > -55) {
+                    //printf("X MARIO :%f\n", mario.getX());
+                    //printf("Y MARIO :%f\n", mario.getY());
+                    gaucheMario(-2);
                 }
             }
             else {
-                if (mario.getY() >= 37.2 + compensationPoutre && mario.getY() <= 45.0 + compensationPoutre) { //Si Mario sur poutre 0 - OK
-                    if (mario.getX() < 45 && mario.getX() > -55) {
-                        gaucheMario(0);
+                if (mario.getY() >= 16.94 + compensationPoutre && mario.getY() <= 26.0 + compensationPoutre) { //Si Mario sur poutre -1 - OK
+                    if (mario.getX() < 55 && mario.getX() > -45) {
+                        gaucheMario(-1);
                     }
                 }
                 else {
-                    if (mario.getY() >= 56.94 + compensationPoutre && mario.getY() <= 66.0 + compensationPoutre) { //Si Mario sur poutre +1 - OK
-                        if (mario.getX() < 55 && mario.getX() > -45) {
-                            gaucheMario(1);
+                    if (mario.getY() >= 37.2 + compensationPoutre && mario.getY() <= 45.0 + compensationPoutre) { //Si Mario sur poutre 0 - OK
+                        if (mario.getX() < 45 && mario.getX() > -55) {
+                            gaucheMario(0);
                         }
                     }
                     else {
-                        if (mario.getY() >= 77.2 + compensationPoutre && mario.getY() <= 85.0 + compensationPoutre) { //Si Mario sur poutre +2 - OK
-                            if (mario.getX() < 45 && mario.getX() > -55) {
-                                gaucheMario(2);
+                        if (mario.getY() >= 56.94 + compensationPoutre && mario.getY() <= 66.0 + compensationPoutre) { //Si Mario sur poutre +1 - OK
+                            if (mario.getX() < 55 && mario.getX() > -45) {
+                                gaucheMario(1);
                             }
                         }
                         else {
-                            if (mario.getY() >= 96.94 + compensationPoutre && mario.getY() <= 103.6 + compensationPoutre) { //Si Mario sur poutre +3 - OK
-                                if (mario.getX() < 55 && mario.getX() > -45) {
-                                    gaucheMario(3);
+                            if (mario.getY() >= 77.2 + compensationPoutre && mario.getY() <= 85.0 + compensationPoutre) { //Si Mario sur poutre +2 - OK
+                                if (mario.getX() < 45 && mario.getX() > -55) {
+                                    gaucheMario(2);
                                 }
                             }
                             else {
-                                if (mario.getY() >= 119.0 + compensationPoutre && mario.getY() <= 122.0 + compensationPoutre) { //Si Mario sur poutre victoire - OK
-                                    if (mario.getX() < 15 && mario.getX() > -35) {
-                                        gaucheMario(4);
+                                if (mario.getY() >= 96.94 + compensationPoutre && mario.getY() <= 103.6 + compensationPoutre) { //Si Mario sur poutre +3 - OK
+                                    if (mario.getX() < 55 && mario.getX() > -45) {
+                                        gaucheMario(3);
+                                    }
+                                }
+                                else {
+                                    if (mario.getY() >= 119.0 + compensationPoutre && mario.getY() <= 122.0 + compensationPoutre) { //Si Mario sur poutre victoire - OK
+                                        if (mario.getX() < 15 && mario.getX() > -35) {
+                                            gaucheMario(4);
+                                        }
                                     }
                                 }
                             }
@@ -835,59 +840,60 @@ static void keyboard(unsigned char key, int x, int y) {
                     }
                 }
             }
+            glutPostRedisplay();
         }
-        glutPostRedisplay();
         break;
 
     case 100: case 68: //faire aller Mario à droite avec D ou d
        // printf("MARIO DROITE\n");
-
-        if (mario.getY() >= -2.8 + compensationPoutre && mario.getY() <= 5.0 + compensationPoutre) { //Si Mario sur poutre -2 - OK
-            if (mario.getX() < 45 && mario.getX() > -55) {
-                //printf("X MARIO :%f\n", mario.getX());
-                //printf("Y MARIO :%f\n", mario.getY());
-                droiteMario(-2);
-            }
-        }
-        else {
-            if (mario.getY() >= 16.94 + compensationPoutre && mario.getY() <= 26.0 + compensationPoutre) { //Si Mario sur poutre -1 - OK
-                if (mario.getX() < 55 && mario.getX() > -45) {
-                    droiteMario(-1);
+        if (!gameover && !pause) {
+            if (mario.getY() >= -2.8 + compensationPoutre && mario.getY() <= 5.0 + compensationPoutre) { //Si Mario sur poutre -2 - OK
+                if (mario.getX() < 45 && mario.getX() > -55) {
+                    //printf("X MARIO :%f\n", mario.getX());
+                    //printf("Y MARIO :%f\n", mario.getY());
+                    droiteMario(-2);
                 }
             }
             else {
-                if (mario.getY() >= 35.0 + compensationPoutre && mario.getY() <= 45.0 + compensationPoutre) { //Si Mario sur poutre 0 - OK
-                    if (mario.getX() <= 45 && mario.getX() > -55) {
-                        droiteMario(0);
-
+                if (mario.getY() >= 16.94 + compensationPoutre && mario.getY() <= 26.0 + compensationPoutre) { //Si Mario sur poutre -1 - OK
+                    if (mario.getX() < 55 && mario.getX() > -45) {
+                        droiteMario(-1);
                     }
                 }
                 else {
-                    if (mario.getY() >= 54.0 + compensationPoutre && mario.getY() <= 66.0 + compensationPoutre) { //Si Mario sur poutre +1 - OK
-                        if (mario.getX() < 55 && mario.getX() > -45) {
-                            droiteMario(1);
+                    if (mario.getY() >= 35.0 + compensationPoutre && mario.getY() <= 45.0 + compensationPoutre) { //Si Mario sur poutre 0 - OK
+                        if (mario.getX() <= 45 && mario.getX() > -55) {
+                            droiteMario(0);
 
                         }
                     }
                     else {
-                        if (mario.getY() >= 75.0 + compensationPoutre && mario.getY() <= 85.0 + compensationPoutre) { //Si Mario sur poutre +2 - OK
-                            if (mario.getX() < 45 && mario.getX() > -55) {
-                                droiteMario(2);
+                        if (mario.getY() >= 54.0 + compensationPoutre && mario.getY() <= 66.0 + compensationPoutre) { //Si Mario sur poutre +1 - OK
+                            if (mario.getX() < 55 && mario.getX() > -45) {
+                                droiteMario(1);
 
                             }
                         }
                         else {
-                            if (mario.getY() >= 94.0 + compensationPoutre && mario.getY() <= 106.0 + compensationPoutre) { //Si Mario sur poutre +3 - OK
-                                if (mario.getX() < 55 && mario.getX() > -45) {
-                                    droiteMario(3);
+                            if (mario.getY() >= 75.0 + compensationPoutre && mario.getY() <= 85.0 + compensationPoutre) { //Si Mario sur poutre +2 - OK
+                                if (mario.getX() < 45 && mario.getX() > -55) {
+                                    droiteMario(2);
 
                                 }
                             }
                             else {
-                                if (mario.getY() >= 119.0 + compensationPoutre && mario.getY() <= 125.0 + compensationPoutre) { //Si Mario sur poutre victoire - OK
-                                    if (mario.getX() < 15 && mario.getX() > -35) {
-                                        droiteMario(4);
+                                if (mario.getY() >= 94.0 + compensationPoutre && mario.getY() <= 106.0 + compensationPoutre) { //Si Mario sur poutre +3 - OK
+                                    if (mario.getX() < 55 && mario.getX() > -45) {
+                                        droiteMario(3);
 
+                                    }
+                                }
+                                else {
+                                    if (mario.getY() >= 119.0 + compensationPoutre && mario.getY() <= 125.0 + compensationPoutre) { //Si Mario sur poutre victoire - OK
+                                        if (mario.getX() < 15 && mario.getX() > -35) {
+                                            droiteMario(4);
+
+                                        }
                                     }
                                 }
                             }
@@ -895,9 +901,17 @@ static void keyboard(unsigned char key, int x, int y) {
                     }
                 }
             }
+            glutPostRedisplay();
+        }
+        break;
+    case 112: case 80: //Mettre le jeu en pause avec p ou P
+        if (!pause) {
+            pause = true;
+        }
+        else {
+            pause = false;
         }
         glutPostRedisplay();
-        break;
     }
 }
 
@@ -931,6 +945,7 @@ static void mouvementTonneau(float ordoOrigine, float coefDir, float distance, i
 }
 
 void updateTonneau(int value) {
+    if(!gameover && !pause){
     float hauteur = mario.getTaille();
     float posXMario = mario.getX();
     float posYMario = mario.getY();
@@ -1016,6 +1031,8 @@ void updateTonneau(int value) {
         supprimerTonneau = -1;
     }
     glutPostRedisplay();
+    
+    }
     glutTimerFunc(10, updateTonneau, 0);
 }
 
