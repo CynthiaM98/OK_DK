@@ -94,6 +94,7 @@ float tabTonneau[100][100];
 
 bool gameover = false;
 bool pause = false;
+bool victoire = false;
 //FCT ECHELLES
 
 float listeDesEchelles[nombreEchelle][4][2] = { //{{x,y}coinSupGauche,{x,y}coinSupDroit,{x,y}coinInfGauche,{x,y}coinInfDroit}
@@ -631,7 +632,10 @@ static void gaucheMario(int poutre) {
             mario.setY((listePoutre[indice].getOrdoOrigine() + listePoutre[indice].getCoefDir() * mario.getX()) + compensationPoutre);
         }
         break;
-    case 4: //on ne peux pas tomber mais on gagne si mario arrive dans la zone de peach
+    case 4: 
+        if (mario.getX() <= -25) {
+            victoire = true;
+        }
         break;
     default:
         break;
@@ -643,7 +647,18 @@ static void droiteMario(int poutre) {
     mario.setOrientation(Perso::Orientation::Droite);
     mario.setX(mario.getX() + longueurPas);
     switch (poutre) {
-    case -1: case 1: case 3:
+    case -1: case 1: 
+        if (mario.getX() >= 55 || mario.getX() <= -45) {
+            mario.setY(-20.0);
+            gameover = true;
+        }
+        else {
+            int indice = poutre + 2;
+            mario.setY((listePoutre[indice].getOrdoOrigine() + listePoutre[indice].getCoefDir() * mario.getX()) + compensationPoutre);
+
+        }
+        break;
+    case 3:
         if (mario.getX() >= 55 || mario.getX() <= -45) {
             mario.setY(-20.0);
             gameover = true;
@@ -652,13 +667,14 @@ static void droiteMario(int poutre) {
             if (mario.getX() >= 40) { //gameover quand mario "marche" sur donkeyKong
                 gameover = true;
             }
-            else{
+            else {
                 int indice = poutre + 2;
                 mario.setY((listePoutre[indice].getOrdoOrigine() + listePoutre[indice].getCoefDir() * mario.getX()) + compensationPoutre);
             }
 
         }
         break;
+
     case -2:
         if (mario.getX() >= 45 || mario.getX() <= -55) {
             mario.setY(-20.0);
@@ -719,7 +735,7 @@ static void keyboard(unsigned char key, int x, int y) {
         //printf("MARIO HAUT\n");
        // printf("X MARIO :%f\n", mario.getX());
        // printf("Y MARIO :%f\n", mario.getY());
-        if (!gameover && !pause) {
+        if (!gameover && !pause && !victoire) {
             do {
                 //on récupère les coordonnées des 4 coins de la zone échelle
                 float tempSupGauche[2] = { listeDesEchelles[index1][0][0],listeDesEchelles[index1][0][1] };
@@ -758,7 +774,7 @@ static void keyboard(unsigned char key, int x, int y) {
        // printf("MARIO BAS\n");
         //printf("X MARIO :%f\n", mario.getX());
        // printf("Y MARIO :%f\n", mario.getY());
-        if (!gameover && !pause) {
+        if (!gameover && !pause && !victoire) {
             do {
                 //on récupère les coordonnées des 4 coins de la zone échelle
                 float tempSupGauche[2] = { listeDesEchelles[index1][0][0],listeDesEchelles[index1][0][1] };
@@ -795,7 +811,7 @@ static void keyboard(unsigned char key, int x, int y) {
 
     case 113: case 81: //faire aller Mario à gauche avec Q ou q
        // printf("MARIO GAUCHE\n");
-        if (!gameover && !pause) {
+        if (!gameover && !pause && !victoire) {
             if (mario.getY() >= -2.8 + compensationPoutre && mario.getY() <= 5.0 + compensationPoutre) { //Si Mario sur poutre -2 - OK
                 if (mario.getX() < 45 && mario.getX() > -55) {
                     //printf("X MARIO :%f\n", mario.getX());
@@ -851,7 +867,7 @@ static void keyboard(unsigned char key, int x, int y) {
 
     case 100: case 68: //faire aller Mario à droite avec D ou d
        // printf("MARIO DROITE\n");
-        if (!gameover && !pause) {
+        if (!gameover && !pause && !victoire) {
             if (mario.getY() >= -2.8 + compensationPoutre && mario.getY() <= 5.0 + compensationPoutre) { //Si Mario sur poutre -2 - OK
                 if (mario.getX() < 45 && mario.getX() > -55) {
                     //printf("X MARIO :%f\n", mario.getX());
@@ -950,7 +966,7 @@ static void mouvementTonneau(float ordoOrigine, float coefDir, float distance, i
 }
 
 void updateTonneau(int value) {
-    if(!gameover && !pause){
+    if(!gameover && !pause && !victoire){
     float hauteur = mario.getTaille();
     float posXMario = mario.getX();
     float posYMario = mario.getY();
