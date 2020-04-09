@@ -809,7 +809,7 @@ static void keyboard(unsigned char key, int x, int y) {
        // printf("MARIO BAS\n");
         //printf("X MARIO :%f\n", mario.getX());
        // printf("Y MARIO :%f\n", mario.getY());
-        if (!gameover && !pause && !victoire) {
+        if (!gameover && !pause && !victoire ) {
             do {
                 //on récupère les coordonnées des 4 coins de la zone échelle
                 float tempSupGauche[2] = { listeDesEchelles[index1][0][0],listeDesEchelles[index1][0][1] };
@@ -846,7 +846,7 @@ static void keyboard(unsigned char key, int x, int y) {
 
     case 113: case 81: //faire aller Mario à gauche avec Q ou q
        // printf("MARIO GAUCHE\n");
-        if (!gameover && !pause && !victoire) {
+        if (!gameover && !pause && !victoire && !sautEnCours) {
             if (mario.getY() >= -2.8 + compensationPoutre && mario.getY() <= 5.0 + compensationPoutre) { //Si Mario sur poutre -2 - OK
                 if (mario.getX() < 45 && mario.getX() > -55) {
                     //printf("X MARIO :%f\n", mario.getX());
@@ -902,7 +902,7 @@ static void keyboard(unsigned char key, int x, int y) {
 
     case 100: case 68: //faire aller Mario à droite avec D ou d
        // printf("MARIO DROITE\n");
-        if (!gameover && !pause && !victoire) {
+        if (!gameover && !pause && !victoire && !sautEnCours) {
             if (mario.getY() >= -2.8 + compensationPoutre && mario.getY() <= 5.0 + compensationPoutre) { //Si Mario sur poutre -2 - OK
                 if (mario.getX() < 45 && mario.getX() > -55) {
                     //printf("X MARIO :%f\n", mario.getX());
