@@ -507,6 +507,19 @@ void placementPoutres() {
 
 }
 
+void placementTasTonneaux() {
+    glPushMatrix();
+    glRotatef(90.0, 1.0, 0.0, 0.0);
+    tonneau(56,-3.0 ,-110.0, false);
+    tonneau(62,-3.0 ,-110.0, false);
+    tonneau(68,-3.0 ,-110.0, false);
+    tonneau(60, -3.0, -110-(largeurTonneau*2), false);
+    tonneau(66, -3.0, -110 - (largeurTonneau * 2), false);
+    tonneau(63, -3.0, -110 - (largeurTonneau * 4), false);
+    glPopMatrix();
+
+}
+
 static void sceneJeu() {
     glEnable(GL_DEPTH_TEST);
     glTranslated(0.0, 0.0, -90.0);
@@ -535,6 +548,7 @@ static void sceneJeu() {
 		}
     }
     //placementDK();
+    placementTasTonneaux();
     glPopMatrix();
 }
 
