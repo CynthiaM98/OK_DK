@@ -781,9 +781,6 @@ static void keyboard(unsigned char key, int x, int y) {
         break;
 
     case 122: case 90://faire monter Mario avec Z ou z
-        //printf("MARIO HAUT\n");
-       // printf("X MARIO :%f\n", mario.getX());
-       // printf("Y MARIO :%f\n", mario.getY());
         if (!gameover && !pause && !victoire) {
             do {
                 //on récupère les coordonnées des 4 coins de la zone échelle
@@ -791,18 +788,9 @@ static void keyboard(unsigned char key, int x, int y) {
                 float tempSupDroit[2] = { listeDesEchelles[index1][1][0],listeDesEchelles[index1][1][1] };
                 float tempInfGauche[2] = { listeDesEchelles[index1][2][0],listeDesEchelles[index1][2][1] };
                 float tempInfDroit[2] = { listeDesEchelles[index1][3][0],listeDesEchelles[index1][3][1] };
-
-                // printf("-------------------------------------------\n");
-                // printf("ON CHECK SI MARIO A UN X ENTRE %f ET %f \n", tempSupGauche[0], tempSupDroit[0]);
                 bool tempB = mario.getX() < tempSupDroit[0] && mario.getX() > tempSupGauche[0];
-                // printf("%s\n", tempB ? "OUI" : "NON");
-                // printf("ON CHECK SI MARIO A UN Y ENTRE %f ET %f \n", tempInfGauche[1], tempSupGauche[1]);
                 bool tempB2 = mario.getY() + mario.getTaille() * 0.25 >= tempInfDroit[1] && mario.getY() + mario.getTaille() * 0.25 <= tempSupGauche[1];
-                //  printf("%s\n", tempB2 ? "OUI" : "NON");
-                 //  printf("-------------------------------------------\n");
-                //on check si Mario est dans cette zone
                 if (tempB && tempB2) {
-                    //  printf("OUI\n");
                     trouveHaut = true;
 					sautEnCours = false;
 					mario.setSurEchelle(true);
@@ -822,9 +810,6 @@ static void keyboard(unsigned char key, int x, int y) {
         break;
 
     case 115: case 83://faire descendre Mario avec S ou s
-       // printf("MARIO BAS\n");
-        //printf("X MARIO :%f\n", mario.getX());
-       // printf("Y MARIO :%f\n", mario.getY());
         if (!gameover && !pause && !victoire ) {
             do {
                 //on récupère les coordonnées des 4 coins de la zone échelle
@@ -832,18 +817,9 @@ static void keyboard(unsigned char key, int x, int y) {
                 float tempSupDroit[2] = { listeDesEchelles[index1][1][0],listeDesEchelles[index1][1][1] };
                 float tempInfGauche[2] = { listeDesEchelles[index1][2][0],listeDesEchelles[index1][2][1] };
                 float tempInfDroit[2] = { listeDesEchelles[index1][3][0],listeDesEchelles[index1][3][1] };
-
-                // printf("-------------------------------------------\n");
-                //printf("ON CHECK SI MARIO A UN X ENTRE %f ET %f \n", tempSupGauche[0], tempSupDroit[0]);
                 bool tempB = mario.getX() < tempSupDroit[0] && mario.getX() > tempSupGauche[0];
-                // printf("%s\n", tempB ? "OUI" : "NON");
-                 //printf("ON CHECK SI MARIO A UN Y ENTRE %f ET %f \n", tempInfGauche[1], tempSupGauche[1]);
                 bool tempB2 = mario.getY() - mario.getTaille() * 0.25 >= tempInfDroit[1] && mario.getY() - mario.getTaille() * 0.25 <= tempSupDroit[1];
-                //printf("%s\n", tempB2 ? "OUI" : "NON");
-                //printf("-------------------------------------------\n");
-                //on check si Mario est dans cette zone
                 if (tempB && tempB2) {
-                    //printf("OUI\n");
                     trouveHaut = true;
 					sautEnCours = false;
 					mario.setSurEchelle(true);
@@ -863,12 +839,9 @@ static void keyboard(unsigned char key, int x, int y) {
         break;
 
     case 113: case 81: //faire aller Mario à gauche avec Q ou q
-       // printf("MARIO GAUCHE\n");
         if (!gameover && !pause && !victoire && !sautEnCours) {
             if (mario.getY() >= -2.8 + compensationPoutre && mario.getY() <= 5.0 + compensationPoutre) { //Si Mario sur poutre -2 - OK
                 if (mario.getX() < 45 && mario.getX() > -55) {
-                    //printf("X MARIO :%f\n", mario.getX());
-                    //printf("Y MARIO :%f\n", mario.getY());
                     gaucheMario(-2);
                 }
             }
@@ -919,12 +892,9 @@ static void keyboard(unsigned char key, int x, int y) {
         break;
 
     case 100: case 68: //faire aller Mario à droite avec D ou d
-       // printf("MARIO DROITE\n");
         if (!gameover && !pause && !victoire && !sautEnCours) {
             if (mario.getY() >= -2.8 + compensationPoutre && mario.getY() <= 5.0 + compensationPoutre) { //Si Mario sur poutre -2 - OK
                 if (mario.getX() < 45 && mario.getX() > -55) {
-                    //printf("X MARIO :%f\n", mario.getX());
-                    //printf("Y MARIO :%f\n", mario.getY());
                     droiteMario(-2);
                 }
             }
@@ -1135,10 +1105,10 @@ void updateTonneau(int value) {
 			else if (tabTonneau[i][1] <= 17.0 + 2 * compensationPoutre && tabTonneau[i][1] >= 2.7 + 2 * compensationPoutre) {
 				tabTonneau[i][1] -= longueurPas;
 			}
-			else if (tabTonneau[i][1] <= -2.9 + 2 * compensationPoutre && tabTonneau[i][1] >= -10 + 2 * compensationPoutre) {
+			else if (tabTonneau[i][1] <= -2.9 + 2 * compensationPoutre && tabTonneau[i][1] >= -1 + 2 * compensationPoutre) {
 				tabTonneau[i][1] -= longueurPas;
 			}
-			else if (tabTonneau[i][1] <= -10 + 2 * compensationPoutre) {//modif à 30 pour affichage propre
+			else if (tabTonneau[i][1] <= -30 + 2 * compensationPoutre) {//modif à 30 pour affichage propre
 				supprimerTonneau = i;
 			}
 		}
@@ -1170,9 +1140,6 @@ static void ajoutTonneau(int value) {
 }
 
 int main(int argc, char* argv[]) {
-    printf("%f\n",p0.getXCentre());
-    printf("%f\n", p1.getXCentre());
-    printf("%f\n", p2.getXCentre());
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH | GLUT_DOUBLE);
     glutInitWindowSize(windowWidth, windowHeight);
