@@ -1,6 +1,6 @@
 #include "Perso.h"
 
-float taille = 10.0;
+float taille = 7.0;
 
 
 Perso::Perso(float x, float y, float z) {
