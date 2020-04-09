@@ -1038,8 +1038,11 @@ void updateTonneau(int value) {
         else if (tabTonneau[i][1] <= -10 + 2 * compensationPoutre) {//modif à 30 pour affichage propre
             supprimerTonneau = i;
         }
-        if (tabTonneau[i][0] == posXMario && tabTonneau[i][1] == posYMario) {
-            printf("aOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO0UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUIIIIIIIIIIIIIII");
+
+        if (tabTonneau[i][0] + 3.0 >= posXMario - longueurMario && tabTonneau[i][0] - 3.0 <= posXMario +  longueurMario) {
+			if (tabTonneau[i][1] + 3.0 > posYMario && tabTonneau[i][1] - 3.0 < posYMario) {
+				printf("aie\n");
+			}
         }
     }
 
@@ -1050,13 +1053,15 @@ void updateTonneau(int value) {
     glutPostRedisplay();
     
     }
-    glutTimerFunc(10, updateTonneau, 0);
+    glutTimerFunc(25, updateTonneau, 0);
 }
 
 static void ajoutTonneau(int value) {
-    tonneau(xTonneauBegin, yTonneauBegin, zTonneauBegin);
-    nbTonneau++;
-    glutTimerFunc(5000, ajoutTonneau, 0);
+	if (!gameover && !pause && !victoire) {
+		tonneau(xTonneauBegin, yTonneauBegin, zTonneauBegin);
+		nbTonneau++;
+		glutTimerFunc(5000, ajoutTonneau, 0);
+	}
 }
 
 int main(int argc, char* argv[]) {
