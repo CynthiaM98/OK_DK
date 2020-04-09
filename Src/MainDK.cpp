@@ -95,6 +95,9 @@ float tabTonneau[100][100];
 bool gameover = false;
 bool pause = false;
 bool victoire = false;
+bool saut = false;
+bool sautEnCours = false;
+float initYsaut = 0.0f;
 //FCT ECHELLES
 
 float listeDesEchelles[nombreEchelle][4][2] = { //{{x,y}coinSupGauche,{x,y}coinSupDroit,{x,y}coinInfGauche,{x,y}coinInfDroit}
@@ -566,7 +569,7 @@ static void reshape(int tx, int ty) {
 }
 
 static void special(int key, int x, int y) {
-    printf("K  x=%d y=%d z=%d\n", px, py, pz);
+    //printf("K  x=%d y=%d z=%d\n", px, py, pz);
     switch (key) {
     case GLUT_KEY_UP: //page down pour avancer
         pz -= 0.5;
@@ -701,6 +704,32 @@ static void droiteMario(int poutre) {
         }
         break;
 
+    } 
+}
+
+static void sautMario(int value) {
+    bool finSaut = false;
+    if (saut) {
+       
+        if (mario.getY() - initYsaut < 10.0) {
+            mario.setY(mario.getY() + 0.05);
+        }
+        else {
+            saut = false;
+        }
+        
+    }
+    if (!saut) {
+        if (mario.getY() > initYsaut) {
+            mario.setY(mario.getY() - 0.05);
+        }
+        else {
+            finSaut = true;
+            sautEnCours = false;
+        }
+    }
+    if(!finSaut){
+        glutTimerFunc(2, sautMario, 0);
     }
 }
 
@@ -710,7 +739,7 @@ static void keyboard(unsigned char key, int x, int y) {
     int index2 = 0;
     bool trouveBas = false;
 
-    printf(" Touche: %c = %d \n", key, key);
+    //printf(" Touche: %c = %d \n", key, key);
     switch (key) {
 
     case 109: case 77: //mode fil de fer en appuyant sur la touche m
@@ -727,6 +756,15 @@ static void keyboard(unsigned char key, int x, int y) {
         exit(0);
         break;
     case 0x20 : //saut de mario avec la barre espace
+        if (!sautEnCours) {
+            sautEnCours = true;
+            saut = true;
+            initYsaut = mario.getY();
+            sautMario(0);
+        }
+
+
+        break;
 
     case 122: case 90://faire monter Mario avec Z ou z
         //printf("MARIO HAUT\n");
@@ -969,7 +1007,8 @@ void updateTonneau(int value) {
     float posYMario = mario.getY();
     float longueurMario = hauteur / 6 * 0.75;
     float supprimerTonneau = -1;
-    float vitesseTonneau = longueurPas / 2;
+    float vitesseTonneau = longueurPas *0.75;
+    
     for (int i = 0; i < nbTonneau; ++i) {
         if (tabTonneau[i][1] >= -3.0 + 2 * compensationPoutre && tabTonneau[i][1] <= 2.8 + 2 * compensationPoutre) { //Si Mario sur poutre -2 - OK
             if (tabTonneau[i][0] - longueurPas < 55 && tabTonneau[i][0] + longueurPas>-55) {
@@ -984,7 +1023,7 @@ void updateTonneau(int value) {
             }
             else {
                 if (tabTonneau[i][1] >= 36.0 + 2 * compensationPoutre && tabTonneau[i][1] <= 42.8 + 2 * compensationPoutre) { //Si Mario sur poutre 0 - OK
-					printf("Y : %f\n", tabTonneau[i][1]);
+					//printf("Y : %f\n", tabTonneau[i][1]);
 					if (tabTonneau[i][0] - longueurPas < 50 && tabTonneau[i][0] + longueurPas > -55) {
                         mouvementTonneau(39.72, -0.06, vitesseTonneau, i);
                     }
