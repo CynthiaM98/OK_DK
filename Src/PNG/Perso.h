@@ -20,10 +20,12 @@ class Perso {
 		float getY();
 		float getZ();
 		float getTaille();
+		bool getSurEchelle();
 		Orientation getOrientation();
 		void setX(float newX);
 		void setY(float newY);
 		void setOrientation(Orientation newOr);
+		void setSurEchelle(bool status);
 		void tete(float size);
 		void corp(float size);
 		void membre(float size);
@@ -31,6 +33,7 @@ class Perso {
 
 	private : 
 		float x, y, z; //coordonnée
+		bool surEchelle;
 		Orientation orientation;
 	
 };

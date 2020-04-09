@@ -606,7 +606,7 @@ static void special(int key, int x, int y) {
 
 
 static void gaucheMario(int poutre) {
-
+	mario.setSurEchelle(false);
     mario.setOrientation(Perso::Orientation::Gauche);
     mario.setX(mario.getX() - longueurPas);
     switch (poutre) {
@@ -643,6 +643,7 @@ static void gaucheMario(int poutre) {
 
 
 static void droiteMario(int poutre) {
+	mario.setSurEchelle(false);
     mario.setOrientation(Perso::Orientation::Droite);
     mario.setX(mario.getX() + longueurPas);
     switch (poutre) {
@@ -708,7 +709,6 @@ static void droiteMario(int poutre) {
 }
 
 static void sautMario(int value) {
-    bool finSaut = false;
     if (saut) {
        
         if (mario.getY() - initYsaut < 10.0) {
@@ -724,11 +724,10 @@ static void sautMario(int value) {
             mario.setY(mario.getY() - 0.05);
         }
         else {
-            finSaut = true;
             sautEnCours = false;
         }
     }
-    if(!finSaut){
+    if(sautEnCours){
         glutTimerFunc(2, sautMario, 0);
     }
 }
@@ -756,7 +755,8 @@ static void keyboard(unsigned char key, int x, int y) {
         exit(0);
         break;
     case 0x20 : //saut de mario avec la barre espace
-        if (!sautEnCours) {
+        if (!sautEnCours && !mario.getSurEchelle()) {
+
             sautEnCours = true;
             saut = true;
             initYsaut = mario.getY();
@@ -790,7 +790,9 @@ static void keyboard(unsigned char key, int x, int y) {
                 if (tempB && tempB2) {
                     //  printf("OUI\n");
                     trouveHaut = true;
-                }
+					sautEnCours = false;
+					mario.setSurEchelle(true);
+				}
                 index1++;
 
             } while (index1 < nombreEchelle && !trouveHaut);
@@ -829,7 +831,9 @@ static void keyboard(unsigned char key, int x, int y) {
                 if (tempB && tempB2) {
                     //printf("OUI\n");
                     trouveHaut = true;
-                }
+					sautEnCours = false;
+					mario.setSurEchelle(true);
+				}
                 index1++;
 
             } while (index1 < nombreEchelle && !trouveHaut);
