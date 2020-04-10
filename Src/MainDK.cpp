@@ -1332,9 +1332,12 @@ void updateTonneau(int value) {
 
 static void ajoutTonneau(int value) {
 	if (!gameover && !pause && !victoire) {
-        
+        printf("TRUE\n");
+        lanceTonneaux = true;
 		tonneau(xTonneauBegin, yTonneauBegin, zTonneauBegin, false);
 		nbTonneau++;
+        lanceTonneaux = false;
+        printf("FALSE\n");
 		glutTimerFunc(5000, ajoutTonneau, 0);
 	}
     else if(pause){

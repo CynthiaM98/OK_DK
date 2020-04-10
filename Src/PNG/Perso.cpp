@@ -79,7 +79,9 @@ void Perso::printPerso(bool sautEnCours,bool lanceTonneau) {
 		glRotatef(180.0, 0.0, 1.0, 0.0);
 		break;
 	}
-	
+	if (lanceTonneau) {
+		glRotatef(90.0, 0.0, 1.0, 0.0);
+	}
 	float temp = 0.0F; //variable pour simplifier la lecture dans l'appelle des fonctions
 	glPushMatrix();
 
@@ -101,11 +103,20 @@ void Perso::printPerso(bool sautEnCours,bool lanceTonneau) {
 		glTranslatef(-temp, 0.0F, 0.0F);
 		membre(this->taille);
 		glPopMatrix(); //retour au niveau du corp
-
-		glPushMatrix(); //bras gauche
-		glTranslatef(temp, 0.0F, 0.0F);
-		membre(this->taille);
-		glPopMatrix(); //retour au niveau du corp
+		if (lanceTonneau) {
+			glPushMatrix(); //bras gauche
+			glTranslatef(temp, 0.0F, temp);
+			glRotatef(90.0, 1.0, 0.0, 0.0);
+			membre(this->taille);
+			glPopMatrix(); //retour au niveau du corp
+		}
+		else {
+			glPushMatrix(); //bras gauche
+			glTranslatef(temp, 0.0F, 0.0F);
+			membre(this->taille);
+			glPopMatrix(); //retour au niveau du corp
+		}
+		
 	}
 	else {
 		glPushMatrix(); //bras droit
