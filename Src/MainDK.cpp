@@ -18,7 +18,6 @@
 
 static unsigned int textureID[1] = { 0 };
 
-
 static float px = 0.0;
 static float py = 60.0;
 static float pz = 10.0;
@@ -229,7 +228,7 @@ static void chargementTexture(char* filename, unsigned int textureID) {
         if (img) {
             glTexImage2D(GL_TEXTURE_2D, 0, 3, rx, ry, 0, GL_RGB, GL_UNSIGNED_BYTE, img);
             free(img);
-            printf("Texture chargée %d : %s\n", textureID, filename);
+            printf("Texture chargee %d : %s\n", textureID, filename);
         }
         else {
             printf("Texture non charge\n");
@@ -252,7 +251,7 @@ static void init(void) {
     glEnable(GL_NORMALIZE);
     glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, 1);
     glGenTextures(1, textureID);
-    chargementTexture("Emojis.jpg", textureID[0]);
+    chargementTexture("Emojis.png", textureID[0]);
 }
 
 void idle(void) {
@@ -338,7 +337,7 @@ static void echelleCassee(float hauteur, float largeur) {
 
 
 
-static void tonneau(float xTonneau, float yTonneau, float zTonneau, bool echelle) {
+static void tonneau(float xTonneau, float yTonneau, float zTonneau, bool echelle, unsigned int *texID) {
     glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, couleur_tonneaux);
     float n;
     glPushMatrix();
@@ -348,26 +347,28 @@ static void tonneau(float xTonneau, float yTonneau, float zTonneau, bool echelle
 	}
 	
 	glPushMatrix();
-	glBindTexture(GL_TEXTURE_2D, textureID[0]);
+	glBindTexture(GL_TEXTURE_2D, texID[0]);
 	glBegin(GL_POLYGON);
     for (int i = 0; i < 360; i++) {
         n = i * 3.14 / 180;
-        glVertex2f(largeurTonneau * cos(n), largeurTonneau * sin(n));
+       glVertex2f(largeurTonneau * cos(n), largeurTonneau * sin(n));
     }
     glEnd();
     glPopMatrix();
 	glPushMatrix();
     glTranslatef(0.0, 0.0, largeurPoutre * 0.75);//face avant
     glRotatef(180.0, 0.0, 1.0, 0.0);
-	glBindTexture(GL_TEXTURE_2D, textureID[0]);
+	glBindTexture(GL_TEXTURE_2D, texID[0]);
     glBegin(GL_POLYGON);
     for (int i = 0; i < 360; i++) {
         n = i * 3.14 / 180;
-        glVertex2f(largeurTonneau * cos(n), largeurTonneau * sin(n));
+       glVertex2f(largeurTonneau * cos(n), largeurTonneau * sin(n));
     }
     glEnd();
     glPopMatrix();
+	glBindTexture(GL_TEXTURE_2D, texID[0]);
 	GLUquadric *glNewQuad = gluNewQuadric();
+	glBindTexture(GL_TEXTURE_2D, texID[0]);
 	gluCylinder(glNewQuad, largeurTonneau, largeurTonneau, largeurPoutre * 0.75, 30.0, 30.0);
     glPopMatrix();
     tabTonneau[nbTonneau][0] = xTonneau;
@@ -444,7 +445,7 @@ static void placementEchelles() {
 static void placementMario() {
     glPushMatrix();
     glTranslatef(mario.getX(), mario.getY(), mario.getZ());
-    mario.printPerso(sautEnCours, false);
+    mario.printPerso(sautEnCours, false, textureID);
     glPopMatrix();
 }
 
@@ -455,7 +456,7 @@ static void placementPrincesse() {
     glPushMatrix();
     glTranslatef(princess.getX(), princess.getY(), princess.getZ());
     glRotatef(90.0, 0.0, 1.0, 0.0);
-    princess.printPerso(false, false);
+    princess.printPerso(false, false, textureID);
     glPopMatrix();
     glPopMatrix();
 }
@@ -466,7 +467,7 @@ static void placementDK() {
     glPushMatrix();
     glTranslatef(donkeyKong.getX(), donkeyKong.getY(), donkeyKong.getZ());
     glRotatef(90.0, 0.0, 1.0, 0.0);
-	donkeyKong.printPerso(false, lanceTonneaux);
+	donkeyKong.printPerso(false, lanceTonneaux, textureID);
 	glPopMatrix();
     glPopMatrix();
 }
@@ -489,12 +490,12 @@ void placementPoutres() {
 void placementTasTonneaux() {
     glPushMatrix();
     glRotatef(90.0, 1.0, 0.0, 0.0);
-    tonneau(56,-3.0 ,-110.0, false);
-    tonneau(62,-3.0 ,-110.0, false);
-    tonneau(68,-3.0 ,-110.0, false);
-    tonneau(60, -3.0, -110-(largeurTonneau*2), false);
-    tonneau(66, -3.0, -110 - (largeurTonneau * 2), false);
-    tonneau(63, -3.0, -110 - (largeurTonneau * 4), false);
+    tonneau(56,-3.0 ,-110.0, false, textureID);
+    tonneau(62,-3.0 ,-110.0, false, textureID);
+    tonneau(68,-3.0 ,-110.0, false, textureID);
+    tonneau(60, -3.0, -110-(largeurTonneau*2), false, textureID);
+    tonneau(66, -3.0, -110 - (largeurTonneau * 2), false, textureID);
+    tonneau(63, -3.0, -110 - (largeurTonneau * 4), false, textureID);
     glPopMatrix();
 
 }
@@ -521,10 +522,10 @@ static void sceneJeu() {
     placementDK();
     for (int i = 0; i < nbTonneau; ++i) {
 		if (tabTonneau[i][2] == 0) {
-			tonneau(tabTonneau[i][0], tabTonneau[i][1], zTonneauBegin,false);
+			tonneau(tabTonneau[i][0], tabTonneau[i][1], zTonneauBegin,false, textureID);
 		}
 		else {
-			tonneau(tabTonneau[i][0], tabTonneau[i][1], zTonneauBegin,true);
+			tonneau(tabTonneau[i][0], tabTonneau[i][1], zTonneauBegin,true, textureID);
 		}
     }
     
@@ -1344,7 +1345,7 @@ static void animationDK(int value) {
 static void ajoutTonneau(int value) {
 	if (!gameover && !pause && !victoire) {
 		glutTimerFunc(0, animationDK, 0);
-		tonneau(xTonneauBegin, yTonneauBegin, zTonneauBegin, false);
+		tonneau(xTonneauBegin, yTonneauBegin, zTonneauBegin, false, textureID);
 		nbTonneau++;
 		glutTimerFunc(5000, ajoutTonneau, 0);
 	}

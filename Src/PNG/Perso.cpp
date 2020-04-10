@@ -45,25 +45,99 @@ void Perso::setSurEchelle(bool status) {
 	this->surEchelle = status;
 }
 
-void Perso::tete(float size) {
-	double tailleTete = size / 3.0;
-	glScalef(tailleTete, tailleTete, tailleTete);
-	glutSolidCube(1.0);
+
+void Perso::myCube(float size, unsigned int *texID) {
+	float c = (float)size / 2.0F;
+	GLboolean nm = glIsEnabled(GL_NORMALIZE);
+	if (!nm)
+		glEnable(GL_NORMALIZE);
+	float normale[4];
+	glGetFloatv(GL_CURRENT_NORMAL, normale);
+	/* Modelisation geometrique */
+	glPushMatrix();
+	glBindTexture(GL_TEXTURE_2D, texID[0]);
+	glBegin(GL_QUADS);
+	{ glNormal3f(0.0F, 0.0F, -1.0F);
+	glTexCoord2f(0.0F, 0.0F);
+	glVertex3f(c, c, -c);
+	glTexCoord2f(0.0F, 1.0F);
+	glVertex3f(c, -c, -c);
+	glTexCoord2f(1.0F, 1.0F);
+	glVertex3f(-c, -c, -c);
+	glTexCoord2f(1.0F, 0.0F);
+	glVertex3f(-c, c, -c); }
+	{ glNormal3f(0.0F, 0.0F, 1.0F);
+	glTexCoord2f(0.0F, 0.0F);
+	glVertex3f(c, c, c);
+	glTexCoord2f(0.0F, 1.0F);
+	glVertex3f(-c, c, c);
+	glTexCoord2f(1.0F, 1.0F);
+	glVertex3f(-c, -c, c);
+	glTexCoord2f(1.0F, 0.0F);
+	glVertex3f(c, -c, c); }
+	{ glNormal3f(-1.0F, 0.0F, 0.0F);
+	glTexCoord2f(0.0F, 0.0F);
+	glVertex3f(-c, c, -c);
+	glTexCoord2f(0.0F, 1.0F);
+	glVertex3f(-c, -c, -c);
+	glTexCoord2f(1.0F, 1.0F);
+	glVertex3f(-c, -c, c);
+	glTexCoord2f(1.0F, 0.0F);
+	glVertex3f(-c, c, c); }
+	{ glNormal3f(1.0F, 0.0F, 0.0F);
+	glTexCoord2f(0.0F, 0.0F);
+	glVertex3f(c, c, c);
+	glTexCoord2f(0.0F, 1.0F);
+	glVertex3f(c, -c, c);
+	glTexCoord2f(1.0F, 1.0F);
+	glVertex3f(c, -c, -c);
+	glTexCoord2f(1.0F, 0.0F);
+	glVertex3f(c, c, -c); }
+	{ glNormal3f(0.0F, -1.0F, 0.0F);
+	glTexCoord2f(0.0F, 0.0F);
+	glVertex3f(-c, -c, c);
+	glTexCoord2f(0.0F, 1.0F);
+	glVertex3f(-c, -c, -c);
+	glTexCoord2f(1.0F, 1.0F);
+	glVertex3f(c, -c, -c);
+	glTexCoord2f(1.0F, 0.0F);
+	glVertex3f(c, -c, c); }
+	{ glNormal3f(0.0F, 1.0F, 0.0F);
+	glTexCoord2f(0.0F, 0.0F);
+	glVertex3f(c, c, c);
+	glTexCoord2f(0.0F, 1.0F);
+	glVertex3f(c, c, -c);
+	glTexCoord2f(1.0F, 1.0F);
+	glVertex3f(-c, c, -c);
+	glTexCoord2f(1.0F, 0.0F);
+	glVertex3f(-c, c, c); }
+	glEnd();
+	glPopMatrix();
+	/* Restoration de la normale et du flag normalisation */
+	glNormal3f(normale[0], normale[1], normale[2]);
+	if (!nm)
+		glDisable(GL_NORMALIZE);
 }
 
-void Perso::corp(float size) {
-	double tailleCorp = size / 3.0;
-	glutSolidCube(tailleCorp);
-}
-
-void Perso::membre(float size) {
+void Perso::membre(float size, unsigned int *texID) {
 	float LargeurMembre = size / 6.0;
 	float hauteurMembre = size / 3.0;
 	glScalef(LargeurMembre, hauteurMembre, LargeurMembre*0.75);
-	glutSolidCube(1.0);
+	myCube(1.0, texID);
 }
 
-void Perso::printPerso(bool sautEnCours,bool lanceTonneau) {
+void Perso::tete(float size, unsigned int *texID) {
+	double tailleTete = size / 3.0;
+	glScalef(tailleTete, tailleTete, tailleTete);
+	myCube(1.0, texID);
+}
+
+void Perso::corps(float size, unsigned int *texID) {
+	double tailleCorps = size / 3.0;
+	myCube(tailleCorps, texID);
+}
+
+void Perso::printPerso(bool sautEnCours,bool lanceTonneau, unsigned int *texID) {
 	glPushMatrix();
 	switch (orientation) {
 	case Droite:
@@ -85,33 +159,33 @@ void Perso::printPerso(bool sautEnCours,bool lanceTonneau) {
 	glPushMatrix();
 	temp = 5.0* this->taille / 6.0;
 	glTranslatef(0.0F, temp, 0.0F); //niveau tête
-	tete(this->taille);
+	tete(this->taille, texID);
 	glPopMatrix(); //retour origine
 
 	glPushMatrix();
 	temp = this->taille / 2.0;
-	glTranslatef(0.0F, temp, 0.0F); //niveau corp
-	corp(this->taille);
+	glTranslatef(0.0F, temp, 0.0F); //niveau corps
+	corps(this->taille,texID);
 
 	if (!sautEnCours) {
 		glPushMatrix(); //bras droit
 
 		temp = this->taille / 4.0;
 		glTranslatef(-temp, 0.0F, 0.0F);
-		membre(this->taille);
-		glPopMatrix(); //retour au niveau du corp
+		membre(this->taille,texID);
+		glPopMatrix(); //retour au niveau du corps
 		if (lanceTonneau) {
 			glPushMatrix(); //bras gauche
 			glTranslatef(temp, 0.0F, temp);
 			glRotatef(90.0, 1.0, 0.0, 0.0);
-			membre(this->taille);
-			glPopMatrix(); //retour au niveau du corp
+			membre(this->taille,texID);
+			glPopMatrix(); //retour au niveau du corps
 		}
 		else {
 			glPushMatrix(); //bras gauche
 			glTranslatef(temp, 0.0F, 0.0F);
-			membre(this->taille);
-			glPopMatrix(); //retour au niveau du corp
+			membre(this->taille, texID);
+			glPopMatrix(); //retour au niveau du corps
 		}
 		
 	}
@@ -121,14 +195,14 @@ void Perso::printPerso(bool sautEnCours,bool lanceTonneau) {
 		temp = this->taille / 4.0;
 		glTranslatef(-temp, 0.0F, 0.0F);
 		glRotatef(90.0, 0.0, 0.0, 1.0);
-		membre(this->taille);
-		glPopMatrix(); //retour au niveau du corp
+		membre(this->taille, texID);
+		glPopMatrix(); //retour au niveau du corps
 
 		glPushMatrix(); //bras gauche
 		glTranslatef(temp, 0.0F, 0.0F);
 		glRotatef(90.0, 0.0, 0.0, 1.0);
-		membre(this->taille);
-		glPopMatrix(); //retour au niveau du corp
+		membre(this->taille, texID);
+		glPopMatrix(); //retour au niveau du corps
 	}
 	glPopMatrix(); //retour origine
 
@@ -139,12 +213,12 @@ void Perso::printPerso(bool sautEnCours,bool lanceTonneau) {
 		glPushMatrix(); //jambe droite
 		temp = this->taille / 12.0;
 		glTranslatef(-temp, 0.0F, 0.0F);
-		membre(this->taille);
+		membre(this->taille, texID);
 		glPopMatrix();
 
 		glPushMatrix();//jambe gauche
 		glTranslatef(temp, 0.0F, 0.0F);
-		membre(this->taille);
+		membre(this->taille, texID);
 		glPopMatrix();
 	}
 	else {
@@ -152,13 +226,13 @@ void Perso::printPerso(bool sautEnCours,bool lanceTonneau) {
 		temp = this->taille / 12.0;
 		glTranslatef(-temp, 0.5F, 0.0F);
 		glRotatef(-45.0, 1.0, 0.0, 0.0);
-		membre(this->taille);
+		membre(this->taille, texID);
 		glPopMatrix();
 
 		glPushMatrix();//jambe gauche
 		glTranslatef(temp, 0.5F, 0.0F);
 		glRotatef(-45.0, 1.0, 0.0, 0.0);
-		membre(this->taille);
+		membre(this->taille, texID);
 		glPopMatrix();
 	}
 	glPopMatrix();
