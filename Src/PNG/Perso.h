@@ -15,7 +15,7 @@ class Perso {
 
 	public:
 		enum Orientation { Droite, Gauche, Dos };
-		Perso(float x,float y,float z);
+		Perso(float x,float y,float z,float taille);
 		float getX();
 		float getY();
 		float getZ();
@@ -34,6 +34,7 @@ class Perso {
 	private : 
 		float x, y, z; //coordonnée
 		bool surEchelle;
+		float taille;
 		Orientation orientation;
 	
 };
