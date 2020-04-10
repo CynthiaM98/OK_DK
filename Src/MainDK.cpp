@@ -670,14 +670,14 @@ static void display(void) {
         break;
         case Perso::Droite:
             if (mario.getX() < 0) {
-                    gluLookAt(mario.getX() + mario.getTaille() / 3.0, mario.getY() + 1.5 + mario.getTaille(), -90.0 - mario.getZ(),- mario.getX() - mario.getTaille() / 3.0 + 0.1, mario.getY() + mario.getTaille() + 1.5, -90.0 - mario.getZ(), 0.0, 1.0, 0.0);
+                    gluLookAt(mario.getX() + mario.getTaille() / 3.0, mario.getY() + 1.5 + mario.getTaille(), -90.0 - mario.getZ(),- mario.getX() + mario.getTaille() / 3.0 + 0.1, mario.getY() + mario.getTaille() + 1.5, -90.0 - mario.getZ(), 0.0, 1.0, 0.0);
             }
             else {
                 if (mario.getX() > 0) {
                     gluLookAt(mario.getX() + mario.getTaille() / 3.0, mario.getY() + 1.5 + mario.getTaille(), -90.0 - mario.getZ(), mario.getX() + mario.getTaille() / 3.0 + 0.1, mario.getY() + mario.getTaille() + 1.5, -90.0 - mario.getZ(), 0.0, 1.0, 0.0);
                 }
                 else {
-                    gluLookAt(mario.getX() + mario.getTaille() / 3.0, mario.getY() + 1.5 + mario.getTaille(), -90.0 - mario.getZ(), 1, mario.getY() + mario.getTaille() + 1.5, -90.0 - mario.getZ()- mario.getTaille() / 3.0-1.0, 0.0, 1.0, 0.0);  
+                    gluLookAt(mario.getX() + mario.getTaille() / 3.0, mario.getY() + 1.5 + mario.getTaille(), -90.0 - mario.getZ(), mario.getX() + mario.getTaille() / 3.0 + 0.1, mario.getY() + mario.getTaille() + 1.5, -90.0 - mario.getZ(), 0.0, 1.0, 0.0);
                 }
             }
         break;
