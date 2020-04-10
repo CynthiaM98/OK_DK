@@ -72,7 +72,7 @@ float initZMario = -1.0;
 float longueurPas = 0.5F;
 bool chute = false;
 
-Perso mario(initXMario, initYMario, initZMario);
+Perso mario(initXMario, initYMario, initZMario,7.0);
 
 Perso::Orientation initOrientationMario = mario.getOrientation();
 
@@ -81,7 +81,7 @@ float xPrincesse = -30.0;
 float yPrincesse = 120.0;
 float zPrincesse = 0.0;
 
-Perso princess(xPrincesse, yPrincesse, zPrincesse);
+Perso princess(xPrincesse, yPrincesse, zPrincesse,7.0);
 
 
 //DK
@@ -89,6 +89,7 @@ float xDonkeyKong = 40.0;
 float yDonkeyKong = (99.69 + 0.06 * xDonkeyKong) + compensationPoutre;
 float zDonkeyKong = 0.0;
 
+Perso donkeyKong(xDonkeyKong, yDonkeyKong, zDonkeyKong,20.0);
 //TONNEAU
 float xTonneauBegin = 30;
 float yTonneauBegin = 102 + 2 * compensationPoutre;
@@ -389,10 +390,6 @@ static void tonneau(float xTonneau, float yTonneau, float zTonneau, bool echelle
     tabTonneau[nbTonneau][2] = 0.0F;
 }
 
-static void donkeyKong(float size) {
-    //mario(size,false);
-}
-
 
 
 static void placementEchelles() {
@@ -477,18 +474,18 @@ static void placementPrincesse() {
     glPopMatrix();
     glPopMatrix();
 }
-/*
+
 static void placementDK() {
     glPushMatrix();
     glMaterialfv(GL_FRONT, GL_DIFFUSE, couleur_dk); // TODO : REMPLACER LE MATERIAU PAR UNE TEXTURE
     glPushMatrix();
-    glTranslatef(xDonkeyKong, yDonkeyKong, zDonkeyKong);
+    glTranslatef(donkeyKong.getX(), donkeyKong.getY(), donkeyKong.getZ());
     glRotatef(90.0, 0.0, 1.0, 0.0);
-    princesse(tailleMario*1.7);
+    donkeyKong.printPerso(false);
     glPopMatrix();
     glPopMatrix();
 }
-*/
+
 
 void placementPoutres() {
     glPushMatrix();
@@ -545,6 +542,7 @@ static void sceneJeu() {
     glPushMatrix();
     placementMario();
     placementPrincesse();
+    placementDK();
     for (int i = 0; i < nbTonneau; ++i) {
 		if (tabTonneau[i][2] == 0) {
 			tonneau(tabTonneau[i][0], tabTonneau[i][1], zTonneauBegin,false);
@@ -553,7 +551,7 @@ static void sceneJeu() {
 			tonneau(tabTonneau[i][0], tabTonneau[i][1], zTonneauBegin,true);
 		}
     }
-    //placementDK();
+    
     placementTasTonneaux();
     glPopMatrix();
 }
