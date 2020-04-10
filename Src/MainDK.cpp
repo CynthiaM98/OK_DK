@@ -218,7 +218,7 @@ GLfloat mat_emission[] = { 0.3F,0.2F,0.2F,0.0F };
 GLfloat couleur_echelles[] = { 0.1F,0.5F,0.8F,1.0F };
 GLfloat couleur_tonneaux[] = { 0.1F,0.5F,0.8F,1.0F };
 GLfloat couleur_princesse[] = { 5.5F,0.5F,5.5F,1.0F };
-GLfloat couleur_dk[] = { 0.5F,41.0F,0.0F,1.0F };
+GLfloat couleur_dk[] = { 999.0F,999.0F,999.0F,1.0F };
 
 static void chargementTexture(char* filename, unsigned int textureID) {
     glBindTexture(GL_TEXTURE_2D, textureID);
@@ -860,7 +860,7 @@ static void droiteMario(int poutre) {
             tomber(-20.0);
         }
         else {
-            if (mario.getX() >= 40) { //gameover quand mario "marche" sur donkeyKong
+            if (mario.getX() >= xDonkeyKong-5.0) { //gameover quand mario "marche" sur donkeyKong
                 gameover = true;
                 return;
             }
