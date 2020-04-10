@@ -650,90 +650,46 @@ static void display(void) {
         }
     }
     else {
-        switch (lumiere) {
-        case 0:
-            switch(mario.getOrientation()){
-            glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
-            case Perso::Gauche:
-                if (mario.getX() <0) {
-                    gluLookAt(mario.getX() + mario.getTaille() / 3.0, mario.getY()+1.5 +  mario.getTaille(), -90.0 - mario.getZ(),  mario.getX() - mario.getTaille() / 3.0-0.1, mario.getY() +mario.getTaille()+1.5, -90.0 - mario.getZ(), 0.0, 1.0, 0.0);
-                }
-                else {
-                    if(mario.getX() > 0){
-                        gluLookAt(mario.getX() + mario.getTaille() / 3.0 , mario.getY() + 1.5 + mario.getTaille(), -90.0 - mario.getZ(),- mario.getX() + mario.getTaille() / 3.0 + 0.1, mario.getY() + mario.getTaille() + 1.5, -90.0 - mario.getZ(), 0.0, 1.0, 0.0);
-                    }
-                    else {
-                        gluLookAt(mario.getX() + mario.getTaille() / 3.0, mario.getY() + 1.5 + mario.getTaille(), -90.0 - mario.getZ(), -1, mario.getY() + mario.getTaille() + 1.5, -90.0 - mario.getZ(), 0.0, 1.0, 0.0);
-
-                    }
-                }
-            break;
-            case Perso::Droite:
-                if (mario.getX() < 0) {
-                     gluLookAt(mario.getX() + mario.getTaille() / 3.0, mario.getY() + 1.5 + mario.getTaille(), -90.0 - mario.getZ(),- mario.getX() - mario.getTaille() / 3.0 + 0.1, mario.getY() + mario.getTaille() + 1.5, -90.0 - mario.getZ(), 0.0, 1.0, 0.0);
-                }
-                else {
-                    if (mario.getX() > 0) {
-                        gluLookAt(mario.getX() + mario.getTaille() / 3.0, mario.getY() + 1.5 + mario.getTaille(), -90.0 - mario.getZ(), mario.getX() + mario.getTaille() / 3.0 + 0.1, mario.getY() + mario.getTaille() + 1.5, -90.0 - mario.getZ(), 0.0, 1.0, 0.0);
-
-                    }
-                    else {
-                        gluLookAt(mario.getX() + mario.getTaille() / 3.0, mario.getY() + 1.5 + mario.getTaille(), -90.0 - mario.getZ(), 1, mario.getY() + mario.getTaille() + 1.5, -90.0 - mario.getZ()- mario.getTaille() / 3.0-1.0, 0.0, 1.0, 0.0);
-
-                    
-                    }
-                }
-            break;
-            
-            case Perso::Dos:
-                gluLookAt(mario.getX() - mario.getTaille() / 3.0, mario.getY() + 5.0 * mario.getTaille() / 6.0, -90.0 - mario.getZ(),  mario.getX() - mario.getTaille() / 3.0, mario.getY() + 5.0 * mario.getTaille() / 6.0, -90.0 - mario.getZ(), 0.0, 1.0, 0.0);
-                break;
-            
-            
+        switch(mario.getOrientation()){
+			if (lumiere == 0) {
+				glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
+			}
+        glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
+        case Perso::Gauche:
+            if (mario.getX() <0) {
+                gluLookAt(mario.getX() + mario.getTaille() / 3.0, mario.getY()+1.5 +  mario.getTaille(), -90.0 - mario.getZ(),  mario.getX() - mario.getTaille() / 3.0-0.1, mario.getY() +mario.getTaille()+1.5, -90.0 - mario.getZ(), 0.0, 1.0, 0.0);
             }
-            break;
-        case 1:
-            glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
-            switch (mario.getOrientation()) {
-                glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
-            case Perso::Gauche:
-                if (mario.getX() < 0) {
-                    gluLookAt(mario.getX() + mario.getTaille() / 3.0, mario.getY() + 1.5 + mario.getTaille(), -90.0 - mario.getZ(), mario.getX() - mario.getTaille() / 3.0 - 0.1, mario.getY() + mario.getTaille() + 1.5, -90.0 - mario.getZ(), 0.0, 1.0, 0.0);
+            else {
+                if(mario.getX() > 0){
+                    gluLookAt(mario.getX() + mario.getTaille() / 3.0 , mario.getY() + 1.5 + mario.getTaille(), -90.0 - mario.getZ(),- mario.getX() + mario.getTaille() / 3.0 + 0.1, mario.getY() + mario.getTaille() + 1.5, -90.0 - mario.getZ(), 0.0, 1.0, 0.0);
                 }
                 else {
-                    if (mario.getX() > 0) {
-                        gluLookAt(mario.getX() + mario.getTaille() / 3.0, mario.getY() + 1.5 + mario.getTaille(), -90.0 - mario.getZ(), -mario.getX() + mario.getTaille() / 3.0 + 0.1, mario.getY() + mario.getTaille() + 1.5, -90.0 - mario.getZ(), 0.0, 1.0, 0.0);
-                    }
-                    else {
-                        gluLookAt(mario.getX() + mario.getTaille() / 3.0, mario.getY() + 1.5 + mario.getTaille(), -90.0 - mario.getZ(), -1, mario.getY() + mario.getTaille() + 1.5, -90.0 - mario.getZ(), 0.0, 1.0, 0.0);
-
-                    }
+                    gluLookAt(mario.getX() + mario.getTaille() / 3.0, mario.getY() + 1.5 + mario.getTaille(), -90.0 - mario.getZ(), -1, mario.getY() + mario.getTaille() + 1.5, -90.0 - mario.getZ(), 0.0, 1.0, 0.0);
                 }
-                break;
-            case Perso::Droite:
-                if (mario.getX() < 0) {
-                    gluLookAt(mario.getX() + mario.getTaille() / 3.0, mario.getY() + 1.5 + mario.getTaille(), -90.0 - mario.getZ(), -mario.getX() - mario.getTaille() / 3.0 + 0.1, mario.getY() + mario.getTaille() + 1.5, -90.0 - mario.getZ(), 0.0, 1.0, 0.0);
-                }
-                else {
-                    if (mario.getX() > 0) {
-                        gluLookAt(mario.getX() + mario.getTaille() / 3.0, mario.getY() + 1.5 + mario.getTaille(), -90.0 - mario.getZ(), mario.getX() + mario.getTaille() / 3.0 + 0.1, mario.getY() + mario.getTaille() + 1.5, -90.0 - mario.getZ(), 0.0, 1.0, 0.0);
-
-                    }
-                    else {
-                        gluLookAt(mario.getX() + mario.getTaille() / 3.0, mario.getY() + 1.5 + mario.getTaille(), -90.0 - mario.getZ(), 1, mario.getY() + mario.getTaille() + 1.5, -90.0 - mario.getZ() - mario.getTaille() / 3.0 - 1.0, 0.0, 1.0, 0.0);
-
-
-                    }
-                }
-                break;
-
-            case Perso::Dos:
-                gluLookAt(mario.getX() - mario.getTaille() / 3.0, mario.getY() + 5.0 * mario.getTaille() / 6.0, -90.0 - mario.getZ(), mario.getX() - mario.getTaille() / 3.0, mario.getY() + 5.0 * mario.getTaille() / 6.0, -90.0 - mario.getZ(), 0.0, 1.0, 0.0);
-                break;
             }
-            break;
+        break;
+        case Perso::Droite:
+            if (mario.getX() < 0) {
+                    gluLookAt(mario.getX() + mario.getTaille() / 3.0, mario.getY() + 1.5 + mario.getTaille(), -90.0 - mario.getZ(),- mario.getX() - mario.getTaille() / 3.0 + 0.1, mario.getY() + mario.getTaille() + 1.5, -90.0 - mario.getZ(), 0.0, 1.0, 0.0);
+            }
+            else {
+                if (mario.getX() > 0) {
+                    gluLookAt(mario.getX() + mario.getTaille() / 3.0, mario.getY() + 1.5 + mario.getTaille(), -90.0 - mario.getZ(), mario.getX() + mario.getTaille() / 3.0 + 0.1, mario.getY() + mario.getTaille() + 1.5, -90.0 - mario.getZ(), 0.0, 1.0, 0.0);
+                }
+                else {
+                    gluLookAt(mario.getX() + mario.getTaille() / 3.0, mario.getY() + 1.5 + mario.getTaille(), -90.0 - mario.getZ(), 1, mario.getY() + mario.getTaille() + 1.5, -90.0 - mario.getZ()- mario.getTaille() / 3.0-1.0, 0.0, 1.0, 0.0);  
+                }
+            }
+        break;
+            
+        case Perso::Dos:
+            gluLookAt(mario.getX() - mario.getTaille() / 3.0, mario.getY() + 5.0 * mario.getTaille() / 6.0, -90.0 - mario.getZ(),  mario.getX() - mario.getTaille() / 3.0, mario.getY() + 5.0 * mario.getTaille() / 6.0, -90.0 - mario.getZ(), 0.0, 1.0, 0.0);
+            break;    
         }
     }
+	if (lumiere == 1) {
+		glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
+	}
     sceneJeu();
 
     glPopMatrix();
@@ -1423,7 +1379,6 @@ static void printWVictoire(int value) {
         glutCreateWindow("DonkeyKong - VICTOIRE !"); //creer la fenetre de gameOver
         glutReshapeFunc(reshapeWVictoire);
         glutDisplayFunc(displayWVictoire);   // Register display callback
-
     }
 
     glutTimerFunc(2, printWVictoire, value);
@@ -1438,7 +1393,6 @@ static void printWGameOver(int value) {
         glutCreateWindow("DonkeyKong - GAME OVER !"); //creer la fenetre de gameOver
         glutReshapeFunc(reshapeWGO);
         glutDisplayFunc(displayWGO);   // Register display callback
-
     }
 
     glutTimerFunc(2, printWGameOver, value);
