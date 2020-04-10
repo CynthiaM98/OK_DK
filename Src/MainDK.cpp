@@ -102,6 +102,7 @@ bool gameover = false;
 bool pause = false;
 bool victoire = false;
 bool saut = false;
+bool lanceTonneaux = false;
 bool sautEnCours = false;
 bool godMod = false;
 bool cameraFPS = false;
@@ -442,7 +443,7 @@ static void placementEchelles() {
 static void placementMario() {
     glPushMatrix();
     glTranslatef(mario.getX(), mario.getY(), mario.getZ());
-    mario.printPerso(sautEnCours);
+    mario.printPerso(sautEnCours,false);
     glPopMatrix();
 }
 
@@ -453,7 +454,7 @@ static void placementPrincesse() {
     glPushMatrix();
     glTranslatef(princess.getX(), princess.getY(), princess.getZ());
     glRotatef(90.0, 0.0, 1.0, 0.0);
-    princess.printPerso(false);
+    princess.printPerso(false,false);
     glPopMatrix();
     glPopMatrix();
 }
@@ -464,7 +465,7 @@ static void placementDK() {
     glPushMatrix();
     glTranslatef(donkeyKong.getX(), donkeyKong.getY(), donkeyKong.getZ());
     glRotatef(90.0, 0.0, 1.0, 0.0);
-    donkeyKong.printPerso(false);
+    donkeyKong.printPerso(false,lanceTonneaux);
     glPopMatrix();
     glPopMatrix();
 }
@@ -1331,6 +1332,7 @@ void updateTonneau(int value) {
 
 static void ajoutTonneau(int value) {
 	if (!gameover && !pause && !victoire) {
+        
 		tonneau(xTonneauBegin, yTonneauBegin, zTonneauBegin, false);
 		nbTonneau++;
 		glutTimerFunc(5000, ajoutTonneau, 0);

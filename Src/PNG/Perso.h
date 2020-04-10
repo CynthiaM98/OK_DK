@@ -29,7 +29,7 @@ class Perso {
 		void tete(float size);
 		void corp(float size);
 		void membre(float size);
-		void printPerso(bool sautEnCours);
+		void printPerso(bool sautEnCours, bool lanceTonneau);
 
 	private : 
 		float x, y, z; //coordonnée

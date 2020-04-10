@@ -66,7 +66,7 @@ void Perso::membre(float size) {
 	glutSolidCube(1.0);
 }
 
-void Perso::printPerso(bool sautEnCours) {
+void Perso::printPerso(bool sautEnCours,bool lanceTonneau) {
 	glPushMatrix();
 	switch (orientation) {
 	case Droite:
