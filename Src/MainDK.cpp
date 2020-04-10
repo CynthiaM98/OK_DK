@@ -64,6 +64,8 @@ const int nombreEchelle = 6;
 const int nombreEchelleCassee = 5;
 const int nombrePoutre = 8;
 
+float tailleHumaine = 7.0F;
+
 //MARIO
 float initXMario = 5.0;
 float initYMario = 120+ compensationPoutre;
@@ -72,7 +74,7 @@ float initZMario = -1.0;
 float longueurPas = 0.5F;
 bool chute = false;
 
-Perso mario(initXMario, initYMario, initZMario,7.0);
+Perso mario(initXMario, initYMario, initZMario, tailleHumaine);
 
 Perso::Orientation initOrientationMario = mario.getOrientation();
 
@@ -81,15 +83,14 @@ float xPrincesse = -30.0;
 float yPrincesse = 120.0;
 float zPrincesse = 0.0;
 
-Perso princess(xPrincesse, yPrincesse, zPrincesse,7.0);
-
+Perso princess(xPrincesse, yPrincesse, zPrincesse, tailleHumaine);
 
 //DK
 float xDonkeyKong = 40.0;
 float yDonkeyKong = (99.69 + 0.06 * xDonkeyKong) + compensationPoutre;
 float zDonkeyKong = 0.0;
 
-Perso donkeyKong(xDonkeyKong, yDonkeyKong, zDonkeyKong,20.0);
+Perso donkeyKong(xDonkeyKong, yDonkeyKong, zDonkeyKong, 17.0F);
 //TONNEAU
 float xTonneauBegin = 30;
 float yTonneauBegin = 102 + 2 * compensationPoutre;
@@ -443,7 +444,7 @@ static void placementEchelles() {
 static void placementMario() {
     glPushMatrix();
     glTranslatef(mario.getX(), mario.getY(), mario.getZ());
-    mario.printPerso(sautEnCours,false);
+    mario.printPerso(sautEnCours, false);
     glPopMatrix();
 }
 
@@ -454,7 +455,7 @@ static void placementPrincesse() {
     glPushMatrix();
     glTranslatef(princess.getX(), princess.getY(), princess.getZ());
     glRotatef(90.0, 0.0, 1.0, 0.0);
-    princess.printPerso(false,false);
+    princess.printPerso(false, false);
     glPopMatrix();
     glPopMatrix();
 }
@@ -465,8 +466,8 @@ static void placementDK() {
     glPushMatrix();
     glTranslatef(donkeyKong.getX(), donkeyKong.getY(), donkeyKong.getZ());
     glRotatef(90.0, 0.0, 1.0, 0.0);
-    donkeyKong.printPerso(false,lanceTonneaux);
-    glPopMatrix();
+	donkeyKong.printPerso(false, lanceTonneaux);
+	glPopMatrix();
     glPopMatrix();
 }
 
@@ -546,15 +547,15 @@ static void sceneGameOver() {
     gluOrtho2D(0, windowWidth / 2, 0, windowHeight / 2);
 
     glRasterPos2f(windowWidth * 0.20, windowHeight / 4);
-    for (int i = 0;i < textGO.length();i++) {
+    for (size_t i = 0;i < textGO.length();i++) {
         glutBitmapCharacter(GLUT_BITMAP_9_BY_15, textGO[i]);
     }
     glRasterPos2f(windowWidth * 0.20, windowHeight * 0.27);
-    for (int i = 0;i < pointilleGO.length();i++) {
+    for (size_t i = 0;i < pointilleGO.length();i++) {
         glutBitmapCharacter(GLUT_BITMAP_9_BY_15, pointilleGO[i]);
     }
     glRasterPos2f(windowWidth * 0.20, windowHeight * 0.23);
-    for (int i = 0;i < pointilleGO.length();i++) {
+    for (size_t i = 0;i < pointilleGO.length();i++) {
         glutBitmapCharacter(GLUT_BITMAP_9_BY_15, pointilleGO[i]);
     }
     glPopMatrix();
@@ -580,15 +581,15 @@ static void sceneVictory() {
     gluOrtho2D(0, windowWidth / 2, 0, windowHeight / 2);
 
     glRasterPos2f(windowWidth * 0.20, windowHeight / 4);
-    for (int i = 0;i < textGO.length();i++) {
+    for (size_t i = 0;i < textGO.length();i++) {
         glutBitmapCharacter(GLUT_BITMAP_9_BY_15, textGO[i]);
     }
     glRasterPos2f(windowWidth * 0.20, windowHeight * 0.27);
-    for (int i = 0;i < pointilleGO.length();i++) {
+    for (size_t i = 0;i < pointilleGO.length();i++) {
         glutBitmapCharacter(GLUT_BITMAP_9_BY_15, pointilleGO[i]);
     }
     glRasterPos2f(windowWidth * 0.20, windowHeight * 0.23);
-    for (int i = 0;i < pointilleGO.length();i++) {
+    for (size_t i = 0;i < pointilleGO.length();i++) {
         glutBitmapCharacter(GLUT_BITMAP_9_BY_15, pointilleGO[i]);
     }
     glPopMatrix();
@@ -1330,14 +1331,21 @@ void updateTonneau(int value) {
     glutTimerFunc(25, updateTonneau, 0);
 }
 
+static void animationDK(int value) {
+	if (value == 0) {
+		lanceTonneaux = true;
+		glutTimerFunc(500, animationDK, 1);
+	}
+	else {
+		lanceTonneaux = false;
+	}
+}
+
 static void ajoutTonneau(int value) {
 	if (!gameover && !pause && !victoire) {
-        printf("TRUE\n");
-        lanceTonneaux = true;
+		glutTimerFunc(0, animationDK, 0);
 		tonneau(xTonneauBegin, yTonneauBegin, zTonneauBegin, false);
 		nbTonneau++;
-        lanceTonneaux = false;
-        printf("FALSE\n");
 		glutTimerFunc(5000, ajoutTonneau, 0);
 	}
     else if(pause){

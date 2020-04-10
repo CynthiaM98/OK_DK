@@ -1,8 +1,5 @@
 #include "Perso.h"
 
-
-
-
 Perso::Perso(float x, float y, float z, float taille) {
 	this->x = x;
 	this->y = y;
