@@ -1408,12 +1408,9 @@ static void ajoutTonneau(int value) {
 		nbTonneau++;
 		glutTimerFunc(5000, ajoutTonneau, 0);
 	}
-    else {
-        if (gameover) {
-            glutDestroyWindow(WindowDK);
-            
-        }
-    }
+    else if(pause){
+		glutTimerFunc(5000, ajoutTonneau, 0);
+	}
 }
 
 
