@@ -134,7 +134,7 @@ void Perso::membre(float size, unsigned int *texID) {
 		glBindTexture(GL_TEXTURE_2D, texID[0]);
 	}
 	else {
-		glBindTexture(GL_TEXTURE_2D, texID[0]);
+		glBindTexture(GL_TEXTURE_2D, texID[8]);
 	}
 	myCube(1.0);
 }

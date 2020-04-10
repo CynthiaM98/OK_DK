@@ -255,6 +255,7 @@ static void init(void) {
     glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, 1);
     glGenTextures(1, textureID);
     chargementTexture("Emojis.png", textureID[0]);
+	chargementTexture("DonkeyBrasJambes.png", textureID[8]);
 }
 
 void idle(void) {
@@ -523,9 +524,6 @@ static void sceneJeu() {
     placementMario();
     placementPrincesse();
     placementDK();
-	printf("Mario : %d\n", mario.getId());
-	printf("Peach : %d\n", princess.getId());
-	printf("Donkey Kong %d\n", donkeyKong.getId());
     for (int i = 0; i < nbTonneau; ++i) {
 		if (tabTonneau[i][2] == 0) {
 			tonneau(tabTonneau[i][0], tabTonneau[i][1], zTonneauBegin,false, textureID);
