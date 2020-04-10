@@ -253,9 +253,13 @@ static void init(void) {
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_NORMALIZE);
     glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, 1);
-    glGenTextures(1, textureID);
+    glGenTextures(9, textureID);
     chargementTexture("Emojis.png", textureID[0]);
+	chargementTexture("oui.png", textureID[6]);
+	chargementTexture("DonkeyCorps.png", textureID[7]);
 	chargementTexture("DonkeyBrasJambes.png", textureID[8]);
+	
+    
 }
 
 void idle(void) {
@@ -336,10 +340,7 @@ static void echelleCassee(float hauteur, float largeur) {
         glPopMatrix();
 
     }
-
 }
-
-
 
 static void tonneau(float xTonneau, float yTonneau, float zTonneau, bool echelle, unsigned int *texID) {
     glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, couleur_tonneaux);
@@ -351,7 +352,6 @@ static void tonneau(float xTonneau, float yTonneau, float zTonneau, bool echelle
 	}
 	
 	glPushMatrix();
-	glBindTexture(GL_TEXTURE_2D, texID[0]);
 	glBegin(GL_POLYGON);
     for (int i = 0; i < 360; i++) {
         n = i * 3.14 / 180;
@@ -362,7 +362,6 @@ static void tonneau(float xTonneau, float yTonneau, float zTonneau, bool echelle
 	glPushMatrix();
     glTranslatef(0.0, 0.0, largeurPoutre * 0.75);//face avant
     glRotatef(180.0, 0.0, 1.0, 0.0);
-	glBindTexture(GL_TEXTURE_2D, texID[0]);
     glBegin(GL_POLYGON);
     for (int i = 0; i < 360; i++) {
         n = i * 3.14 / 180;
@@ -370,9 +369,7 @@ static void tonneau(float xTonneau, float yTonneau, float zTonneau, bool echelle
     }
     glEnd();
     glPopMatrix();
-	glBindTexture(GL_TEXTURE_2D, texID[0]);
 	GLUquadric *glNewQuad = gluNewQuadric();
-	glBindTexture(GL_TEXTURE_2D, texID[0]);
 	gluCylinder(glNewQuad, largeurTonneau, largeurTonneau, largeurPoutre * 0.75, 30.0, 30.0);
     glPopMatrix();
     tabTonneau[nbTonneau][0] = xTonneau;

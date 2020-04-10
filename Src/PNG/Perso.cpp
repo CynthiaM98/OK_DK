@@ -127,14 +127,12 @@ void Perso::membre(float size, unsigned int *texID) {
 	float LargeurMembre = size / 6.0;
 	float hauteurMembre = size / 3.0;
 	glScalef(LargeurMembre, hauteurMembre, LargeurMembre*0.75);
-	if (this->id == 0) { // mario
-		glBindTexture(GL_TEXTURE_2D, texID[0]);
-	}
-	else if(this->id == 1) { //peach
-		glBindTexture(GL_TEXTURE_2D, texID[0]);
-	}
-	else {//dk
-		glBindTexture(GL_TEXTURE_2D, texID[8]);
+	switch (this->id) {
+		case 0: glBindTexture(GL_TEXTURE_2D, texID[0]);
+			break;
+		case 1: glBindTexture(GL_TEXTURE_2D, texID[0]);
+			break;
+		case 2: glBindTexture(GL_TEXTURE_2D, texID[8]);
 	}
 	myCube(1.0);
 }
@@ -142,28 +140,24 @@ void Perso::membre(float size, unsigned int *texID) {
 void Perso::tete(float size, unsigned int *texID) {
 	double tailleTete = size / 3.0;
 	glScalef(tailleTete, tailleTete, tailleTete);
-	if (this->id == 0) {
-		glBindTexture(GL_TEXTURE_2D, texID[0]);
-	}
-	else if (this->id == 1) {
-		glBindTexture(GL_TEXTURE_2D, texID[0]);
-	}
-	else {
-		glBindTexture(GL_TEXTURE_2D, texID[0]);
+	switch (this->id) {
+	case 0: glBindTexture(GL_TEXTURE_2D, texID[0]);
+		break;
+	case 1: glBindTexture(GL_TEXTURE_2D, texID[0]);
+		break;
+	case 2: glBindTexture(GL_TEXTURE_2D, texID[6]);
 	}
 	myCube(1.0);
 }
 
 void Perso::corps(float size, unsigned int *texID) {
 	double tailleCorps = size / 3.0;
-	if (this->id == 0) {
-		glBindTexture(GL_TEXTURE_2D, texID[0]);
-	}
-	else if (this->id == 1) {
-		glBindTexture(GL_TEXTURE_2D, texID[0]);
-	}
-	else {
-		glBindTexture(GL_TEXTURE_2D, texID[0]);
+	switch (this->id) {
+	case 0: glBindTexture(GL_TEXTURE_2D, texID[0]);
+		break;
+	case 1: glBindTexture(GL_TEXTURE_2D, texID[0]);
+		break;
+	case 2: glBindTexture(GL_TEXTURE_2D, texID[7]);
 	}
 	myCube(tailleCorps);
 }
