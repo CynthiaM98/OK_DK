@@ -13,8 +13,11 @@
 #include "PNG/Perso.h"
 #include "PNG/Poutre.h"
 
-
-
+/*ID
+Mario : 0
+Peach : 1
+Donkey Kong : 2 
+*/
 
 static unsigned int textureID[1] = { 0 };
 
@@ -520,6 +523,9 @@ static void sceneJeu() {
     placementMario();
     placementPrincesse();
     placementDK();
+	printf("Mario : %d\n", mario.getId());
+	printf("Peach : %d\n", princess.getId());
+	printf("Donkey Kong %d\n", donkeyKong.getId());
     for (int i = 0; i < nbTonneau; ++i) {
 		if (tabTonneau[i][2] == 0) {
 			tonneau(tabTonneau[i][0], tabTonneau[i][1], zTonneauBegin,false, textureID);

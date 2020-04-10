@@ -1,16 +1,23 @@
 #include "Perso.h"
+int Perso::idCounter = 0;
 
 Perso::Perso(float x, float y, float z, float taille) {
+	this->id = this->id++;
 	this->x = x;
 	this->y = y;
 	this->z = z;
 	this->orientation = Gauche;
 	this->surEchelle = false;
 	this->taille = taille;
+	id = idCounter++;
 }
 
 float Perso::getX() {
 	return this->x;
+}
+
+int Perso::getId() {
+	return this->id;
 }
 
 float Perso::getTaille() {
@@ -46,16 +53,14 @@ void Perso::setSurEchelle(bool status) {
 }
 
 
-void Perso::myCube(float size, unsigned int *texID) {
+void Perso::myCube(float size) {
 	float c = (float)size / 2.0F;
 	GLboolean nm = glIsEnabled(GL_NORMALIZE);
 	if (!nm)
 		glEnable(GL_NORMALIZE);
 	float normale[4];
 	glGetFloatv(GL_CURRENT_NORMAL, normale);
-	/* Modelisation geometrique */
 	glPushMatrix();
-	glBindTexture(GL_TEXTURE_2D, texID[0]);
 	glBegin(GL_QUADS);
 	{ glNormal3f(0.0F, 0.0F, -1.0F);
 	glTexCoord2f(0.0F, 0.0F);
@@ -113,7 +118,6 @@ void Perso::myCube(float size, unsigned int *texID) {
 	glVertex3f(-c, c, c); }
 	glEnd();
 	glPopMatrix();
-	/* Restoration de la normale et du flag normalisation */
 	glNormal3f(normale[0], normale[1], normale[2]);
 	if (!nm)
 		glDisable(GL_NORMALIZE);
@@ -123,22 +127,50 @@ void Perso::membre(float size, unsigned int *texID) {
 	float LargeurMembre = size / 6.0;
 	float hauteurMembre = size / 3.0;
 	glScalef(LargeurMembre, hauteurMembre, LargeurMembre*0.75);
-	myCube(1.0, texID);
+	if (this->id == 0) {
+		glBindTexture(GL_TEXTURE_2D, texID[0]);
+	}
+	else if(this->id == 1) {
+		glBindTexture(GL_TEXTURE_2D, texID[0]);
+	}
+	else {
+		glBindTexture(GL_TEXTURE_2D, texID[0]);
+	}
+	myCube(1.0);
 }
 
 void Perso::tete(float size, unsigned int *texID) {
 	double tailleTete = size / 3.0;
 	glScalef(tailleTete, tailleTete, tailleTete);
-	myCube(1.0, texID);
+	if (this->id == 0) {
+		glBindTexture(GL_TEXTURE_2D, texID[0]);
+	}
+	else if (this->id == 1) {
+		glBindTexture(GL_TEXTURE_2D, texID[0]);
+	}
+	else {
+		glBindTexture(GL_TEXTURE_2D, texID[0]);
+	}
+	myCube(1.0);
 }
 
 void Perso::corps(float size, unsigned int *texID) {
 	double tailleCorps = size / 3.0;
-	myCube(tailleCorps, texID);
+	if (this->id == 0) {
+		glBindTexture(GL_TEXTURE_2D, texID[0]);
+	}
+	else if (this->id == 1) {
+		glBindTexture(GL_TEXTURE_2D, texID[0]);
+	}
+	else {
+		glBindTexture(GL_TEXTURE_2D, texID[0]);
+	}
+	myCube(tailleCorps);
 }
 
 void Perso::printPerso(bool sautEnCours,bool lanceTonneau, unsigned int *texID) {
 	glPushMatrix();
+	glBindTexture(GL_TEXTURE_2D, texID[0]);
 	switch (orientation) {
 	case Droite:
 		glRotatef(-90.0, 0.0, 1.0, 0.0);
@@ -191,7 +223,6 @@ void Perso::printPerso(bool sautEnCours,bool lanceTonneau, unsigned int *texID) 
 	}
 	else {
 		glPushMatrix(); //bras droit
-
 		temp = this->taille / 4.0;
 		glTranslatef(-temp, 0.0F, 0.0F);
 		glRotatef(90.0, 0.0, 0.0, 1.0);
