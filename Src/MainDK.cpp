@@ -19,7 +19,7 @@ Peach : 1
 Donkey Kong : 2 
 */
 
-static unsigned int textureID[1] = { 0 };
+static unsigned int textureID[9] = { 0,0,0,0,0,0,0,0,0 };
 
 static float px = 0.0;
 static float py = 60.0;
