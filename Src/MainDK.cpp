@@ -257,24 +257,6 @@ void idle(void) {
     printf("A\n");
 }
 
-static void rectangle(float largeur, float hauteur) {
-    largeur /= 2.0F;
-    hauteur /= 2.0F;
-    glPushMatrix();
-    glBegin(GL_QUADS);
-    glNormal3f(0.0F, 0.0F, 1.0F);
-    glTexCoord2f(0.0F, 0.0F);
-    glVertex3f(-largeur, -hauteur, 0.0F);
-    glTexCoord2f(1.0F, 0.0F);
-    glVertex3f(largeur, -hauteur, 0.0F);
-    glTexCoord2f(1.0F, 1.0F);
-    glVertex3f(largeur, hauteur, 0.0F);
-    glTexCoord2f(0.0F, 1.0F);
-    glVertex3f(-largeur, hauteur, 0.0F);
-    glEnd();
-    glPopMatrix();
-}
-
 
 static void echelle(float hauteur, float largeur) {
     largeur /= 2.0F;
@@ -490,23 +472,14 @@ static void placementDK() {
 
 void placementPoutres() {
     glPushMatrix();
-    
     p7.dessinerPoutre(1);
-
     p6.dessinerPoutre(2);
-
     p5.dessinerPoutre(0);
-
     p4.dessinerPoutre(0);
-
     p3.dessinerPoutre(0);
-
     p2.dessinerPoutre(0);
-
     p1.dessinerPoutre(0);
-
     p0.dessinerPoutre(0);
-
     glPopMatrix();
 
 }
