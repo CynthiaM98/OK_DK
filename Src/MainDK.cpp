@@ -87,7 +87,7 @@ Perso princess(xPrincesse, yPrincesse, zPrincesse, tailleHumaine);
 //DK
 float xDonkeyKong = 40.0;
 float yDonkeyKong = (99.69 + 0.06 * xDonkeyKong) + compensationPoutre;
-float zDonkeyKong = 0.0;
+float zDonkeyKong = -2.0;
 
 Perso donkeyKong(xDonkeyKong, yDonkeyKong, zDonkeyKong, 17.0F);
 //TONNEAU
