@@ -10,7 +10,7 @@
 #include <GL/glu.h>
 
 class Poutre {
-	//numeroPoutre,yCentre,xGauche,xDroit,ordoOrigine,coefDir
+	//numeroPoutre,yCentre,xCentre,xGauche,xDroit,ordoOrigine,coefDir,angle
 
 public:
 	Poutre(float id, float yCentre, float xCentre, float xG, float xD, float ordoOrigine, float coefDir, float angle);
@@ -24,7 +24,7 @@ public:
 	float getAngle();
 	static void planchePoutre(float largeur, float longueur, float hauteur);
 	static void poutreDK(float largeurPlateforme, float longueurPlateforme, float hauteurPlateforme);
-	void dessinerPoutre(bool isTheLastPoutre);
+	void dessinerPoutre(int isASpecialPoutre);
 private:
 	float id, yCentre, xCentre, xG, xD, ordoOrigine, coefDir, angle;
 
