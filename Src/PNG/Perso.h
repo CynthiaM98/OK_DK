@@ -29,8 +29,8 @@ class Perso {
 		void setSurEchelle(bool status);
 		void tete(float size, unsigned int *texID);
 		void corps(float size, unsigned int *texID);
-		void myCube(float size,unsigned int* texID);
-		void membre(float size, unsigned int *texID);
+		void myCube(float size,unsigned int* texID, int partieCorps);
+		void membre(float size, unsigned int *texID, int partieCorps);
 		void printPerso(bool sautEnCours, bool lanceTonneau, unsigned int *texID);
 
 	private : 

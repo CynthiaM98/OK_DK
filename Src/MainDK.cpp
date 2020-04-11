@@ -254,11 +254,9 @@ static void init(void) {
     glEnable(GL_NORMALIZE);
     glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, 1);
     glGenTextures(9, textureID);
-    chargementTexture("Emojis.png", textureID[0]);
-	chargementTexture("oui.png", textureID[6]);
-	chargementTexture("DonkeyCorps.png", textureID[7]);
-	chargementTexture("DonkeyBrasJambes.png", textureID[8]);
-	
+	chargementTexture("DonkeyBrasJambes.png", textureID[0]);
+	chargementTexture("DonkeyCorps.png", textureID[1]);
+	chargementTexture("Oui.png", textureID[2]);
     
 }
 

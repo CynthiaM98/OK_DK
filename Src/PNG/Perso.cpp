@@ -53,20 +53,29 @@ void Perso::setSurEchelle(bool status) {
 }
 
 
-void Perso::myCube(float size, unsigned int* texID){
+void Perso::myCube(float size, unsigned int* texID, int partieCorps){
 	float c = (float)size / 2.0F;
 	GLboolean nm = glIsEnabled(GL_NORMALIZE);
 	if (!nm)
 		glEnable(GL_NORMALIZE);
 	float normale[4];
 	glGetFloatv(GL_CURRENT_NORMAL, normale);
-	glPushMatrix();
+	glPushMatrix(); //face avant
 	switch (this->id) {
 	case 0: glBindTexture(GL_TEXTURE_2D, texID[0]);
 		break;
 	case 1: glBindTexture(GL_TEXTURE_2D, texID[0]);
 		break;
-	case 2: glBindTexture(GL_TEXTURE_2D, texID[8]);
+	case 2:
+		switch (partieCorps) {
+		case 0: glBindTexture(GL_TEXTURE_2D, texID[2]);
+			break;
+		case 1: glBindTexture(GL_TEXTURE_2D, texID[1]);
+			break;
+		case 2: glBindTexture(GL_TEXTURE_2D, texID[0]);
+			break;
+		case 3: glBindTexture(GL_TEXTURE_2D, texID[0]);
+		}
 	}
 	glBegin(GL_QUADS);
 	{ glNormal3f(0.0F, 0.0F, -1.0F);
@@ -79,12 +88,21 @@ void Perso::myCube(float size, unsigned int* texID){
 	glTexCoord2f(1.0F, 0.0F);
 	glVertex3f(-c, c, -c); }
 	glEnd();
-	switch (this->id) {
+	switch (this->id) {//face arrière
 	case 0: glBindTexture(GL_TEXTURE_2D, texID[0]);
 		break;
 	case 1: glBindTexture(GL_TEXTURE_2D, texID[0]);
 		break;
-	case 2: glBindTexture(GL_TEXTURE_2D, texID[0]);
+	case 2: 
+		switch (partieCorps) {
+		case 0: glBindTexture(GL_TEXTURE_2D, texID[0]);
+			break;
+		case 1: glBindTexture(GL_TEXTURE_2D, texID[0]);
+			break;
+		case 2: glBindTexture(GL_TEXTURE_2D, texID[0]);
+			break;
+		case 3: glBindTexture(GL_TEXTURE_2D, texID[0]);
+		}
 	}
 	glBegin(GL_QUADS);
 	{ glNormal3f(0.0F, 0.0F, 1.0F);
@@ -97,12 +115,21 @@ void Perso::myCube(float size, unsigned int* texID){
 	glTexCoord2f(1.0F, 0.0F);
 	glVertex3f(c, -c, c); }
 	glEnd();
-	switch (this->id) {
+	switch (this->id) {//face gauche
 	case 0: glBindTexture(GL_TEXTURE_2D, texID[0]);
 		break;
 	case 1: glBindTexture(GL_TEXTURE_2D, texID[0]);
 		break;
-	case 2: glBindTexture(GL_TEXTURE_2D, texID[0]);
+	case 2: 
+		switch (partieCorps) {
+		case 0: glBindTexture(GL_TEXTURE_2D, texID[0]);
+			break;
+		case 1: glBindTexture(GL_TEXTURE_2D, texID[0]);
+			break;
+		case 2: glBindTexture(GL_TEXTURE_2D, texID[0]);
+			break;
+		case 3: glBindTexture(GL_TEXTURE_2D, texID[0]);
+		}
 	}
 	glBegin(GL_QUADS);
 	{ glNormal3f(-1.0F, 0.0F, 0.0F);
@@ -115,12 +142,21 @@ void Perso::myCube(float size, unsigned int* texID){
 	glTexCoord2f(1.0F, 0.0F);
 	glVertex3f(-c, c, c); }
 	glEnd();
-	switch (this->id) {
+	switch (this->id) {//face droite
 	case 0: glBindTexture(GL_TEXTURE_2D, texID[0]);
 		break;
 	case 1: glBindTexture(GL_TEXTURE_2D, texID[0]);
 		break;
-	case 2: glBindTexture(GL_TEXTURE_2D, texID[0]);
+	case 2:
+		switch (partieCorps) {
+		case 0: glBindTexture(GL_TEXTURE_2D, texID[0]);
+			break;
+		case 1: glBindTexture(GL_TEXTURE_2D, texID[0]);
+			break;
+		case 2: glBindTexture(GL_TEXTURE_2D, texID[0]);
+			break;
+		case 3: glBindTexture(GL_TEXTURE_2D, texID[0]);
+		}
 	}
 	glBegin(GL_QUADS);
 	{ glNormal3f(1.0F, 0.0F, 0.0F);
@@ -133,12 +169,21 @@ void Perso::myCube(float size, unsigned int* texID){
 	glTexCoord2f(1.0F, 0.0F);
 	glVertex3f(c, c, -c); }
 	glEnd();
-	switch (this->id) {
+	switch (this->id) {//face dessous
 	case 0: glBindTexture(GL_TEXTURE_2D, texID[0]);
 		break;
 	case 1: glBindTexture(GL_TEXTURE_2D, texID[0]);
 		break;
-	case 2: glBindTexture(GL_TEXTURE_2D, texID[0]);
+	case 2:
+		switch (partieCorps) {
+		case 0: glBindTexture(GL_TEXTURE_2D, texID[0]);
+			break;
+		case 1: glBindTexture(GL_TEXTURE_2D, texID[0]);
+			break;
+		case 2: glBindTexture(GL_TEXTURE_2D, texID[0]);
+			break;
+		case 3: glBindTexture(GL_TEXTURE_2D, texID[0]);
+		}
 	}
 	glBegin(GL_QUADS);
 	{ glNormal3f(0.0F, -1.0F, 0.0F);
@@ -151,12 +196,21 @@ void Perso::myCube(float size, unsigned int* texID){
 	glTexCoord2f(1.0F, 0.0F);
 	glVertex3f(c, -c, c); }
 	glEnd();
-	switch (this->id) {
+	switch (this->id) {//face dessus
 	case 0: glBindTexture(GL_TEXTURE_2D, texID[0]);
 		break;
 	case 1: glBindTexture(GL_TEXTURE_2D, texID[0]);
 		break;
-	case 2: glBindTexture(GL_TEXTURE_2D, texID[0]);
+	case 2: 
+		switch (partieCorps) {
+		case 0: glBindTexture(GL_TEXTURE_2D, texID[0]);
+			break;
+		case 1: glBindTexture(GL_TEXTURE_2D, texID[0]);
+			break;
+		case 2: glBindTexture(GL_TEXTURE_2D, texID[0]);
+			break;
+		case 3: glBindTexture(GL_TEXTURE_2D, texID[0]);
+		}
 	}
 	glBegin(GL_QUADS);
 	{ glNormal3f(0.0F, 1.0F, 0.0F);
@@ -175,22 +229,22 @@ void Perso::myCube(float size, unsigned int* texID){
 		glDisable(GL_NORMALIZE);
 }
 
-void Perso::membre(float size, unsigned int *texID) {
+void Perso::membre(float size, unsigned int *texID, int partieCorps) {
 	float LargeurMembre = size / 6.0;
 	float hauteurMembre = size / 3.0;
 	glScalef(LargeurMembre, hauteurMembre, LargeurMembre*0.75);
-	myCube(1.0,texID);
+	myCube(1.0,texID, partieCorps);
 }
 
 void Perso::tete(float size, unsigned int *texID) {
 	double tailleTete = size / 3.0;
 	glScalef(tailleTete, tailleTete, tailleTete);
-	myCube(1.0,texID);
+	myCube(1.0,texID, 0);
 }
 
 void Perso::corps(float size, unsigned int *texID) {
 	double tailleCorps = size / 3.0;
-	myCube(tailleCorps,texID);
+	myCube(tailleCorps,texID,1);
 }
 
 void Perso::printPerso(bool sautEnCours,bool lanceTonneau, unsigned int *texID) {
@@ -208,7 +262,7 @@ void Perso::printPerso(bool sautEnCours,bool lanceTonneau, unsigned int *texID) 
 		break;
 	}
 	if (lanceTonneau) {
-		glRotatef(90.0, 0.0, 1.0, 0.0);
+		glRotatef(-90.0, 0.0, 1.0, 0.0);
 	}
 	float temp = 0.0F; //variable pour simplifier la lecture dans l'appelle des fonctions
 	glPushMatrix();
@@ -226,38 +280,36 @@ void Perso::printPerso(bool sautEnCours,bool lanceTonneau, unsigned int *texID) 
 
 	if (!sautEnCours) {
 		glPushMatrix(); //bras droit
-
-		temp = this->taille / 4.0;
-		glTranslatef(-temp, 0.0F, 0.0F);
-		membre(this->taille,texID);
-		glPopMatrix(); //retour au niveau du corps
 		if (lanceTonneau) {
-			glPushMatrix(); //bras gauche
-			glTranslatef(temp, 0.0F, temp);
+			temp = this->taille / 4.0;
+			glTranslatef(-temp, 0.0F, 0.0F);
 			glRotatef(90.0, 1.0, 0.0, 0.0);
-			membre(this->taille,texID);
-			glPopMatrix(); //retour au niveau du corps
+			membre(this->taille, texID,2);
 		}
 		else {
-			glPushMatrix(); //bras gauche
-			glTranslatef(temp, 0.0F, 0.0F);
-			membre(this->taille, texID);
-			glPopMatrix(); //retour au niveau du corps
+			temp = this->taille / 4.0;
+			glTranslatef(-temp, 0.0F, 0.0F);
+			membre(this->taille, texID, 2);
 		}
-		
+		glPopMatrix(); //retour au niveau du corps
+
+		glPushMatrix(); //bras gauche
+		glTranslatef(temp, 0.0F, 0.0F);
+		membre(this->taille, texID,2);
+		glPopMatrix(); //retour au niveau du corps
 	}
 	else {
 		glPushMatrix(); //bras droit
 		temp = this->taille / 4.0;
 		glTranslatef(-temp, 0.0F, 0.0F);
 		glRotatef(90.0, 0.0, 0.0, 1.0);
-		membre(this->taille, texID);
+		membre(this->taille, texID,2);
 		glPopMatrix(); //retour au niveau du corps
 
 		glPushMatrix(); //bras gauche
 		glTranslatef(temp, 0.0F, 0.0F);
 		glRotatef(90.0, 0.0, 0.0, 1.0);
-		membre(this->taille, texID);
+		membre(this->taille, texID,2);
 		glPopMatrix(); //retour au niveau du corps
 	}
 	glPopMatrix(); //retour origine
@@ -269,12 +321,12 @@ void Perso::printPerso(bool sautEnCours,bool lanceTonneau, unsigned int *texID) 
 		glPushMatrix(); //jambe droite
 		temp = this->taille / 12.0;
 		glTranslatef(-temp, 0.0F, 0.0F);
-		membre(this->taille, texID);
+		membre(this->taille, texID,3);
 		glPopMatrix();
 
 		glPushMatrix();//jambe gauche
 		glTranslatef(temp, 0.0F, 0.0F);
-		membre(this->taille, texID);
+		membre(this->taille, texID,3);
 		glPopMatrix();
 	}
 	else {
@@ -282,13 +334,13 @@ void Perso::printPerso(bool sautEnCours,bool lanceTonneau, unsigned int *texID) 
 		temp = this->taille / 12.0;
 		glTranslatef(-temp, 0.5F, 0.0F);
 		glRotatef(-45.0, 1.0, 0.0, 0.0);
-		membre(this->taille, texID);
+		membre(this->taille, texID,3);
 		glPopMatrix();
 
 		glPushMatrix();//jambe gauche
 		glTranslatef(temp, 0.5F, 0.0F);
 		glRotatef(-45.0, 1.0, 0.0, 0.0);
-		membre(this->taille, texID);
+		membre(this->taille, texID,3);
 		glPopMatrix();
 	}
 	glPopMatrix();
