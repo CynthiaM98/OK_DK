@@ -53,7 +53,7 @@ void Perso::setSurEchelle(bool status) {
 }
 
 
-void Perso::myCube(float size) {
+void Perso::myCube(float size, unsigned int* texID){
 	float c = (float)size / 2.0F;
 	GLboolean nm = glIsEnabled(GL_NORMALIZE);
 	if (!nm)
@@ -61,6 +61,13 @@ void Perso::myCube(float size) {
 	float normale[4];
 	glGetFloatv(GL_CURRENT_NORMAL, normale);
 	glPushMatrix();
+	switch (this->id) {
+	case 0: glBindTexture(GL_TEXTURE_2D, texID[0]);
+		break;
+	case 1: glBindTexture(GL_TEXTURE_2D, texID[0]);
+		break;
+	case 2: glBindTexture(GL_TEXTURE_2D, texID[8]);
+	}
 	glBegin(GL_QUADS);
 	{ glNormal3f(0.0F, 0.0F, -1.0F);
 	glTexCoord2f(0.0F, 0.0F);
@@ -71,6 +78,15 @@ void Perso::myCube(float size) {
 	glVertex3f(-c, -c, -c);
 	glTexCoord2f(1.0F, 0.0F);
 	glVertex3f(-c, c, -c); }
+	glEnd();
+	switch (this->id) {
+	case 0: glBindTexture(GL_TEXTURE_2D, texID[0]);
+		break;
+	case 1: glBindTexture(GL_TEXTURE_2D, texID[0]);
+		break;
+	case 2: glBindTexture(GL_TEXTURE_2D, texID[0]);
+	}
+	glBegin(GL_QUADS);
 	{ glNormal3f(0.0F, 0.0F, 1.0F);
 	glTexCoord2f(0.0F, 0.0F);
 	glVertex3f(c, c, c);
@@ -80,6 +96,15 @@ void Perso::myCube(float size) {
 	glVertex3f(-c, -c, c);
 	glTexCoord2f(1.0F, 0.0F);
 	glVertex3f(c, -c, c); }
+	glEnd();
+	switch (this->id) {
+	case 0: glBindTexture(GL_TEXTURE_2D, texID[0]);
+		break;
+	case 1: glBindTexture(GL_TEXTURE_2D, texID[0]);
+		break;
+	case 2: glBindTexture(GL_TEXTURE_2D, texID[0]);
+	}
+	glBegin(GL_QUADS);
 	{ glNormal3f(-1.0F, 0.0F, 0.0F);
 	glTexCoord2f(0.0F, 0.0F);
 	glVertex3f(-c, c, -c);
@@ -89,6 +114,15 @@ void Perso::myCube(float size) {
 	glVertex3f(-c, -c, c);
 	glTexCoord2f(1.0F, 0.0F);
 	glVertex3f(-c, c, c); }
+	glEnd();
+	switch (this->id) {
+	case 0: glBindTexture(GL_TEXTURE_2D, texID[0]);
+		break;
+	case 1: glBindTexture(GL_TEXTURE_2D, texID[0]);
+		break;
+	case 2: glBindTexture(GL_TEXTURE_2D, texID[0]);
+	}
+	glBegin(GL_QUADS);
 	{ glNormal3f(1.0F, 0.0F, 0.0F);
 	glTexCoord2f(0.0F, 0.0F);
 	glVertex3f(c, c, c);
@@ -98,6 +132,15 @@ void Perso::myCube(float size) {
 	glVertex3f(c, -c, -c);
 	glTexCoord2f(1.0F, 0.0F);
 	glVertex3f(c, c, -c); }
+	glEnd();
+	switch (this->id) {
+	case 0: glBindTexture(GL_TEXTURE_2D, texID[0]);
+		break;
+	case 1: glBindTexture(GL_TEXTURE_2D, texID[0]);
+		break;
+	case 2: glBindTexture(GL_TEXTURE_2D, texID[0]);
+	}
+	glBegin(GL_QUADS);
 	{ glNormal3f(0.0F, -1.0F, 0.0F);
 	glTexCoord2f(0.0F, 0.0F);
 	glVertex3f(-c, -c, c);
@@ -107,6 +150,15 @@ void Perso::myCube(float size) {
 	glVertex3f(c, -c, -c);
 	glTexCoord2f(1.0F, 0.0F);
 	glVertex3f(c, -c, c); }
+	glEnd();
+	switch (this->id) {
+	case 0: glBindTexture(GL_TEXTURE_2D, texID[0]);
+		break;
+	case 1: glBindTexture(GL_TEXTURE_2D, texID[0]);
+		break;
+	case 2: glBindTexture(GL_TEXTURE_2D, texID[0]);
+	}
+	glBegin(GL_QUADS);
 	{ glNormal3f(0.0F, 1.0F, 0.0F);
 	glTexCoord2f(0.0F, 0.0F);
 	glVertex3f(c, c, c);
@@ -127,39 +179,18 @@ void Perso::membre(float size, unsigned int *texID) {
 	float LargeurMembre = size / 6.0;
 	float hauteurMembre = size / 3.0;
 	glScalef(LargeurMembre, hauteurMembre, LargeurMembre*0.75);
-	switch (this->id) {
-		case 0: glBindTexture(GL_TEXTURE_2D, texID[0]);
-			break;
-		case 1: glBindTexture(GL_TEXTURE_2D, texID[0]);
-			break;
-		case 2: glBindTexture(GL_TEXTURE_2D, texID[8]);
-	}
-	myCube(1.0);
+	myCube(1.0,texID);
 }
 
 void Perso::tete(float size, unsigned int *texID) {
 	double tailleTete = size / 3.0;
 	glScalef(tailleTete, tailleTete, tailleTete);
-	switch (this->id) {
-	case 0: glBindTexture(GL_TEXTURE_2D, texID[0]);
-		break;
-	case 1: glBindTexture(GL_TEXTURE_2D, texID[0]);
-		break;
-	case 2: glBindTexture(GL_TEXTURE_2D, texID[6]);
-	}
-	myCube(1.0);
+	myCube(1.0,texID);
 }
 
 void Perso::corps(float size, unsigned int *texID) {
 	double tailleCorps = size / 3.0;
-	switch (this->id) {
-	case 0: glBindTexture(GL_TEXTURE_2D, texID[0]);
-		break;
-	case 1: glBindTexture(GL_TEXTURE_2D, texID[0]);
-		break;
-	case 2: glBindTexture(GL_TEXTURE_2D, texID[7]);
-	}
-	myCube(tailleCorps);
+	myCube(tailleCorps,texID);
 }
 
 void Perso::printPerso(bool sautEnCours,bool lanceTonneau, unsigned int *texID) {
