@@ -217,8 +217,8 @@ GLfloat mat_emission[] = { 0.3F,0.2F,0.2F,0.0F };
 
 GLfloat couleur_echelles[] = { 0.1F,0.5F,0.8F,1.0F };
 GLfloat couleur_tonneaux[] = { 0.1F,0.5F,0.8F,1.0F };
-GLfloat couleur_princesse[] = { 5.5F,0.5F,5.5F,1.0F };
-GLfloat couleur_dk[] = { 999.0F,999.0F,999.0F,1.0F };
+//GLfloat couleur_princesse[] = { 5.5F,0.5F,5.5F,1.0F };
+//GLfloat couleur_dk[] = { 999.0F,999.0F,999.0F,1.0F };
 
 static void chargementTexture(char* filename, unsigned int textureID) {
     glBindTexture(GL_TEXTURE_2D, textureID);
@@ -343,6 +343,11 @@ static void echelleCassee(float hauteur, float largeur) {
 }
 
 static void tonneau(float xTonneau, float yTonneau, float zTonneau, bool echelle, unsigned int *texID) {
+    glPushAttrib(GL_LIGHTING_BIT);
+    glMaterialfv(GL_FRONT, GL_AMBIENT, no_mat);
+    glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+    glMaterialfv(GL_FRONT, GL_SHININESS, high_shininess);
+    glMaterialfv(GL_FRONT, GL_EMISSION, no_mat);
     glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, couleur_tonneaux);
     float n;
     glPushMatrix();
@@ -375,12 +380,19 @@ static void tonneau(float xTonneau, float yTonneau, float zTonneau, bool echelle
     tabTonneau[nbTonneau][0] = xTonneau;
     tabTonneau[nbTonneau][1] = yTonneau;
     tabTonneau[nbTonneau][2] = 0.0F;
+    glPopAttrib();
 }
 
 
 
 static void placementEchelles() {
+   
     glPushMatrix();
+    glPushAttrib(GL_LIGHTING_BIT);
+    glMaterialfv(GL_FRONT, GL_AMBIENT, no_mat);
+    glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+    glMaterialfv(GL_FRONT, GL_SHININESS, high_shininess);
+    glMaterialfv(GL_FRONT, GL_EMISSION, no_mat);
     glMaterialfv(GL_FRONT, GL_DIFFUSE, couleur_echelles);
 
     glPushMatrix(); //echelle  3 -> 4
@@ -437,7 +449,7 @@ static void placementEchelles() {
     glTranslatef(-27.0, 10.0, -largeurPoutre / 2);
     echelle(hauteurEchelle, largeurEchelle);
     glPopMatrix();
-
+    glPopAttrib();
     glPopMatrix();
 
 }
@@ -452,8 +464,9 @@ static void placementMario() {
 
 
 static void placementPrincesse() {
+
     glPushMatrix();
-    glMaterialfv(GL_FRONT, GL_DIFFUSE, couleur_princesse); // TODO : REMPLACER LE MATERIAU PAR UNE TEXTURE
+    //glMaterialfv(GL_FRONT, GL_DIFFUSE, couleur_princesse); // TODO : REMPLACER LE MATERIAU PAR UNE TEXTURE
     glPushMatrix();
     glTranslatef(princess.getX(), princess.getY(), princess.getZ());
     glRotatef(90.0, 0.0, 1.0, 0.0);
@@ -463,8 +476,9 @@ static void placementPrincesse() {
 }
 
 static void placementDK() {
+
     glPushMatrix();
-    glMaterialfv(GL_FRONT, GL_DIFFUSE, couleur_dk); // TODO : REMPLACER LE MATERIAU PAR UNE TEXTURE
+    //glMaterialfv(GL_FRONT, GL_DIFFUSE, couleur_dk); // TODO : REMPLACER LE MATERIAU PAR UNE TEXTURE
     glPushMatrix();
     glTranslatef(donkeyKong.getX(), donkeyKong.getY(), donkeyKong.getZ());
     glRotatef(90.0, 0.0, 1.0, 0.0);
@@ -475,7 +489,13 @@ static void placementDK() {
 
 
 void placementPoutres() {
+    glBindTexture(GL_TEXTURE_2D, 0);
     glPushMatrix();
+    glPushAttrib(GL_LIGHTING_BIT);
+    glMaterialfv(GL_FRONT, GL_AMBIENT, no_mat);
+    glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+    glMaterialfv(GL_FRONT, GL_SHININESS, high_shininess);
+    glMaterialfv(GL_FRONT, GL_EMISSION, no_mat);
     p7.dessinerPoutre(1);
     p6.dessinerPoutre(2);
     p5.dessinerPoutre(0);
@@ -484,11 +504,13 @@ void placementPoutres() {
     p2.dessinerPoutre(0);
     p1.dessinerPoutre(0);
     p0.dessinerPoutre(0);
+    glPopAttrib();
     glPopMatrix();
 
 }
 
 void placementTasTonneaux() {
+    glBindTexture(GL_TEXTURE_2D, 0);
     glPushMatrix();
     glRotatef(90.0, 1.0, 0.0, 0.0);
     tonneau(56,-3.0 ,-110.0, false, textureID);
@@ -502,20 +524,13 @@ void placementTasTonneaux() {
 }
 
 static void sceneJeu() {
+    glBindTexture(GL_TEXTURE_2D, 0);
     glEnable(GL_DEPTH_TEST);
     glTranslated(0.0, 0.0, -90.0);
     glPushMatrix();
-    glMaterialfv(GL_FRONT, GL_AMBIENT, no_mat);
-    glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
-    glMaterialfv(GL_FRONT, GL_SHININESS, high_shininess);
-    glMaterialfv(GL_FRONT, GL_EMISSION, no_mat);
     placementPoutres();
     placementEchelles();
     glTranslatef(-3.75F, 3.0F, 0.0F);
-    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, mat_ambient);
-    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, no_mat);
-    glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, no_shininess);
-    glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, mat_emission);
     glPopMatrix();
     glPushMatrix();
     placementMario();
@@ -606,8 +621,10 @@ static void display(void) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     const GLfloat light0_position[] = { 0.0,0.0,10.0,1.0 };
     glPolygonMode(GL_FRONT_AND_BACK, (filDeFer) ? GL_FILL : GL_LINE);
-    if (texture)
+    if (texture) {
         glEnable(GL_TEXTURE_2D);
+        
+    }
     else
         glDisable(GL_TEXTURE_2D);
     glPushMatrix();
