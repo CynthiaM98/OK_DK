@@ -62,9 +62,27 @@ void Perso::myCube(float size, unsigned int* texID, int partieCorps){
 	glGetFloatv(GL_CURRENT_NORMAL, normale);
 	glPushMatrix(); //face avant
 	switch (this->id) {
-	case 0: glBindTexture(GL_TEXTURE_2D, texID[0]);
+	case 0: 
+		switch (partieCorps) {
+		case 0: glBindTexture(GL_TEXTURE_2D, texID[0]);
+			break;
+		case 1: glBindTexture(GL_TEXTURE_2D, texID[5]);
+			break;
+		case 2: glBindTexture(GL_TEXTURE_2D, texID[11]);
+			break;
+		case 3:	glBindTexture(GL_TEXTURE_2D, texID[17]);
+		}
 		break;
-	case 1: glBindTexture(GL_TEXTURE_2D, texID[0]);
+	case 1:
+		switch (partieCorps) {
+		case 0: glBindTexture(GL_TEXTURE_2D, texID[0]);
+			break;
+		case 1: glBindTexture(GL_TEXTURE_2D, texID[5]);
+			break;
+		case 2: glBindTexture(GL_TEXTURE_2D, texID[11]);
+			break;
+		case 3:	glBindTexture(GL_TEXTURE_2D, texID[17]);
+		}
 		break;
 	case 2:
 		switch (partieCorps) {
@@ -89,9 +107,27 @@ void Perso::myCube(float size, unsigned int* texID, int partieCorps){
 	glVertex3f(-c, c, -c); }
 	glEnd();
 	switch (this->id) {//face arrière
-	case 0: glBindTexture(GL_TEXTURE_2D, texID[0]);
+	case 0: 
+		switch (partieCorps) {
+		case 0: glBindTexture(GL_TEXTURE_2D, texID[1]);
+			break;
+		case 1: glBindTexture(GL_TEXTURE_2D, texID[6]);
+			break;
+		case 2: glBindTexture(GL_TEXTURE_2D, texID[12]);
+			break;
+		case 3: glBindTexture(GL_TEXTURE_2D, texID[18]);
+		}
 		break;
-	case 1: glBindTexture(GL_TEXTURE_2D, texID[0]);
+	case 1: 
+		switch (partieCorps) {
+		case 0: glBindTexture(GL_TEXTURE_2D, texID[0]);
+			break;
+		case 1: glBindTexture(GL_TEXTURE_2D, texID[5]);
+			break;
+		case 2: glBindTexture(GL_TEXTURE_2D, texID[11]);
+			break;
+		case 3:	glBindTexture(GL_TEXTURE_2D, texID[17]);
+		}
 		break;
 	case 2: 
 		switch (partieCorps) {
@@ -116,9 +152,27 @@ void Perso::myCube(float size, unsigned int* texID, int partieCorps){
 	glVertex3f(c, -c, c); }
 	glEnd();
 	switch (this->id) {//face gauche
-	case 0: glBindTexture(GL_TEXTURE_2D, texID[0]);
+	case 0: 
+		switch (partieCorps) {
+		case 0: glBindTexture(GL_TEXTURE_2D, texID[2]);
+			break;
+		case 1: glBindTexture(GL_TEXTURE_2D, texID[7]);
+			break;
+		case 2: glBindTexture(GL_TEXTURE_2D, texID[13]);
+			break;
+		case 3: glBindTexture(GL_TEXTURE_2D, texID[19]);
+		}
 		break;
-	case 1: glBindTexture(GL_TEXTURE_2D, texID[0]);
+	case 1: 
+		switch (partieCorps) {
+		case 0: glBindTexture(GL_TEXTURE_2D, texID[0]);
+			break;
+		case 1: glBindTexture(GL_TEXTURE_2D, texID[5]);
+			break;
+		case 2: glBindTexture(GL_TEXTURE_2D, texID[11]);
+			break;
+		case 3:	glBindTexture(GL_TEXTURE_2D, texID[17]);
+		}
 		break;
 	case 2: 
 		switch (partieCorps) {
@@ -143,9 +197,27 @@ void Perso::myCube(float size, unsigned int* texID, int partieCorps){
 	glVertex3f(-c, c, c); }
 	glEnd();
 	switch (this->id) {//face droite
-	case 0: glBindTexture(GL_TEXTURE_2D, texID[0]);
+	case 0: 
+		switch (partieCorps) {
+		case 0: glBindTexture(GL_TEXTURE_2D, texID[3]);
+			break;
+		case 1: glBindTexture(GL_TEXTURE_2D, texID[8]);
+			break;
+		case 2: glBindTexture(GL_TEXTURE_2D, texID[14]);
+			break;
+		case 3: glBindTexture(GL_TEXTURE_2D, texID[20]);
+		}
 		break;
-	case 1: glBindTexture(GL_TEXTURE_2D, texID[0]);
+	case 1: 
+		switch (partieCorps) {
+		case 0: glBindTexture(GL_TEXTURE_2D, texID[0]);
+			break;
+		case 1: glBindTexture(GL_TEXTURE_2D, texID[5]);
+			break;
+		case 2: glBindTexture(GL_TEXTURE_2D, texID[11]);
+			break;
+		case 3:	glBindTexture(GL_TEXTURE_2D, texID[17]);
+		}
 		break;
 	case 2:
 		switch (partieCorps) {
@@ -170,9 +242,27 @@ void Perso::myCube(float size, unsigned int* texID, int partieCorps){
 	glVertex3f(c, c, -c); }
 	glEnd();
 	switch (this->id) {//face dessous
-	case 0: glBindTexture(GL_TEXTURE_2D, texID[0]);
+	case 0: 
+		switch (partieCorps) {
+		case 0: glBindTexture(GL_TEXTURE_2D, texID[4]);
+			break;
+		case 1: glBindTexture(GL_TEXTURE_2D, texID[9]);
+			break;
+		case 2: glBindTexture(GL_TEXTURE_2D, texID[15]);
+			break;
+		case 3: glBindTexture(GL_TEXTURE_2D, texID[21]);
+		}
 		break;
-	case 1: glBindTexture(GL_TEXTURE_2D, texID[0]);
+	case 1: 
+		switch (partieCorps) {
+		case 0: glBindTexture(GL_TEXTURE_2D, texID[0]);
+			break;
+		case 1: glBindTexture(GL_TEXTURE_2D, texID[5]);
+			break;
+		case 2: glBindTexture(GL_TEXTURE_2D, texID[11]);
+			break;
+		case 3:	glBindTexture(GL_TEXTURE_2D, texID[17]);
+		}
 		break;
 	case 2:
 		switch (partieCorps) {
@@ -197,13 +287,31 @@ void Perso::myCube(float size, unsigned int* texID, int partieCorps){
 	glVertex3f(c, -c, c); }
 	glEnd();
 	switch (this->id) {//face dessus
-	case 0: glBindTexture(GL_TEXTURE_2D, texID[0]);
+	case 0: 
+		switch (partieCorps) {
+		case 0: glBindTexture(GL_TEXTURE_2D, texID[4]);
+			break;
+		case 1: glBindTexture(GL_TEXTURE_2D, texID[10]);
+			break;
+		case 2: glBindTexture(GL_TEXTURE_2D, texID[16]);
+			break;
+		case 3: glBindTexture(GL_TEXTURE_2D, texID[22]);
+		}
 		break;
-	case 1: glBindTexture(GL_TEXTURE_2D, texID[0]);
+	case 1: 
+		switch (partieCorps) {
+		case 0: glBindTexture(GL_TEXTURE_2D, texID[0]);
+			break;
+		case 1: glBindTexture(GL_TEXTURE_2D, texID[5]);
+			break;
+		case 2: glBindTexture(GL_TEXTURE_2D, texID[11]);
+			break;
+		case 3:	glBindTexture(GL_TEXTURE_2D, texID[17]);
+		}
 		break;
 	case 2: 
 		switch (partieCorps) {
-		case 0: glBindTexture(GL_TEXTURE_2D, texID[0]);
+		case 0: glBindTexture(GL_TEXTURE_2D, texID[4]);
 			break;
 		case 1: glBindTexture(GL_TEXTURE_2D, texID[0]);
 			break;

@@ -19,7 +19,7 @@ Peach : 1
 Donkey Kong : 2 
 */
 
-static unsigned int textureID[9] = { 0,0,0,0,0,0,0,0,0 };
+static unsigned int textureID[72] = { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 };
 
 static float px = 0.0;
 static float py = 60.0;
@@ -253,10 +253,33 @@ static void init(void) {
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_NORMALIZE);
     glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, 1);
-    glGenTextures(9, textureID);
-	chargementTexture("DonkeyBrasJambes.png", textureID[0]);
+    glGenTextures(72, textureID);
+	/*chargementTexture("DonkeyBrasJambes.png", textureID[0]);
 	chargementTexture("DonkeyCorps.png", textureID[1]);
-	chargementTexture("Oui.png", textureID[2]);
+	chargementTexture("Oui.png", textureID[2]);*/
+	chargementTexture("textureMario/marioAvantTete.png", textureID[0]);
+	chargementTexture("textureMario/marioArriereTete.png", textureID[1]);
+	chargementTexture("textureMario/marioGaucheTete.png", textureID[2]);
+	chargementTexture("textureMario/marioDroiteTete.png", textureID[3]);
+	chargementTexture("textureMario/marioDessusTete.png", textureID[4]);
+	chargementTexture("textureMario/marioAvantTorse.png", textureID[5]);
+	chargementTexture("textureMario/marioArriereTorse.png", textureID[6]);
+	chargementTexture("textureMario/marioGaucheTorse.png", textureID[7]);
+	chargementTexture("textureMario/marioDroiteTorse.png", textureID[8]);
+	chargementTexture("textureMario/marioDessousTorse.png", textureID[9]);
+	chargementTexture("textureMario/marioDessusTorse.png", textureID[10]);
+	chargementTexture("textureMario/marioAvantBras.png", textureID[11]);
+	chargementTexture("textureMario/marioArriereBras.png", textureID[12]);
+	chargementTexture("textureMario/marioGaucheBras.png", textureID[13]);
+	chargementTexture("textureMario/marioDroiteBras.png", textureID[14]);
+	chargementTexture("textureMario/marioDessousBras.png", textureID[15]);
+	chargementTexture("textureMario/marioDessusBras.png", textureID[16]);
+	chargementTexture("textureMario/marioAvantJambe.png", textureID[17]);
+	chargementTexture("textureMario/marioArriereJambe.png", textureID[18]);
+	chargementTexture("textureMario/marioGaucheJambe.png", textureID[19]);
+	chargementTexture("textureMario/marioDroiteJambe.png", textureID[20]);
+	chargementTexture("textureMario/marioDessousJambe.png", textureID[21]);
+	chargementTexture("textureMario/marioDessusJambe.png", textureID[22]);
     
 }
 
@@ -355,6 +378,7 @@ static void tonneau(float xTonneau, float yTonneau, float zTonneau, bool echelle
 	}
 	
 	glPushMatrix();
+	glBindTexture(GL_TEXTURE_2D, texID[0]);
 	glBegin(GL_POLYGON);
     for (int i = 0; i < 360; i++) {
         n = i * 3.14 / 180;
