@@ -300,7 +300,7 @@ void Perso::myCube(float size, unsigned int* texID, int partieCorps){
 		break;
 	case 1: 
 		switch (partieCorps) {
-		case 0: glBindTexture(GL_TEXTURE_2D, texID[28]);
+		case 0: glBindTexture(GL_TEXTURE_2D, texID[27]);
 			break;
 		case 1: glBindTexture(GL_TEXTURE_2D, texID[33]);
 			break;
@@ -311,7 +311,7 @@ void Perso::myCube(float size, unsigned int* texID, int partieCorps){
 		break;
 	case 2: 
 		switch (partieCorps) {
-		case 0: glBindTexture(GL_TEXTURE_2D, texID[51]);
+		case 0: glBindTexture(GL_TEXTURE_2D, texID[50]);
 			break;
 		case 1: glBindTexture(GL_TEXTURE_2D, texID[56]);
 			break;
