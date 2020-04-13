@@ -75,24 +75,24 @@ void Perso::myCube(float size, unsigned int* texID, int partieCorps){
 		break;
 	case 1:
 		switch (partieCorps) {
-		case 0: glBindTexture(GL_TEXTURE_2D, texID[0]);
+		case 0: glBindTexture(GL_TEXTURE_2D, texID[23]);
 			break;
-		case 1: glBindTexture(GL_TEXTURE_2D, texID[5]);
+		case 1: glBindTexture(GL_TEXTURE_2D, texID[28]);
 			break;
-		case 2: glBindTexture(GL_TEXTURE_2D, texID[11]);
+		case 2: glBindTexture(GL_TEXTURE_2D, texID[34]);
 			break;
-		case 3:	glBindTexture(GL_TEXTURE_2D, texID[17]);
+		case 3:	glBindTexture(GL_TEXTURE_2D, texID[40]);
 		}
 		break;
 	case 2:
 		switch (partieCorps) {
-		case 0: glBindTexture(GL_TEXTURE_2D, texID[2]);
+		case 0: glBindTexture(GL_TEXTURE_2D, texID[46]);
 			break;
-		case 1: glBindTexture(GL_TEXTURE_2D, texID[1]);
+		case 1: glBindTexture(GL_TEXTURE_2D, texID[51]);
 			break;
-		case 2: glBindTexture(GL_TEXTURE_2D, texID[0]);
+		case 2: glBindTexture(GL_TEXTURE_2D, texID[57]);
 			break;
-		case 3: glBindTexture(GL_TEXTURE_2D, texID[0]);
+		case 3: glBindTexture(GL_TEXTURE_2D, texID[63]);
 		}
 	}
 	glBegin(GL_QUADS);
@@ -120,24 +120,24 @@ void Perso::myCube(float size, unsigned int* texID, int partieCorps){
 		break;
 	case 1: 
 		switch (partieCorps) {
-		case 0: glBindTexture(GL_TEXTURE_2D, texID[0]);
+		case 0: glBindTexture(GL_TEXTURE_2D, texID[24]);
 			break;
-		case 1: glBindTexture(GL_TEXTURE_2D, texID[5]);
+		case 1: glBindTexture(GL_TEXTURE_2D, texID[29]);
 			break;
-		case 2: glBindTexture(GL_TEXTURE_2D, texID[11]);
+		case 2: glBindTexture(GL_TEXTURE_2D, texID[35]);
 			break;
-		case 3:	glBindTexture(GL_TEXTURE_2D, texID[17]);
+		case 3:	glBindTexture(GL_TEXTURE_2D, texID[41]);
 		}
 		break;
 	case 2: 
 		switch (partieCorps) {
-		case 0: glBindTexture(GL_TEXTURE_2D, texID[0]);
+		case 0: glBindTexture(GL_TEXTURE_2D, texID[47]);
 			break;
-		case 1: glBindTexture(GL_TEXTURE_2D, texID[0]);
+		case 1: glBindTexture(GL_TEXTURE_2D, texID[52]);
 			break;
-		case 2: glBindTexture(GL_TEXTURE_2D, texID[0]);
+		case 2: glBindTexture(GL_TEXTURE_2D, texID[58]);
 			break;
-		case 3: glBindTexture(GL_TEXTURE_2D, texID[0]);
+		case 3: glBindTexture(GL_TEXTURE_2D, texID[64]);
 		}
 	}
 	glBegin(GL_QUADS);
@@ -165,24 +165,24 @@ void Perso::myCube(float size, unsigned int* texID, int partieCorps){
 		break;
 	case 1: 
 		switch (partieCorps) {
-		case 0: glBindTexture(GL_TEXTURE_2D, texID[0]);
+		case 0: glBindTexture(GL_TEXTURE_2D, texID[25]);
 			break;
-		case 1: glBindTexture(GL_TEXTURE_2D, texID[5]);
+		case 1: glBindTexture(GL_TEXTURE_2D, texID[30]);
 			break;
-		case 2: glBindTexture(GL_TEXTURE_2D, texID[11]);
+		case 2: glBindTexture(GL_TEXTURE_2D, texID[36]);
 			break;
-		case 3:	glBindTexture(GL_TEXTURE_2D, texID[17]);
+		case 3:	glBindTexture(GL_TEXTURE_2D, texID[42]);
 		}
 		break;
 	case 2: 
 		switch (partieCorps) {
-		case 0: glBindTexture(GL_TEXTURE_2D, texID[0]);
+		case 0: glBindTexture(GL_TEXTURE_2D, texID[48]);
 			break;
-		case 1: glBindTexture(GL_TEXTURE_2D, texID[0]);
+		case 1: glBindTexture(GL_TEXTURE_2D, texID[53]);
 			break;
-		case 2: glBindTexture(GL_TEXTURE_2D, texID[0]);
+		case 2: glBindTexture(GL_TEXTURE_2D, texID[59]);
 			break;
-		case 3: glBindTexture(GL_TEXTURE_2D, texID[0]);
+		case 3: glBindTexture(GL_TEXTURE_2D, texID[65]);
 		}
 	}
 	glBegin(GL_QUADS);
@@ -210,24 +210,24 @@ void Perso::myCube(float size, unsigned int* texID, int partieCorps){
 		break;
 	case 1: 
 		switch (partieCorps) {
-		case 0: glBindTexture(GL_TEXTURE_2D, texID[0]);
+		case 0: glBindTexture(GL_TEXTURE_2D, texID[26]);
 			break;
-		case 1: glBindTexture(GL_TEXTURE_2D, texID[5]);
+		case 1: glBindTexture(GL_TEXTURE_2D, texID[31]);
 			break;
-		case 2: glBindTexture(GL_TEXTURE_2D, texID[11]);
+		case 2: glBindTexture(GL_TEXTURE_2D, texID[37]);
 			break;
-		case 3:	glBindTexture(GL_TEXTURE_2D, texID[17]);
+		case 3:	glBindTexture(GL_TEXTURE_2D, texID[43]);
 		}
 		break;
 	case 2:
 		switch (partieCorps) {
-		case 0: glBindTexture(GL_TEXTURE_2D, texID[0]);
+		case 0: glBindTexture(GL_TEXTURE_2D, texID[49]);
 			break;
-		case 1: glBindTexture(GL_TEXTURE_2D, texID[0]);
+		case 1: glBindTexture(GL_TEXTURE_2D, texID[54]);
 			break;
-		case 2: glBindTexture(GL_TEXTURE_2D, texID[0]);
+		case 2: glBindTexture(GL_TEXTURE_2D, texID[60]);
 			break;
-		case 3: glBindTexture(GL_TEXTURE_2D, texID[0]);
+		case 3: glBindTexture(GL_TEXTURE_2D, texID[66]);
 		}
 	}
 	glBegin(GL_QUADS);
@@ -255,24 +255,24 @@ void Perso::myCube(float size, unsigned int* texID, int partieCorps){
 		break;
 	case 1: 
 		switch (partieCorps) {
-		case 0: glBindTexture(GL_TEXTURE_2D, texID[0]);
+		case 0: glBindTexture(GL_TEXTURE_2D, texID[27]);
 			break;
-		case 1: glBindTexture(GL_TEXTURE_2D, texID[5]);
+		case 1: glBindTexture(GL_TEXTURE_2D, texID[32]);
 			break;
-		case 2: glBindTexture(GL_TEXTURE_2D, texID[11]);
+		case 2: glBindTexture(GL_TEXTURE_2D, texID[38]);
 			break;
-		case 3:	glBindTexture(GL_TEXTURE_2D, texID[17]);
+		case 3:	glBindTexture(GL_TEXTURE_2D, texID[44]);
 		}
 		break;
 	case 2:
 		switch (partieCorps) {
-		case 0: glBindTexture(GL_TEXTURE_2D, texID[0]);
+		case 0: glBindTexture(GL_TEXTURE_2D, texID[50]);
 			break;
-		case 1: glBindTexture(GL_TEXTURE_2D, texID[0]);
+		case 1: glBindTexture(GL_TEXTURE_2D, texID[55]);
 			break;
-		case 2: glBindTexture(GL_TEXTURE_2D, texID[0]);
+		case 2: glBindTexture(GL_TEXTURE_2D, texID[61]);
 			break;
-		case 3: glBindTexture(GL_TEXTURE_2D, texID[0]);
+		case 3: glBindTexture(GL_TEXTURE_2D, texID[67]);
 		}
 	}
 	glBegin(GL_QUADS);
@@ -300,24 +300,24 @@ void Perso::myCube(float size, unsigned int* texID, int partieCorps){
 		break;
 	case 1: 
 		switch (partieCorps) {
-		case 0: glBindTexture(GL_TEXTURE_2D, texID[0]);
+		case 0: glBindTexture(GL_TEXTURE_2D, texID[28]);
 			break;
-		case 1: glBindTexture(GL_TEXTURE_2D, texID[5]);
+		case 1: glBindTexture(GL_TEXTURE_2D, texID[33]);
 			break;
-		case 2: glBindTexture(GL_TEXTURE_2D, texID[11]);
+		case 2: glBindTexture(GL_TEXTURE_2D, texID[39]);
 			break;
-		case 3:	glBindTexture(GL_TEXTURE_2D, texID[17]);
+		case 3:	glBindTexture(GL_TEXTURE_2D, texID[45]);
 		}
 		break;
 	case 2: 
 		switch (partieCorps) {
-		case 0: glBindTexture(GL_TEXTURE_2D, texID[4]);
+		case 0: glBindTexture(GL_TEXTURE_2D, texID[51]);
 			break;
-		case 1: glBindTexture(GL_TEXTURE_2D, texID[0]);
+		case 1: glBindTexture(GL_TEXTURE_2D, texID[56]);
 			break;
-		case 2: glBindTexture(GL_TEXTURE_2D, texID[0]);
+		case 2: glBindTexture(GL_TEXTURE_2D, texID[62]);
 			break;
-		case 3: glBindTexture(GL_TEXTURE_2D, texID[0]);
+		case 3: glBindTexture(GL_TEXTURE_2D, texID[68]);
 		}
 	}
 	glBegin(GL_QUADS);

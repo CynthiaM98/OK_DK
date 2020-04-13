@@ -178,6 +178,7 @@ static void init(void) {
 	/*chargementTexture("DonkeyBrasJambes.png", textureID[0]);
 	chargementTexture("DonkeyCorps.png", textureID[1]);
 	chargementTexture("Oui.png", textureID[2]);*/
+	//Mario
 	chargementTexture("textureMario/marioAvantTete.png", textureID[0]);
 	chargementTexture("textureMario/marioArriereTete.png", textureID[1]);
 	chargementTexture("textureMario/marioGaucheTete.png", textureID[2]);
@@ -201,6 +202,54 @@ static void init(void) {
 	chargementTexture("textureMario/marioDroiteJambe.png", textureID[20]);
 	chargementTexture("textureMario/marioDessousJambe.png", textureID[21]);
 	chargementTexture("textureMario/marioDessusJambe.png", textureID[22]);
+	//Peach
+	chargementTexture("texturePeach/peachAvantTete.png", textureID[23]);
+	chargementTexture("texturePeach/peachArriereTete.png", textureID[24]);
+	chargementTexture("texturePeach/peachGaucheTete.png", textureID[26]);
+	chargementTexture("texturePeach/peachDroiteTete.png", textureID[25]);
+	chargementTexture("texturePeach/peachDessusTete.png", textureID[27]);
+	chargementTexture("texturePeach/peachAvantTorse.png", textureID[28]);
+	chargementTexture("texturePeach/peachArriereTorse.png", textureID[29]);
+	chargementTexture("texturePeach/peachGaucheTorse.png", textureID[30]);
+	chargementTexture("texturePeach/peachDroiteTorse.png", textureID[31]);
+	chargementTexture("texturePeach/peachDessousTorse.png", textureID[32]);
+	chargementTexture("texturePeach/peachDessusTorse.png", textureID[33]);
+	chargementTexture("texturePeach/peachAvantBras.png", textureID[34]);
+	chargementTexture("texturePeach/peachArriereBras.png", textureID[35]);
+	chargementTexture("texturePeach/peachGaucheBras.png", textureID[36]);
+	chargementTexture("texturePeach/peachDroiteBras.png", textureID[37]);
+	chargementTexture("texturePeach/peachDessousBras.png", textureID[38]);
+	chargementTexture("texturePeach/peachDessusBras.png", textureID[39]);
+	chargementTexture("texturePeach/peachAvantJambe.png", textureID[40]);
+	chargementTexture("texturePeach/peachArriereJambe.png", textureID[41]);
+	chargementTexture("texturePeach/peachGaucheJambe.png", textureID[42]);
+	chargementTexture("texturePeach/peachDroiteJambe.png", textureID[43]);
+	chargementTexture("texturePeach/peachDessousJambe.png", textureID[44]);
+	chargementTexture("texturePeach/peachDessusJambe.png", textureID[45]);
+	//Dk
+	chargementTexture("textureDK/dkAvantTete.png", textureID[46]);
+	chargementTexture("textureDK/dkArriereTete.png", textureID[47]);
+	chargementTexture("textureDK/dkGaucheTete.png", textureID[49]);
+	chargementTexture("textureDK/dkDroiteTete.png", textureID[48]);
+	chargementTexture("textureDK/dkDessusTete.png", textureID[50]);
+	chargementTexture("textureDK/dkAvantTorse.png", textureID[51]);
+	chargementTexture("textureDK/dkArriereTorse.png", textureID[52]);
+	chargementTexture("textureDK/dkGaucheTorse.png", textureID[53]);
+	chargementTexture("textureDK/dkDroiteTorse.png", textureID[54]);
+	chargementTexture("textureDK/dkDessousTorse.png", textureID[55]);
+	chargementTexture("textureDK/dkDessusTorse.png", textureID[56]);
+	chargementTexture("textureDK/dkAvantBras.png", textureID[57]);
+	chargementTexture("textureDK/dkArriereBras.png", textureID[58]);
+	chargementTexture("textureDK/dkGaucheBras.png", textureID[59]);
+	chargementTexture("textureDK/dkDroiteBras.png", textureID[60]);
+	chargementTexture("textureDK/dkDessousBras.png", textureID[61]);
+	chargementTexture("textureDK/dkDessusBras.png", textureID[62]);
+	chargementTexture("textureDK/dkAvantJambe.png", textureID[63]);
+	chargementTexture("textureDK/dkArriereJambe.png", textureID[64]);
+	chargementTexture("textureDK/dkGaucheJambe.png", textureID[65]);
+	chargementTexture("textureDK/dkDroiteJambe.png", textureID[66]);
+	chargementTexture("textureDK/dkDessousJambe.png", textureID[67]);
+	chargementTexture("textureDK/dkDessusJambe.png", textureID[68]);
     
 }
 
