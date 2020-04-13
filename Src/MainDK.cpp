@@ -274,7 +274,7 @@ static void tonneau(float xTonneau, float yTonneau, float zTonneau, bool echelle
 	}
 	
 	glPushMatrix();
-	glBindTexture(GL_TEXTURE_2D, texID[0]);
+	glBindTexture(GL_TEXTURE_2D, texID[46]);
 	glBegin(GL_POLYGON);
     for (int i = 0; i < 360; i++) {
         n = i * 3.14 / 180;
@@ -285,6 +285,7 @@ static void tonneau(float xTonneau, float yTonneau, float zTonneau, bool echelle
 	glPushMatrix();
     glTranslatef(0.0, 0.0, largeurPoutre * 0.75);//face avant
     glRotatef(180.0, 0.0, 1.0, 0.0);
+	glBindTexture(GL_TEXTURE_2D, texID[46]);
     glBegin(GL_POLYGON);
     for (int i = 0; i < 360; i++) {
         n = i * 3.14 / 180;
