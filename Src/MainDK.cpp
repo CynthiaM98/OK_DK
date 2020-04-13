@@ -13,11 +13,13 @@
 #include "PNG/Perso.h"
 #include "PNG/Poutre.h"
 
+/*ID
+Mario : 0
+Peach : 1
+Donkey Kong : 2 
+*/
 
-
-
-static unsigned int textureID[1] = { 0 };
-
+static unsigned int textureID[72] = { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 };
 
 static float px = 0.0;
 static float py = 60.0;
@@ -64,15 +66,17 @@ const int nombreEchelle = 6;
 const int nombreEchelleCassee = 5;
 const int nombrePoutre = 8;
 
+float tailleHumaine = 7.0F;
+
 //MARIO
 float initXMario = 5.0;
-//float initYMario = 120+ compensationPoutre;
-float initYMario = (-0.06 * initXMario) + compensationPoutre;
+float initYMario = 120+ compensationPoutre;
+//float initYMario = (-0.06 * initXMario) + compensationPoutre;
 float initZMario = -1.0;
 float longueurPas = 0.5F;
 bool chute = false;
 
-Perso mario(initXMario, initYMario, initZMario);
+Perso mario(initXMario, initYMario, initZMario, tailleHumaine);
 
 Perso::Orientation initOrientationMario = mario.getOrientation();
 
@@ -81,14 +85,14 @@ float xPrincesse = -30.0;
 float yPrincesse = 120.0;
 float zPrincesse = 0.0;
 
-Perso princess(xPrincesse, yPrincesse, zPrincesse);
-
+Perso princess(xPrincesse, yPrincesse, zPrincesse, tailleHumaine);
 
 //DK
 float xDonkeyKong = 40.0;
 float yDonkeyKong = (99.69 + 0.06 * xDonkeyKong) + compensationPoutre;
-float zDonkeyKong = 0.0;
+float zDonkeyKong = -2.0;
 
+Perso donkeyKong(xDonkeyKong, yDonkeyKong, zDonkeyKong, 17.0F);
 //TONNEAU
 float xTonneauBegin = 30;
 float yTonneauBegin = 102 + 2 * compensationPoutre;
@@ -101,8 +105,10 @@ bool gameover = false;
 bool pause = false;
 bool victoire = false;
 bool saut = false;
+bool lanceTonneaux = false;
 bool sautEnCours = false;
 bool godMod = false;
+bool cameraFPS = false;
 float initYsaut = 0.0f;
 //FCT ECHELLES
 
@@ -210,8 +216,8 @@ GLfloat high_shininess[] = { 100.0F };
 GLfloat mat_emission[] = { 0.3F,0.2F,0.2F,0.0F };
 GLfloat couleur_echelles[] = { 0.1F,0.5F,0.8F,1.0F };
 GLfloat couleur_tonneaux[] = { 0.1F,0.5F,0.8F,1.0F };
-GLfloat couleur_princesse[] = { 5.5F,0.5F,5.5F,1.0F };
-GLfloat couleur_dk[] = { 0.5F,41.0F,0.0F,1.0F };
+//GLfloat couleur_princesse[] = { 5.5F,0.5F,5.5F,1.0F };
+//GLfloat couleur_dk[] = { 999.0F,999.0F,999.0F,1.0F };
 
 static void chargementTexture(char* filename, unsigned int textureID) {
     glBindTexture(GL_TEXTURE_2D, textureID);
@@ -220,15 +226,15 @@ static void chargementTexture(char* filename, unsigned int textureID) {
         int rx;
         int ry;
 
-        /*unsigned char *img = chargeImagePng(filename, &rx, &ry);
+        unsigned char *img = chargeImagePng(filename, &rx, &ry);
         if (img) {
             glTexImage2D(GL_TEXTURE_2D, 0, 3, rx, ry, 0, GL_RGB, GL_UNSIGNED_BYTE, img);
             free(img);
-            printf("Texture chargée %d : %s\n", textureID, filename);
+            printf("Texture chargee %d : %s\n", textureID, filename);
         }
         else {
             printf("Texture non charge\n");
-        }*/
+        }
     }
 
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -246,30 +252,38 @@ static void init(void) {
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_NORMALIZE);
     glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, 1);
-    glGenTextures(1, textureID);
-    //chargementTexture("Wood.jpg", textureID[0]);
+    glGenTextures(72, textureID);
+	/*chargementTexture("DonkeyBrasJambes.png", textureID[0]);
+	chargementTexture("DonkeyCorps.png", textureID[1]);
+	chargementTexture("Oui.png", textureID[2]);*/
+	chargementTexture("textureMario/marioAvantTete.png", textureID[0]);
+	chargementTexture("textureMario/marioArriereTete.png", textureID[1]);
+	chargementTexture("textureMario/marioGaucheTete.png", textureID[2]);
+	chargementTexture("textureMario/marioDroiteTete.png", textureID[3]);
+	chargementTexture("textureMario/marioDessusTete.png", textureID[4]);
+	chargementTexture("textureMario/marioAvantTorse.png", textureID[5]);
+	chargementTexture("textureMario/marioArriereTorse.png", textureID[6]);
+	chargementTexture("textureMario/marioGaucheTorse.png", textureID[7]);
+	chargementTexture("textureMario/marioDroiteTorse.png", textureID[8]);
+	chargementTexture("textureMario/marioDessousTorse.png", textureID[9]);
+	chargementTexture("textureMario/marioDessusTorse.png", textureID[10]);
+	chargementTexture("textureMario/marioAvantBras.png", textureID[11]);
+	chargementTexture("textureMario/marioArriereBras.png", textureID[12]);
+	chargementTexture("textureMario/marioGaucheBras.png", textureID[13]);
+	chargementTexture("textureMario/marioDroiteBras.png", textureID[14]);
+	chargementTexture("textureMario/marioDessousBras.png", textureID[15]);
+	chargementTexture("textureMario/marioDessusBras.png", textureID[16]);
+	chargementTexture("textureMario/marioAvantJambe.png", textureID[17]);
+	chargementTexture("textureMario/marioArriereJambe.png", textureID[18]);
+	chargementTexture("textureMario/marioGaucheJambe.png", textureID[19]);
+	chargementTexture("textureMario/marioDroiteJambe.png", textureID[20]);
+	chargementTexture("textureMario/marioDessousJambe.png", textureID[21]);
+	chargementTexture("textureMario/marioDessusJambe.png", textureID[22]);
+    
 }
 
 void idle(void) {
     printf("A\n");
-}
-
-static void rectangle(float largeur, float hauteur) {
-    largeur /= 2.0F;
-    hauteur /= 2.0F;
-    glPushMatrix();
-    glBegin(GL_QUADS);
-    glNormal3f(0.0F, 0.0F, 1.0F);
-    glTexCoord2f(0.0F, 0.0F);
-    glVertex3f(-largeur, -hauteur, 0.0F);
-    glTexCoord2f(1.0F, 0.0F);
-    glVertex3f(largeur, -hauteur, 0.0F);
-    glTexCoord2f(1.0F, 1.0F);
-    glVertex3f(largeur, hauteur, 0.0F);
-    glTexCoord2f(0.0F, 1.0F);
-    glVertex3f(-largeur, hauteur, 0.0F);
-    glEnd();
-    glPopMatrix();
 }
 
 
@@ -346,12 +360,14 @@ static void echelleCassee(float hauteur, float largeur) {
         glPopMatrix();
 
     }
-
 }
 
-
-
-static void tonneau(float xTonneau, float yTonneau, float zTonneau, bool echelle) {
+static void tonneau(float xTonneau, float yTonneau, float zTonneau, bool echelle, unsigned int *texID) {
+    glPushAttrib(GL_LIGHTING_BIT);
+    glMaterialfv(GL_FRONT, GL_AMBIENT, no_mat);
+    glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+    glMaterialfv(GL_FRONT, GL_SHININESS, high_shininess);
+    glMaterialfv(GL_FRONT, GL_EMISSION, no_mat);
     glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, couleur_tonneaux);
     float n;
     glPushMatrix();
@@ -360,12 +376,12 @@ static void tonneau(float xTonneau, float yTonneau, float zTonneau, bool echelle
 		glRotatef(90.0, 0.0, 1.0, 0.0);
 	}
 	
-    //glBindTexture(GL_TEXTURE_2D, textureID[0]);
 	glPushMatrix();
-    glBegin(GL_POLYGON);
+	glBindTexture(GL_TEXTURE_2D, texID[0]);
+	glBegin(GL_POLYGON);
     for (int i = 0; i < 360; i++) {
         n = i * 3.14 / 180;
-        glVertex2f(largeurTonneau * cos(n), largeurTonneau * sin(n));
+       glVertex2f(largeurTonneau * cos(n), largeurTonneau * sin(n));
     }
     glEnd();
     glPopMatrix();
@@ -375,7 +391,7 @@ static void tonneau(float xTonneau, float yTonneau, float zTonneau, bool echelle
     glBegin(GL_POLYGON);
     for (int i = 0; i < 360; i++) {
         n = i * 3.14 / 180;
-        glVertex2f(largeurTonneau * cos(n), largeurTonneau * sin(n));
+       glVertex2f(largeurTonneau * cos(n), largeurTonneau * sin(n));
     }
     glEnd();
     glPopMatrix();
@@ -385,16 +401,19 @@ static void tonneau(float xTonneau, float yTonneau, float zTonneau, bool echelle
     tabTonneau[nbTonneau][0] = xTonneau;
     tabTonneau[nbTonneau][1] = yTonneau;
     tabTonneau[nbTonneau][2] = 0.0F;
-}
-
-static void donkeyKong(float size) {
-    //mario(size,false);
+    glPopAttrib();
 }
 
 
 
 static void placementEchelles() {
+   
     glPushMatrix();
+    glPushAttrib(GL_LIGHTING_BIT);
+    glMaterialfv(GL_FRONT, GL_AMBIENT, no_mat);
+    glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+    glMaterialfv(GL_FRONT, GL_SHININESS, high_shininess);
+    glMaterialfv(GL_FRONT, GL_EMISSION, no_mat);
     glMaterialfv(GL_FRONT, GL_DIFFUSE, couleur_echelles);
 
     glPushMatrix(); //echelle  3 -> 4
@@ -451,7 +470,7 @@ static void placementEchelles() {
     glTranslatef(-27.0, 10.0, -largeurPoutre / 2);
     echelle(hauteurEchelle, largeurEchelle);
     glPopMatrix();
-
+    glPopAttrib();
     glPopMatrix();
 
 }
@@ -460,98 +479,93 @@ static void placementEchelles() {
 static void placementMario() {
     glPushMatrix();
     glTranslatef(mario.getX(), mario.getY(), mario.getZ());
-    mario.printPerso(sautEnCours);
+    mario.printPerso(sautEnCours, false, textureID);
     glPopMatrix();
 }
 
 
 static void placementPrincesse() {
+
     glPushMatrix();
-    glMaterialfv(GL_FRONT, GL_DIFFUSE, couleur_princesse); // TODO : REMPLACER LE MATERIAU PAR UNE TEXTURE
+    //glMaterialfv(GL_FRONT, GL_DIFFUSE, couleur_princesse); // TODO : REMPLACER LE MATERIAU PAR UNE TEXTURE
     glPushMatrix();
     glTranslatef(princess.getX(), princess.getY(), princess.getZ());
     glRotatef(90.0, 0.0, 1.0, 0.0);
-    princess.printPerso(false);
+    princess.printPerso(false, false, textureID);
     glPopMatrix();
     glPopMatrix();
 }
-/*
+
 static void placementDK() {
+
     glPushMatrix();
-    glMaterialfv(GL_FRONT, GL_DIFFUSE, couleur_dk); // TODO : REMPLACER LE MATERIAU PAR UNE TEXTURE
+    //glMaterialfv(GL_FRONT, GL_DIFFUSE, couleur_dk); // TODO : REMPLACER LE MATERIAU PAR UNE TEXTURE
     glPushMatrix();
-    glTranslatef(xDonkeyKong, yDonkeyKong, zDonkeyKong);
+    glTranslatef(donkeyKong.getX(), donkeyKong.getY(), donkeyKong.getZ());
     glRotatef(90.0, 0.0, 1.0, 0.0);
-    princesse(tailleMario*1.7);
-    glPopMatrix();
+	donkeyKong.printPerso(false, lanceTonneaux, textureID);
+	glPopMatrix();
     glPopMatrix();
 }
-*/
+
 
 void placementPoutres() {
+    glBindTexture(GL_TEXTURE_2D, 0);
     glPushMatrix();
-    
+    glPushAttrib(GL_LIGHTING_BIT);
+    glMaterialfv(GL_FRONT, GL_AMBIENT, no_mat);
+    glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+    glMaterialfv(GL_FRONT, GL_SHININESS, high_shininess);
+    glMaterialfv(GL_FRONT, GL_EMISSION, no_mat);
     p7.dessinerPoutre(1);
-
     p6.dessinerPoutre(2);
-
     p5.dessinerPoutre(0);
-
     p4.dessinerPoutre(0);
-
     p3.dessinerPoutre(0);
-
     p2.dessinerPoutre(0);
-
     p1.dessinerPoutre(0);
-
     p0.dessinerPoutre(0);
-
+    glPopAttrib();
     glPopMatrix();
 
 }
 
 void placementTasTonneaux() {
+    glBindTexture(GL_TEXTURE_2D, 0);
     glPushMatrix();
     glRotatef(90.0, 1.0, 0.0, 0.0);
-    tonneau(56,-3.0 ,-110.0, false);
-    tonneau(62,-3.0 ,-110.0, false);
-    tonneau(68,-3.0 ,-110.0, false);
-    tonneau(60, -3.0, -110-(largeurTonneau*2), false);
-    tonneau(66, -3.0, -110 - (largeurTonneau * 2), false);
-    tonneau(63, -3.0, -110 - (largeurTonneau * 4), false);
+    tonneau(56,-3.0 ,-110.0, false, textureID);
+    tonneau(62,-3.0 ,-110.0, false, textureID);
+    tonneau(68,-3.0 ,-110.0, false, textureID);
+    tonneau(60, -3.0, -110-(largeurTonneau*2), false, textureID);
+    tonneau(66, -3.0, -110 - (largeurTonneau * 2), false, textureID);
+    tonneau(63, -3.0, -110 - (largeurTonneau * 4), false, textureID);
     glPopMatrix();
 
 }
 
 static void sceneJeu() {
+    glBindTexture(GL_TEXTURE_2D, 0);
     glEnable(GL_DEPTH_TEST);
     glTranslated(0.0, 0.0, -90.0);
     glPushMatrix();
-    glMaterialfv(GL_FRONT, GL_AMBIENT, no_mat);
-    glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
-    glMaterialfv(GL_FRONT, GL_SHININESS, high_shininess);
-    glMaterialfv(GL_FRONT, GL_EMISSION, no_mat);
     placementPoutres();
     placementEchelles();
     glTranslatef(-3.75F, 3.0F, 0.0F);
-    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, mat_ambient);
-    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, no_mat);
-    glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, no_shininess);
-    glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, mat_emission);
     glPopMatrix();
     glPushMatrix();
     placementMario();
     placementPrincesse();
+    placementDK();
     for (int i = 0; i < nbTonneau; ++i) {
 		if (tabTonneau[i][2] == 0) {
-			tonneau(tabTonneau[i][0], tabTonneau[i][1], zTonneauBegin,false);
+			tonneau(tabTonneau[i][0], tabTonneau[i][1], zTonneauBegin,false, textureID);
 		}
 		else {
-			tonneau(tabTonneau[i][0], tabTonneau[i][1], zTonneauBegin,true);
+			tonneau(tabTonneau[i][0], tabTonneau[i][1], zTonneauBegin,true, textureID);
 		}
     }
-    //placementDK();
+    
     placementTasTonneaux();
     glPopMatrix();
 }
@@ -571,15 +585,15 @@ static void sceneGameOver() {
     gluOrtho2D(0, windowWidth / 2, 0, windowHeight / 2);
 
     glRasterPos2f(windowWidth * 0.20, windowHeight / 4);
-    for (int i = 0;i < textGO.length();i++) {
+    for (size_t i = 0;i < textGO.length();i++) {
         glutBitmapCharacter(GLUT_BITMAP_9_BY_15, textGO[i]);
     }
     glRasterPos2f(windowWidth * 0.20, windowHeight * 0.27);
-    for (int i = 0;i < pointilleGO.length();i++) {
+    for (size_t i = 0;i < pointilleGO.length();i++) {
         glutBitmapCharacter(GLUT_BITMAP_9_BY_15, pointilleGO[i]);
     }
     glRasterPos2f(windowWidth * 0.20, windowHeight * 0.23);
-    for (int i = 0;i < pointilleGO.length();i++) {
+    for (size_t i = 0;i < pointilleGO.length();i++) {
         glutBitmapCharacter(GLUT_BITMAP_9_BY_15, pointilleGO[i]);
     }
     glPopMatrix();
@@ -605,15 +619,15 @@ static void sceneVictory() {
     gluOrtho2D(0, windowWidth / 2, 0, windowHeight / 2);
 
     glRasterPos2f(windowWidth * 0.20, windowHeight / 4);
-    for (int i = 0;i < textGO.length();i++) {
+    for (size_t i = 0;i < textGO.length();i++) {
         glutBitmapCharacter(GLUT_BITMAP_9_BY_15, textGO[i]);
     }
     glRasterPos2f(windowWidth * 0.20, windowHeight * 0.27);
-    for (int i = 0;i < pointilleGO.length();i++) {
+    for (size_t i = 0;i < pointilleGO.length();i++) {
         glutBitmapCharacter(GLUT_BITMAP_9_BY_15, pointilleGO[i]);
     }
     glRasterPos2f(windowWidth * 0.20, windowHeight * 0.23);
-    for (int i = 0;i < pointilleGO.length();i++) {
+    for (size_t i = 0;i < pointilleGO.length();i++) {
         glutBitmapCharacter(GLUT_BITMAP_9_BY_15, pointilleGO[i]);
     }
     glPopMatrix();
@@ -628,22 +642,67 @@ static void display(void) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     const GLfloat light0_position[] = { 0.0,0.0,10.0,1.0 };
     glPolygonMode(GL_FRONT_AND_BACK, (filDeFer) ? GL_FILL : GL_LINE);
-    if (texture)
+    if (texture) {
         glEnable(GL_TEXTURE_2D);
+        
+    }
     else
         glDisable(GL_TEXTURE_2D);
     glPushMatrix();
     glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
-    switch (lumiere) {
-    case 0:
-        glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
-        gluLookAt(px, py, pz, 0.0, 60.0, -50.0, 0.0, 1.0, 0.0);
-        break;
-    case 1:
-        gluLookAt(px, py, pz, 0.0, 60.0, -50.0, 0.0, 1.0, 0.0);
-        glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
-        break;
+    if (!cameraFPS) {
+        switch (lumiere) {
+        case 0:
+            glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
+            gluLookAt(px, py, pz, 0.0, 60.0, -50.0, 0.0, 1.0, 0.0);
+            break;
+        case 1:
+            gluLookAt(px, py, pz, 0.0, 60.0, -50.0, 0.0, 1.0, 0.0);
+            glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
+            break;
+        }
     }
+    else {
+        switch(mario.getOrientation()){
+			if (lumiere == 0) {
+				glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
+			}
+        glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
+        case Perso::Gauche:
+            if (mario.getX() <0) {
+                gluLookAt(mario.getX() + mario.getTaille() / 3.0, mario.getY()+1.5 +  mario.getTaille(), -90.0 - mario.getZ(),  mario.getX() - mario.getTaille() / 3.0-0.1, mario.getY() +mario.getTaille()+1.5, -90.0 - mario.getZ(), 0.0, 1.0, 0.0);
+            }
+            else {
+                if(mario.getX() > 0){
+                    gluLookAt(mario.getX() + mario.getTaille() / 3.0 , mario.getY() + 1.5 + mario.getTaille(), -90.0 - mario.getZ(),- mario.getX() + mario.getTaille() / 3.0 + 0.1, mario.getY() + mario.getTaille() + 1.5, -90.0 - mario.getZ(), 0.0, 1.0, 0.0);
+                }
+                else {
+                    gluLookAt(mario.getX() + mario.getTaille() / 3.0, mario.getY() + 1.5 + mario.getTaille(), -90.0 - mario.getZ(), -1, mario.getY() + mario.getTaille() + 1.5, -90.0 - mario.getZ(), 0.0, 1.0, 0.0);
+                }
+            }
+        break;
+        case Perso::Droite:
+            if (mario.getX() < 0) {
+                    gluLookAt(mario.getX() + mario.getTaille() / 3.0, mario.getY() + 1.5 + mario.getTaille(), -90.0 - mario.getZ(),- mario.getX() + mario.getTaille() / 3.0 + 0.1, mario.getY() + mario.getTaille() + 1.5, -90.0 - mario.getZ(), 0.0, 1.0, 0.0);
+            }
+            else {
+                if (mario.getX() > 0) {
+                    gluLookAt(mario.getX() + mario.getTaille() / 3.0, mario.getY() + 1.5 + mario.getTaille(), -90.0 - mario.getZ(), mario.getX() + mario.getTaille() / 3.0 + 0.1, mario.getY() + mario.getTaille() + 1.5, -90.0 - mario.getZ(), 0.0, 1.0, 0.0);
+                }
+                else {
+                    gluLookAt(mario.getX() + mario.getTaille() / 3.0, mario.getY() + 1.5 + mario.getTaille(), -90.0 - mario.getZ(), mario.getX() + mario.getTaille() / 3.0 + 0.1, mario.getY() + mario.getTaille() + 1.5, -90.0 - mario.getZ(), 0.0, 1.0, 0.0);
+                }
+            }
+        break;
+            
+        case Perso::Dos:
+            gluLookAt(mario.getX() - mario.getTaille() / 3.0, mario.getY() + 5.0 * mario.getTaille() / 6.0, -90.0 - mario.getZ(),  mario.getX() - mario.getTaille() / 3.0, mario.getY() + 5.0 * mario.getTaille() / 6.0, -90.0 - mario.getZ(), 0.0, 1.0, 0.0);
+            break;    
+        }
+    }
+	if (lumiere == 1) {
+		glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
+	}
     sceneJeu();
 
     glPopMatrix();
@@ -836,7 +895,7 @@ static void droiteMario(int poutre) {
             tomber(-20.0);
         }
         else {
-            if (mario.getX() >= 40) { //gameover quand mario "marche" sur donkeyKong
+            if (mario.getX() >= xDonkeyKong-5.0) { //gameover quand mario "marche" sur donkeyKong
                 gameover = true;
                 return;
             }
@@ -1120,7 +1179,15 @@ static void keyboard(unsigned char key, int x, int y) {
 		godMod = !godMod;
 		glutPostRedisplay();
         break;
-	}
+	
+    case 86: case 118:
+        printf("%f\n", mario.getZ());
+        printf("%f\n", mario.getZ());
+        printf("%f\n", mario.getZ());
+        cameraFPS = !cameraFPS;
+        glutPostRedisplay();
+        break;
+    }
 }
 
 static void clean(void) {
@@ -1304,18 +1371,26 @@ void updateTonneau(int value) {
     glutTimerFunc(25, updateTonneau, 0);
 }
 
+static void animationDK(int value) {
+	if (value == 0) {
+		lanceTonneaux = true;
+		glutTimerFunc(500, animationDK, 1);
+	}
+	else {
+		lanceTonneaux = false;
+	}
+}
+
 static void ajoutTonneau(int value) {
 	if (!gameover && !pause && !victoire) {
-		tonneau(xTonneauBegin, yTonneauBegin, zTonneauBegin, false);
+		glutTimerFunc(0, animationDK, 0);
+		tonneau(xTonneauBegin, yTonneauBegin, zTonneauBegin, false, textureID);
 		nbTonneau++;
 		glutTimerFunc(5000, ajoutTonneau, 0);
 	}
-    else {
-        if (gameover) {
-            glutDestroyWindow(WindowDK);
-            
-        }
-    }
+    else if(pause){
+		glutTimerFunc(5000, ajoutTonneau, 0);
+	}
 }
 
 
@@ -1328,7 +1403,6 @@ static void printWVictoire(int value) {
         glutCreateWindow("DonkeyKong - VICTOIRE !"); //creer la fenetre de gameOver
         glutReshapeFunc(reshapeWVictoire);
         glutDisplayFunc(displayWVictoire);   // Register display callback
-
     }
 
     glutTimerFunc(2, printWVictoire, value);
@@ -1343,7 +1417,6 @@ static void printWGameOver(int value) {
         glutCreateWindow("DonkeyKong - GAME OVER !"); //creer la fenetre de gameOver
         glutReshapeFunc(reshapeWGO);
         glutDisplayFunc(displayWGO);   // Register display callback
-
     }
 
     glutTimerFunc(2, printWGameOver, value);
