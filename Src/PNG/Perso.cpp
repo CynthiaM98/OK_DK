@@ -345,7 +345,7 @@ void Perso::membre(float size, unsigned int *texID, int partieCorps) {
 }
 
 void Perso::tete(float size, unsigned int *texID) {
-	double tailleTete = size / 3.0;
+	double tailleTete = (size / 3.0)*0.85;
 	glScalef(tailleTete, tailleTete, tailleTete);
 	myCube(1.0,texID, 0);
 }
@@ -376,8 +376,9 @@ void Perso::printPerso(bool sautEnCours,bool lanceTonneau, unsigned int *texID) 
 	glPushMatrix();
 
 	glPushMatrix();
-	temp = 5.0* this->taille / 6.0;
+	temp =( 5.0* this->taille / 6.0);
 	glTranslatef(0.0F, temp, 0.0F); //niveau tête
+	
 	tete(this->taille, texID);
 	glPopMatrix(); //retour origine
 
