@@ -12,6 +12,8 @@
 #include "PNG/ChargePngFile.h"
 #include "PNG/Perso.h"
 #include "PNG/Poutre.h"
+#include "PNG/Coordonnee2D.h"
+#include "PNG/Echelle.h"
 
 /*ID
 Mario : 0
@@ -64,7 +66,6 @@ float demieLargeurEchelle = largeurEchelle / 2.0;
 
 const int nombreEchelle = 6;
 const int nombreEchelleCassee = 5;
-const int nombrePoutre = 8;
 
 float tailleHumaine = 7.0F;
 
@@ -110,98 +111,19 @@ bool sautEnCours = false;
 bool godMod = false;
 bool cameraFPS = false;
 float initYsaut = 0.0f;
-//FCT ECHELLES
-
-float listeDesEchelles[nombreEchelle][4][2] = { //{{x,y}coinSupGauche,{x,y}coinSupDroit,{x,y}coinInfGauche,{x,y}coinInfDroit}
 
 
-    {
-        {1.0F - demieLargeurEchelle,110.0F + demieHauteurEchelle + mario.getTaille() * 0.125F},
-        {1.0F + demieLargeurEchelle,110.0F + demieHauteurEchelle + mario.getTaille() * 0.125F},
-        {1.0F - demieLargeurEchelle,110.0F - demieHauteurEchelle},
-        {1.0F + demieLargeurEchelle,110.0F - demieHauteurEchelle}  //echelle 3 -> 4
-    },
-    {
-        {-25.0F - demieLargeurEchelle,90.0F + demieHauteurEchelle},
-        {-25.0F + demieLargeurEchelle,90.0F + demieHauteurEchelle},
-        {-25.0F - demieLargeurEchelle,90.0F - demieHauteurEchelle},
-        {-25.0F + demieLargeurEchelle,90.0F - demieHauteurEchelle}  //echelle 2 -> 3
-    },
-    {
-        {15.0F - demieLargeurEchelle,70.0F + demieHauteurEchelle},
-        {15.0F + demieLargeurEchelle,70.0F + demieHauteurEchelle},
-        {15.0F - demieLargeurEchelle,70.0F - demieHauteurEchelle},
-        {15.0F + demieLargeurEchelle,70.0F - demieHauteurEchelle}  //echelle 1 -> 2
-    },
-    {
-        {-28.0F - demieLargeurEchelle,50.0F + demieHauteurEchelle},
-        {-28.0F + demieLargeurEchelle,50.0F + demieHauteurEchelle},
-        {-28.0F - demieLargeurEchelle,50.0F - demieHauteurEchelle},
-        {-28.0F + demieLargeurEchelle,50.0F - demieHauteurEchelle}  //echelle 0 -> 1
-    },
-    {
-        {10.0F - demieLargeurEchelle,30.0F + demieHauteurEchelle},
-        {10.0F + demieLargeurEchelle,30.0F + demieHauteurEchelle},
-        {10.0F - demieLargeurEchelle,30.0F - demieHauteurEchelle},
-        {10.0F + demieLargeurEchelle,30.0F - demieHauteurEchelle}  //echelle -1 -> 0
-    },
-    {
-        {-27.0F - demieLargeurEchelle,10.0F + demieHauteurEchelle},
-        {-27.0F + demieLargeurEchelle,10.0F + demieHauteurEchelle},
-        {-27.0F - demieLargeurEchelle,10.0F - demieHauteurEchelle},
-        {-27.0F + demieLargeurEchelle,10.0F - demieHauteurEchelle}  //echelle -2 -> -1
-    }
-};
+//Echelle normale
 
+Echelle * listeDesEchelles = Echelle::getListEchelles(mario);
 
-float listeDesEchellesCassees[nombreEchelleCassee][4][2] = { //{{x,y}coinSupGauche,{x,y}coinSupDroit,{x,y}coinInfGauche,{x,y}coinInfDroit}
+//Echelles cassée
 
+Echelle * listeDesEchellesCassees = Echelle::getListEchellesCassee(mario);
 
-    {
-        {10.0F - demieLargeurEchelle,90.0F + demieHauteurEchelle},
-        {10.0F + demieLargeurEchelle,90.0F + demieHauteurEchelle},
-        {10.0F - demieLargeurEchelle,90.0F - demieHauteurEchelle},
-        {10.0F + demieLargeurEchelle,90.0F - demieHauteurEchelle}  //echelle cassee 2 -> 3
-    },
-    {
-        {35.0F - demieLargeurEchelle,70.0F + demieHauteurEchelle},
-        {35.0F + demieLargeurEchelle,70.0F + demieHauteurEchelle},
-        {35.0F - demieLargeurEchelle,70.0F - demieHauteurEchelle},
-        {35.0F + demieLargeurEchelle,70.0F - demieHauteurEchelle}  //echelle cassee 1 -> 2
-    },
-    {
-        {0.0F - demieLargeurEchelle,50.0F + demieHauteurEchelle},
-        {0.0F + demieLargeurEchelle,50.0F + demieHauteurEchelle},
-        {0.0F - demieLargeurEchelle,50.0F - demieHauteurEchelle},
-        {0.0F + demieLargeurEchelle,50.0F - demieHauteurEchelle}  //echelle cassee 0 -> 1 
-    },
-    {
-        {-17.0F - demieLargeurEchelle,30.0F + demieHauteurEchelle},
-        {-17.0F + demieLargeurEchelle,30.0F + demieHauteurEchelle},
-        {-17.0F - demieLargeurEchelle,30.0F - demieHauteurEchelle},
-        {-17.0F + demieLargeurEchelle,30.0F - demieHauteurEchelle}//echelle cassee -1 -> -0 
-    },
-    {
-        {30.0F - demieLargeurEchelle,10.0F + demieHauteurEchelle},
-        {30.0F + demieLargeurEchelle,10.0F + demieHauteurEchelle},
-        {30.0F - demieLargeurEchelle,10.0F - demieHauteurEchelle},
-        {30.0F + demieLargeurEchelle,10.0F - demieHauteurEchelle}  //echelle cassee -2 -> -1
-    }
+//Poutres
+Poutre * listePoutre = Poutre::getListPoutre();
 
-};
-
-//FCT POUTRES
-//numeroPoutre,yCentre,xCentre,xGauche,xDroit,ordoOrigine,coefDir,angle
-Poutre p0(-2.0F, 0.0F, -5.0F, -55.0F, 45.0F, 0.0F, -0.06F, 3.2F);
-Poutre p1(-1.0F, 20.0F, 5.0F, -45.0F, 55.0F, 19.69F, 0.06F, -3.5F);
-Poutre p2(0.0F, 40.0F, -5.0F, -55.0F, 45.0F, 39.72F, -0.06F, 3.2F);
-Poutre p3(1.0F, 60.0F, 5.0F, -45.0F, 55.0F, 59.69F, 0.06F, -3.5F);
-Poutre p4(2.0F, 80.0F, -5.0F, -55.0F, 45.0F, 79.72F, -0.06F, 3.2F);
-Poutre p5(3.0F, 100.0F, 5.0F, -45.0F, 55.0F, 99.69F, 0.06F, -3.5F);
-Poutre p6(4.0F, 120.0F, -10.0, -35.0F, 15.0F, 120.0F, 0.0F, 0.0F);
-Poutre p7(42.0F, 103.0F, 64.0, 54.0F, 74.0F, 103.0F, 0.0F, 0.0F);
-
-Poutre listePoutre[nombrePoutre] = { p0, p1, p2, p3, p4, p5, p6,p7 };
 
 
 //TEXTURES
@@ -287,80 +209,6 @@ void idle(void) {
 }
 
 
-static void echelle(float hauteur, float largeur) {
-    largeur /= 2.0F;
-    float x = 1.0F;
-    //montant droit
-
-    glPushMatrix();
-    glColor4f(0.8F, 0.8F, 0.2F, 1.0F);
-    glTranslatef(-largeur, 0.0, 0.0);
-    glRotatef(90, 0.0F, 0.0F, 1.0F);
-    glScalef(hauteur, x, x);
-    glutSolidCube(1.0);
-    glPopMatrix();
-
-    //montant gauche
-    glPushMatrix();
-    glTranslatef(largeur - 1, 0.0, 0.0);
-    glRotatef(90, 0.0F, 0.0F, 1.0F);
-    glScalef(hauteur, x, x);
-    glutSolidCube(x);
-    glPopMatrix();
-
-    //barreaux
-    for (int i = 0;i < 3;++i) {
-        glPushMatrix();
-        glTranslatef(-x / 2, i * (-x + (hauteur / 4)), 0.0);
-        glScalef(2 * (largeur - x), 1.0F, 1.0F);
-        glutSolidCube(x);
-        glPopMatrix();
-        glPushMatrix();
-        glTranslatef(-x / 2, -i * (-x + (hauteur / 4)), 0.0);
-        glScalef(2 * (largeur - x), 1.0F, 1.0F);
-        glutSolidCube(x);
-        glPopMatrix();
-    }
-
-}
-
-
-
-
-static void echelleCassee(float hauteur, float largeur) {
-    largeur /= 2.0F;
-    float x = 1.0F;
-    //montant droit
-    glPushMatrix();
-    glTranslatef(-largeur, 0.0, 0.0);
-    glRotatef(90, 0.0F, 0.0F, 1.0F);
-    glScalef(hauteur, x, x);
-    glutSolidCube(1.0);
-    glPopMatrix();
-
-    //montant gauche
-    glPushMatrix();
-    glTranslatef(largeur - 1, 0.0, 0.0);
-    glRotatef(90, 0.0F, 0.0F, 1.0F);
-    glScalef(hauteur, x, x);
-    glutSolidCube(x);
-    glPopMatrix();
-
-    //barreaux
-    for (int i = 1;i < 3;++i) {
-        glPushMatrix();
-        glTranslatef(-x / 2, i * (-x + (hauteur / 4)), 0.0);
-        glScalef(2 * (largeur - x), 1.0F, 1.0F);
-        glutSolidCube(x);
-        glPopMatrix();
-        glPushMatrix();
-        glTranslatef(-3 * x / 2, -i * (-x + (hauteur / 4)), 0.0);
-        glScalef(2 * (largeur - 1.5 * x), 1.0F, 1.0F);
-        glutSolidCube(x);
-        glPopMatrix();
-
-    }
-}
 
 static void tonneau(float xTonneau, float yTonneau, float zTonneau, bool echelle, unsigned int *texID) {
     glPushAttrib(GL_LIGHTING_BIT);
@@ -406,75 +254,6 @@ static void tonneau(float xTonneau, float yTonneau, float zTonneau, bool echelle
 
 
 
-static void placementEchelles() {
-   
-    glPushMatrix();
-    glPushAttrib(GL_LIGHTING_BIT);
-    glMaterialfv(GL_FRONT, GL_AMBIENT, no_mat);
-    glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
-    glMaterialfv(GL_FRONT, GL_SHININESS, high_shininess);
-    glMaterialfv(GL_FRONT, GL_EMISSION, no_mat);
-    glMaterialfv(GL_FRONT, GL_DIFFUSE, couleur_echelles);
-
-    glPushMatrix(); //echelle  3 -> 4
-    glTranslatef(1.0, 110.0, -largeurPoutre / 2);
-    echelle(hauteurEchelle, largeurEchelle);
-    glPopMatrix();
-
-    glPushMatrix(); //echelle  2 -> 3
-    glTranslatef(-25.0, 90.0, -largeurPoutre / 2); //on recule pour que les échelles soit derrière les poutres
-    echelle(hauteurEchelle, largeurEchelle);
-    glPopMatrix();
-
-    glPushMatrix(); //echelle cassee 2 -> 3
-    glTranslatef(10.0, 90.0, -largeurPoutre / 2);
-    echelleCassee(hauteurEchelle, largeurEchelle);
-    glPopMatrix();
-
-    glPushMatrix(); //echelle  cassee 1 -> 2
-    glTranslatef(35.0, 70.0, -largeurPoutre / 2);
-    echelleCassee(hauteurEchelle, largeurEchelle);
-    glPopMatrix();
-
-    glPushMatrix(); //echelle  1 -> 2
-    glTranslatef(15.0, 70.0, -largeurPoutre / 2);
-    echelle(hauteurEchelle, largeurEchelle);
-    glPopMatrix();
-
-    glPushMatrix(); //echelle  cassee 0 -> 1
-    glTranslatef(0.0, 50.0, -largeurPoutre / 2);
-    echelleCassee(hauteurEchelle, largeurEchelle);
-    glPopMatrix();
-
-    glPushMatrix(); //echelle 0 -> 1
-    glTranslatef(-28.0, 50.0, -largeurPoutre / 2);
-    echelle(hauteurEchelle, largeurEchelle);
-    glPopMatrix();
-
-    glPushMatrix(); //echelle  cassee -1 -> 0
-    glTranslatef(-17.0, 30.0, -largeurPoutre / 2);
-    echelleCassee(hauteurEchelle, largeurEchelle);
-    glPopMatrix();
-
-    glPushMatrix(); //echelle -1 -> 0
-    glTranslatef(10.0, 30.0, -largeurPoutre / 2);
-    echelle(hauteurEchelle, largeurEchelle);
-    glPopMatrix();
-
-    glPushMatrix(); //echelle  cassee -2 -> -1
-    glTranslatef(30.0, 10.0, -largeurPoutre / 2);
-    echelleCassee(hauteurEchelle, largeurEchelle);
-    glPopMatrix();
-
-    glPushMatrix(); //echelle -2 -> -1
-    glTranslatef(-27.0, 10.0, -largeurPoutre / 2);
-    echelle(hauteurEchelle, largeurEchelle);
-    glPopMatrix();
-    glPopAttrib();
-    glPopMatrix();
-
-}
-
 
 static void placementMario() {
     glPushMatrix();
@@ -517,14 +296,14 @@ void placementPoutres() {
     glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
     glMaterialfv(GL_FRONT, GL_SHININESS, high_shininess);
     glMaterialfv(GL_FRONT, GL_EMISSION, no_mat);
-    p7.dessinerPoutre(1);
-    p6.dessinerPoutre(2);
-    p5.dessinerPoutre(0);
-    p4.dessinerPoutre(0);
-    p3.dessinerPoutre(0);
-    p2.dessinerPoutre(0);
-    p1.dessinerPoutre(0);
-    p0.dessinerPoutre(0);
+	listePoutre[7].dessinerPoutre(1);
+	listePoutre[6].dessinerPoutre(2);
+	listePoutre[5].dessinerPoutre(0);
+	listePoutre[4].dessinerPoutre(0);
+	listePoutre[3].dessinerPoutre(0);
+	listePoutre[2].dessinerPoutre(0);
+	listePoutre[1].dessinerPoutre(0);
+	listePoutre[0].dessinerPoutre(0);
     glPopAttrib();
     glPopMatrix();
 
@@ -550,7 +329,17 @@ static void sceneJeu() {
     glTranslated(0.0, 0.0, -90.0);
     glPushMatrix();
     placementPoutres();
-    placementEchelles();
+
+	glPushMatrix();
+	glPushAttrib(GL_LIGHTING_BIT);
+	glMaterialfv(GL_FRONT, GL_AMBIENT, no_mat);
+	glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+	glMaterialfv(GL_FRONT, GL_SHININESS, high_shininess);
+	glMaterialfv(GL_FRONT, GL_EMISSION, no_mat);
+	glMaterialfv(GL_FRONT, GL_DIFFUSE, couleur_echelles);
+    Echelle::placementEchelles(largeurPoutre);
+	glPopMatrix();
+
     glTranslatef(-3.75F, 3.0F, 0.0F);
     glPopMatrix();
     glPushMatrix();
@@ -738,9 +527,6 @@ static void displayWVictoire(void) {
         printf("Erreur OpenGL: %d\n", error);
 
 }
-
-
-
 
 
 
@@ -1006,12 +792,13 @@ static void keyboard(unsigned char key, int x, int y) {
 		if (!gameover && !pause && !victoire) {
 			do {
 				//on récupère les coordonnées des 4 coins de la zone échelle
-				float tempSupGauche[2] = { listeDesEchelles[index1][0][0],listeDesEchelles[index1][0][1] };
-				float tempSupDroit[2] = { listeDesEchelles[index1][1][0],listeDesEchelles[index1][1][1] };
-				float tempInfGauche[2] = { listeDesEchelles[index1][2][0],listeDesEchelles[index1][2][1] };
-				float tempInfDroit[2] = { listeDesEchelles[index1][3][0],listeDesEchelles[index1][3][1] };
-				bool tempB = mario.getX() < tempSupDroit[0] && mario.getX() > tempSupGauche[0];
-				bool tempB2 = mario.getY() + mario.getTaille() * 0.25 >= tempInfDroit[1] && mario.getY() + mario.getTaille() * 0.25 <= tempSupGauche[1];
+				Coordonnee2D tempSupGauche = listeDesEchelles[index1].getCoinSupG();
+				Coordonnee2D tempSupDroit = listeDesEchelles[index1].getCoinSupD();
+				Coordonnee2D tempInfGauche = listeDesEchelles[index1].getCoinInfG();
+				Coordonnee2D tempInfDroit = listeDesEchelles[index1].getCoinInfD();
+
+				bool tempB = mario.getX() < tempSupDroit.getX() && mario.getX() > tempSupGauche.getX();
+				bool tempB2 = mario.getY() + mario.getTaille() * 0.25 >= tempInfDroit.getY() && mario.getY() + mario.getTaille() * 0.25 <= tempSupGauche.getY();
 				if (tempB && tempB2) {
 					trouveHaut = true;
 					sautEnCours = false;
@@ -1035,12 +822,12 @@ static void keyboard(unsigned char key, int x, int y) {
 		if (!gameover && !pause && !victoire) {
 			do {
 				//on récupère les coordonnées des 4 coins de la zone échelle
-				float tempSupGauche[2] = { listeDesEchelles[index1][0][0],listeDesEchelles[index1][0][1] };
-				float tempSupDroit[2] = { listeDesEchelles[index1][1][0],listeDesEchelles[index1][1][1] };
-				float tempInfGauche[2] = { listeDesEchelles[index1][2][0],listeDesEchelles[index1][2][1] };
-				float tempInfDroit[2] = { listeDesEchelles[index1][3][0],listeDesEchelles[index1][3][1] };
-				bool tempB = mario.getX() < tempSupDroit[0] && mario.getX() > tempSupGauche[0];
-				bool tempB2 = mario.getY() - mario.getTaille() * 0.25 >= tempInfDroit[1] && mario.getY() - mario.getTaille() * 0.25 <= tempSupDroit[1];
+				Coordonnee2D tempSupGauche = listeDesEchelles[index1].getCoinSupG();
+				Coordonnee2D tempSupDroit = listeDesEchelles[index1].getCoinSupD();
+				Coordonnee2D tempInfGauche = listeDesEchelles[index1].getCoinInfG();
+				Coordonnee2D tempInfDroit = listeDesEchelles[index1].getCoinInfD();
+				bool tempB = mario.getX() < tempSupDroit.getX() && mario.getX() > tempSupGauche.getX();
+				bool tempB2 = mario.getY() - mario.getTaille() * 0.25 >= tempInfDroit.getY() && mario.getY() - mario.getTaille() * 0.25 <= tempSupDroit.getY();
 				if (tempB && tempB2) {
 					trouveHaut = true;
 					sautEnCours = false;
@@ -1233,12 +1020,13 @@ void updateTonneau(int value) {
 		bool descendreEchelle = false;
 		bool descendreEchelleCassees = false;
 		for (int j = 0; j < nombreEchelle; ++j) {
-			float tempSupGauche[2] = { listeDesEchelles[j][0][0],listeDesEchelles[j][0][1] };
-			float tempSupDroit[2] = { listeDesEchelles[j][1][0],listeDesEchelles[j][1][1] };
-			float tempInfGauche[2] = { listeDesEchelles[j][2][0],listeDesEchelles[j][2][1] };
-			float tempInfDroit[2] = { listeDesEchelles[j][3][0],listeDesEchelles[j][3][1] };
-			bool tempX = tabTonneau[i][0] > tempSupGauche[0] + demieLargeurEchelle/3 - vitesseTonneau && tabTonneau[i][0] < tempSupDroit[0] - demieLargeurEchelle - demieLargeurEchelle*2/3 + vitesseTonneau;
-			bool tempY = tabTonneau[i][1] <= tempSupGauche[1] + largeurTonneau && tabTonneau[i][1] >= tempInfGauche[1] + largeurTonneau * 2;
+			Coordonnee2D tempSupGauche = listeDesEchelles[j].getCoinSupG();
+			Coordonnee2D tempSupDroit = listeDesEchelles[j].getCoinSupD();
+			Coordonnee2D tempInfGauche = listeDesEchelles[j].getCoinInfG();
+			Coordonnee2D tempInfDroit = listeDesEchelles[j].getCoinInfD();
+
+			bool tempX = tabTonneau[i][0] > tempSupGauche.getX() + demieLargeurEchelle/3 - vitesseTonneau && tabTonneau[i][0] < tempSupDroit.getX() - demieLargeurEchelle - demieLargeurEchelle*2/3 + vitesseTonneau;
+			bool tempY = tabTonneau[i][1] <= tempSupGauche.getY() + largeurTonneau && tabTonneau[i][1] >= tempInfGauche.getY() + largeurTonneau * 2;
 			if (tempX && tempY) {
 				if (tabTonneau[i][2] == 0) {
 					int descendreAleatoire = rand() % 2;
@@ -1254,12 +1042,13 @@ void updateTonneau(int value) {
 		//Descendre échelles cassees
 		if (!descendreEchelle) {
 			for (int j = 0; j < nombreEchelleCassee; ++j) {
-				float tempSupGauche[2] = { listeDesEchellesCassees[j][0][0],listeDesEchellesCassees[j][0][1] };
-				float tempSupDroit[2] = { listeDesEchellesCassees[j][1][0],listeDesEchellesCassees[j][1][1] };
-				float tempInfGauche[2] = { listeDesEchellesCassees[j][2][0],listeDesEchellesCassees[j][2][1] };
-				float tempInfDroit[2] = { listeDesEchellesCassees[j][3][0],listeDesEchellesCassees[j][3][1] };
-				bool tempX = tabTonneau[i][0] >= tempSupGauche[0]  && tabTonneau[i][0] <= tempSupDroit[0] - largeurEchelle;
-				bool tempY = tabTonneau[i][1] <= tempSupGauche[1] + largeurTonneau && tabTonneau[i][1] >= tempInfGauche[1] + largeurTonneau * 2;
+				Coordonnee2D tempSupGauche = listeDesEchellesCassees[j].getCoinSupG();
+				Coordonnee2D tempSupDroit = listeDesEchellesCassees[j].getCoinSupD();
+				Coordonnee2D tempInfGauche = listeDesEchellesCassees[j].getCoinInfG();
+				Coordonnee2D tempInfDroit = listeDesEchellesCassees[j].getCoinInfD();
+				
+				bool tempX = tabTonneau[i][0] >= tempSupGauche.getX()  && tabTonneau[i][0] <= tempSupDroit.getX() - largeurEchelle;
+				bool tempY = tabTonneau[i][1] <= tempSupGauche.getY() + largeurTonneau && tabTonneau[i][1] >= tempInfGauche.getY() + largeurTonneau * 2;
 				if (tempX && tempY) {
 					if (tabTonneau[i][2] == 0) {
 						int descendreAleatoire = rand() % 2;
