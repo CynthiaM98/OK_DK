@@ -83,7 +83,7 @@ Perso::Orientation initOrientationMario = mario.getOrientation();
 
 //PEACH
 float xPrincesse = -30.0;
-float yPrincesse = 120.0;
+float yPrincesse = 120.0+ compensationPoutre;
 float zPrincesse = 0.0;
 
 Perso princess(xPrincesse, yPrincesse, zPrincesse, tailleHumaine);
