@@ -137,7 +137,7 @@ GLfloat low_shininess[] = { 5.0F };
 GLfloat high_shininess[] = { 100.0F };
 GLfloat mat_emission[] = { 0.3F,0.2F,0.2F,0.0F };
 GLfloat couleur_echelles[] = { 0.1F,0.5F,0.8F,1.0F };
-GLfloat couleur_tonneaux[] = { 0.1F,0.5F,0.8F,1.0F };
+GLfloat couleur_tonneaux[] = { 0.9F, 0.7F, 0.3F,1.0F };
 //GLfloat couleur_princesse[] = { 5.5F,0.5F,5.5F,1.0F };
 //GLfloat couleur_dk[] = { 999.0F,999.0F,999.0F,1.0F };
 
@@ -260,12 +260,15 @@ void idle(void) {
 
 
 static void tonneau(float xTonneau, float yTonneau, float zTonneau, bool echelle, unsigned int *texID) {
+    glBindTexture(GL_TEXTURE_2D, 0);
     glPushAttrib(GL_LIGHTING_BIT);
     glMaterialfv(GL_FRONT, GL_AMBIENT, no_mat);
     glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, couleur_tonneaux);
     glMaterialfv(GL_FRONT, GL_SHININESS, high_shininess);
     glMaterialfv(GL_FRONT, GL_EMISSION, no_mat);
-    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, couleur_tonneaux);
+    
+ 
     float n;
     glPushMatrix();
 	glTranslatef(xTonneau, yTonneau + 4 * compensationPoutre, zTonneau); //face arrière
@@ -274,7 +277,7 @@ static void tonneau(float xTonneau, float yTonneau, float zTonneau, bool echelle
 	}
 	
 	glPushMatrix();
-	glBindTexture(GL_TEXTURE_2D, texID[46]);
+
 	glBegin(GL_POLYGON);
     for (int i = 0; i < 360; i++) {
         n = i * 3.14 / 180;
@@ -285,7 +288,7 @@ static void tonneau(float xTonneau, float yTonneau, float zTonneau, bool echelle
 	glPushMatrix();
     glTranslatef(0.0, 0.0, largeurPoutre * 0.75);//face avant
     glRotatef(180.0, 0.0, 1.0, 0.0);
-	glBindTexture(GL_TEXTURE_2D, texID[46]);
+
     glBegin(GL_POLYGON);
     for (int i = 0; i < 360; i++) {
         n = i * 3.14 / 180;
