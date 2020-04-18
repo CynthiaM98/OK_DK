@@ -77,7 +77,7 @@ float tailleHumaine = 7.0F;
 //MARIO
 float initXMario = 5.0;
 //float initYMario = 120+ compensationPoutre;
-float initYMario = (-0.06 * initXMario) + compensationPoutre;
+float initYMario = (-0.06 * initXMario) + 1.75*compensationPoutre;
 float initZMario = -1.0;
 float longueurPas = 0.5F;
 bool chute = false;
@@ -88,14 +88,14 @@ Perso::Orientation initOrientationMario = mario.getOrientation();
 
 //PEACH
 float xPrincesse = -30.0;
-float yPrincesse = 120.0+ compensationPoutre;
+float yPrincesse = 120.0+ 1.75 * compensationPoutre;
 float zPrincesse = 0.0;
 
 Perso princess(xPrincesse, yPrincesse, zPrincesse, tailleHumaine);
 
 //DK
 float xDonkeyKong = 40.0;
-float yDonkeyKong = (99.69 + 0.06 * xDonkeyKong) + compensationPoutre;
+float yDonkeyKong = (99.69 + 0.06 * xDonkeyKong) + 1.75 * compensationPoutre;
 float zDonkeyKong = -2.0;
 
 Perso donkeyKong(xDonkeyKong, yDonkeyKong, zDonkeyKong, 17.0F);
@@ -919,7 +919,7 @@ static void gaucheMario(int poutre) {
         }
         else {
             int indice = poutre + 2;
-            mario.setY((listePoutre[indice].getOrdoOrigine() + listePoutre[indice].getCoefDir() * mario.getX()) + compensationPoutre);
+            mario.setY((listePoutre[indice].getOrdoOrigine() + listePoutre[indice].getCoefDir() * mario.getX()) + 1.75 * compensationPoutre);
         }
         break;
     case -1: case 1: case 3:
@@ -930,7 +930,7 @@ static void gaucheMario(int poutre) {
         }
         else {
             int indice = poutre + 2;
-            mario.setY((listePoutre[indice].getOrdoOrigine() + listePoutre[indice].getCoefDir() * mario.getX()) + compensationPoutre);
+            mario.setY((listePoutre[indice].getOrdoOrigine() + listePoutre[indice].getCoefDir() * mario.getX()) + 1.75 * compensationPoutre);
         }
         break;
     case 4:
@@ -962,7 +962,7 @@ static void droiteMario(int poutre) {
         }
         else {
             int indice = poutre + 2;
-            mario.setY((listePoutre[indice].getOrdoOrigine() + listePoutre[indice].getCoefDir() * mario.getX()) + compensationPoutre);
+            mario.setY((listePoutre[indice].getOrdoOrigine() + listePoutre[indice].getCoefDir() * mario.getX()) + 1.75 * compensationPoutre);
 
         }
         break;
@@ -979,7 +979,7 @@ static void droiteMario(int poutre) {
             }
             else {
                 int indice = poutre + 2;
-                mario.setY((listePoutre[indice].getOrdoOrigine() + listePoutre[indice].getCoefDir() * mario.getX()) + compensationPoutre);
+                mario.setY((listePoutre[indice].getOrdoOrigine() + listePoutre[indice].getCoefDir() * mario.getX()) + 1.75 * compensationPoutre);
             }
 
         }
@@ -993,7 +993,7 @@ static void droiteMario(int poutre) {
         }
         else {
             int indice = poutre + 2;
-            mario.setY((listePoutre[indice].getOrdoOrigine() + listePoutre[indice].getCoefDir() * mario.getX()) + compensationPoutre);
+            mario.setY((listePoutre[indice].getOrdoOrigine() + listePoutre[indice].getCoefDir() * mario.getX()) + 1.75 * compensationPoutre);
         }
         break;
     case 0: case 2:
@@ -1006,7 +1006,7 @@ static void droiteMario(int poutre) {
         }
         else {
             int indice = poutre + 2;
-            mario.setY((listePoutre[indice].getOrdoOrigine() + listePoutre[indice].getCoefDir() * mario.getX()) + compensationPoutre);
+            mario.setY((listePoutre[indice].getOrdoOrigine() + listePoutre[indice].getCoefDir() * mario.getX()) + 1.75 * compensationPoutre);
         }
         break;
     case 4:
