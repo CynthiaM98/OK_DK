@@ -655,10 +655,10 @@ static void display(void) {
         switch (lumiere) {
         case 0:
             glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
-            gluLookAt(px, py, pz, 0.0, 60.0, -50.0, 0.0, 1.0, 0.0);
+            gluLookAt(px, py, pz, 0.0, 60.0, -90.0, 0.0, 1.0, 0.0);
             break;
         case 1:
-            gluLookAt(px, py, pz, 0.0, 60.0, -50.0, 0.0, 1.0, 0.0);
+            gluLookAt(px, py, pz, 0.0, 60.0, -90.0, 0.0, 1.0, 0.0);
             glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
             break;
         }
@@ -882,16 +882,12 @@ static void printWVictoire(int value) {
 
 
 
-
-
-
-
-
 /********************************************************************************************/
 /********************************************************************************************/
-/* FONCTIONS CLAVIER */
+/* FONCTIONS CLAVIER ET DEPLACEMENT */
 /********************************************************************************************/
 /********************************************************************************************/
+
 static void tomber(int value) {
     mario.setY(mario.getY() - 0.2);
     if (mario.getY() <= value) {
@@ -942,6 +938,9 @@ static void gaucheMario(int poutre) {
             glutCreateWindow("DonkeyKong - VICTOIRE !"); //creer la fenetre de gameOver
             glutReshapeFunc(reshapeWVictoire);
             glutDisplayFunc(displayWVictoire);
+        }
+        else {
+            mario.setY(120.0 + 1.75 * compensationPoutre);
         }
         break;
     default:
@@ -1014,6 +1013,10 @@ static void droiteMario(int poutre) {
         if (mario.getX() >= 15) {
             sautEnCours = true;
             tomber(listePoutre[indice].getOrdoOrigine() + listePoutre[indice].getCoefDir() * mario.getX() + compensationPoutre);
+
+        }
+        else {
+            mario.setY(120.0 + 1.75 * compensationPoutre);
 
         }
         break;
