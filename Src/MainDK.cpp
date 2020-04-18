@@ -21,6 +21,11 @@ Peach : 1
 Donkey Kong : 2 
 */
 
+/********************************************************************************************/
+/********************************************************************************************/
+/* DECLARATION DES VARIABLES ET DES CONSTANTES*/
+/********************************************************************************************/
+/********************************************************************************************/
 static unsigned int textureID[72] = { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 };
 
 static float px = 0.0;
@@ -71,8 +76,8 @@ float tailleHumaine = 7.0F;
 
 //MARIO
 float initXMario = 5.0;
-float initYMario = 120+ compensationPoutre;
-//float initYMario = (-0.06 * initXMario) + compensationPoutre;
+//float initYMario = 120+ compensationPoutre;
+float initYMario = (-0.06 * initXMario) + compensationPoutre;
 float initZMario = -1.0;
 float longueurPas = 0.5F;
 bool chute = false;
@@ -138,8 +143,12 @@ GLfloat high_shininess[] = { 100.0F };
 GLfloat mat_emission[] = { 0.3F,0.2F,0.2F,0.0F };
 GLfloat couleur_echelles[] = { 0.1F,0.5F,0.8F,1.0F };
 GLfloat couleur_tonneaux[] = { 0.9F, 0.7F, 0.3F,1.0F };
-//GLfloat couleur_princesse[] = { 5.5F,0.5F,5.5F,1.0F };
-//GLfloat couleur_dk[] = { 999.0F,999.0F,999.0F,1.0F };
+
+/********************************************************************************************/
+/********************************************************************************************/
+/* FONCTIONS UTILITAIRES*/
+/********************************************************************************************/
+/********************************************************************************************/
 
 static void chargementTexture(char* filename, unsigned int textureID) {
     glBindTexture(GL_TEXTURE_2D, textureID);
@@ -175,9 +184,8 @@ static void init(void) {
     glEnable(GL_NORMALIZE);
     glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, 1);
     glGenTextures(72, textureID);
-	/*chargementTexture("DonkeyBrasJambes.png", textureID[0]);
-	chargementTexture("DonkeyCorps.png", textureID[1]);
-	chargementTexture("Oui.png", textureID[2]);*/
+
+
 	//Mario
 	chargementTexture("textureMario/marioAvantTete.png", textureID[0]);
 	chargementTexture("textureMario/marioArriereTete.png", textureID[1]);
@@ -257,7 +265,19 @@ void idle(void) {
     printf("A\n");
 }
 
+static void clean(void) {
+    for (int i = 0; i < 1; i++) {
+        if (textureID[i] != 0) {
+            glDeleteTextures(1, &textureID[i]);
+        }
+    }
+}
 
+/********************************************************************************************/
+/********************************************************************************************/
+/* MODELISATION DES TONNEAUX */
+/********************************************************************************************/
+/********************************************************************************************/
 
 static void tonneau(float xTonneau, float yTonneau, float zTonneau, bool echelle, unsigned int *texID) {
     glBindTexture(GL_TEXTURE_2D, 0);
@@ -305,8 +325,205 @@ static void tonneau(float xTonneau, float yTonneau, float zTonneau, bool echelle
     glPopAttrib();
 }
 
+static void decalerTableauTonneau(float indice) {
+    if (nbTonneau == 1) {// Cas 1 seul élément
+        nbTonneau = 0;
+        return;
+    }
+    else if (nbTonneau == indice + 1) {//Cas dernière case enlevé
+        nbTonneau--;
+        return;
+    }
+    for (int i = indice; i < nbTonneau - 1; ++i) {//Cas classique
+        tabTonneau[i][0] = tabTonneau[i + 1][0];
+        tabTonneau[i][1] = tabTonneau[i + 1][1];
+    }
+    nbTonneau--;
+}
 
+static void mouvementTonneau(float ordoOrigine, float coefDir, float distance, int i) {
+    tabTonneau[i][0] += distance;
+    tabTonneau[i][1] = (ordoOrigine + coefDir * tabTonneau[i][0]) + 2 * compensationPoutre;
+}
 
+void updateTonneau(int value) {
+    if (!gameover && !pause && !victoire) {
+        float hauteurMario = mario.getTaille();
+        float posXMario = mario.getX();
+        float posYMario = mario.getY();
+        float largeurMario = hauteurMario / 6 * 0.75;
+        float supprimerTonneau = -1;
+        float vitesseTonneau = longueurPas * 0.75;
+
+        //Descendre échelles
+        for (int i = 0; i < nbTonneau; ++i) {
+            bool descendreEchelle = false;
+            bool descendreEchelleCassees = false;
+            for (int j = 0; j < nombreEchelle; ++j) {
+                Coordonnee2D tempSupGauche = listeDesEchelles[j].getCoinSupG();
+                Coordonnee2D tempSupDroit = listeDesEchelles[j].getCoinSupD();
+                Coordonnee2D tempInfGauche = listeDesEchelles[j].getCoinInfG();
+                Coordonnee2D tempInfDroit = listeDesEchelles[j].getCoinInfD();
+
+                bool tempX = tabTonneau[i][0] > tempSupGauche.getX() + demieLargeurEchelle / 3 - vitesseTonneau && tabTonneau[i][0] < tempSupDroit.getX() - demieLargeurEchelle - demieLargeurEchelle * 2 / 3 + vitesseTonneau;
+                bool tempY = tabTonneau[i][1] <= tempSupGauche.getY() + largeurTonneau && tabTonneau[i][1] >= tempInfGauche.getY() + largeurTonneau * 2;
+                if (tempX && tempY) {
+                    if (tabTonneau[i][2] == 0) {
+                        int descendreAleatoire = rand() % 2;
+                        tabTonneau[i][2] = (float)descendreAleatoire;
+                    }
+                    if (tabTonneau[i][2] == 1) {
+                        tabTonneau[i][1] -= longueurPas;
+                        descendreEchelle = true;
+                        break;
+                    }
+                }
+            }
+            //Descendre échelles cassees
+            if (!descendreEchelle) {
+                for (int j = 0; j < nombreEchelleCassee; ++j) {
+                    Coordonnee2D tempSupGauche = listeDesEchellesCassees[j].getCoinSupG();
+                    Coordonnee2D tempSupDroit = listeDesEchellesCassees[j].getCoinSupD();
+                    Coordonnee2D tempInfGauche = listeDesEchellesCassees[j].getCoinInfG();
+                    Coordonnee2D tempInfDroit = listeDesEchellesCassees[j].getCoinInfD();
+
+                    bool tempX = tabTonneau[i][0] >= tempSupGauche.getX() && tabTonneau[i][0] <= tempSupDroit.getX() - largeurEchelle;
+                    bool tempY = tabTonneau[i][1] <= tempSupGauche.getY() + largeurTonneau && tabTonneau[i][1] >= tempInfGauche.getY() + largeurTonneau * 2;
+                    if (tempX && tempY) {
+                        if (tabTonneau[i][2] == 0) {
+                            int descendreAleatoire = rand() % 2;
+                            tabTonneau[i][2] = (float)descendreAleatoire;
+                        }
+                        if (tabTonneau[i][2] == 1) {
+                            tabTonneau[i][1] -= longueurPas;
+                            descendreEchelleCassees = true;
+                            break;
+                        }
+                    }
+                }
+            }
+            if (!descendreEchelle && !descendreEchelleCassees) {
+                tabTonneau[i][2] = 0;
+                if (tabTonneau[i][1] >= -3.0 + 2 * compensationPoutre && tabTonneau[i][1] <= 2.8 + 2 * compensationPoutre) {
+                    if (tabTonneau[i][0] - longueurPas < 55 && tabTonneau[i][0] + longueurPas>-55) {
+                        mouvementTonneau(0, -0.06, vitesseTonneau, i);
+                    }
+                }
+                else {
+                    if (tabTonneau[i][1] >= 16.2 + 2 * compensationPoutre && tabTonneau[i][1] <= 23.0 + 2 * compensationPoutre) {
+                        if (tabTonneau[i][0] - longueurPas < 56 && tabTonneau[i][0] + longueurPas> -50) {
+                            mouvementTonneau(19.69, 0.06, -vitesseTonneau, i);
+                        }
+                    }
+                    else {
+                        if (tabTonneau[i][1] >= 36.0 + 2 * compensationPoutre && tabTonneau[i][1] <= 42.8 + 2 * compensationPoutre) {
+                            if (tabTonneau[i][0] - longueurPas < 50 && tabTonneau[i][0] + longueurPas > -55) {
+                                mouvementTonneau(39.72, -0.06, vitesseTonneau, i);
+                            }
+                        }
+                        else {
+                            if (tabTonneau[i][1] >= 55 + 2 * compensationPoutre && tabTonneau[i][1] <= 63.06 + 2 * compensationPoutre) {
+                                if (tabTonneau[i][0] - longueurPas < 56 && tabTonneau[i][0] + longueurPas > -50) {
+                                    mouvementTonneau(59.69, 0.06, -vitesseTonneau, i);
+                                }
+                            }
+                            else {
+                                if (tabTonneau[i][1] >= 75 + 2 * compensationPoutre && tabTonneau[i][1] <= 82.8 + 2 * compensationPoutre) {
+                                    if (tabTonneau[i][0] - longueurPas < 50 && tabTonneau[i][0] + longueurPas > -55) {
+                                        mouvementTonneau(79.72, -0.06, vitesseTonneau, i);
+                                    }
+                                }
+                                else {
+                                    if (tabTonneau[i][1] >= 95.00 + 2 * compensationPoutre && tabTonneau[i][1] <= 103.6 + 2 * compensationPoutre) {
+                                        if (tabTonneau[i][0] - longueurPas < 55 && tabTonneau[i][0] + longueurPas > -50) {
+                                            mouvementTonneau(99.69, 0.06, -vitesseTonneau, i);
+                                        }
+                                    }
+                                    else {
+                                        if (tabTonneau[i][1] >= 120.0 + 2 * compensationPoutre && tabTonneau[i][1] <= 122.0 + 2 * compensationPoutre) {
+                                            if (tabTonneau[i][0] - longueurPas < 15 && tabTonneau[i][0] + longueurPas > -35) {
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                //Deplacement vertical
+                if (tabTonneau[i][1] <= 97.0 + 2 * compensationPoutre && tabTonneau[i][1] >= 83.06 + 2 * compensationPoutre) {
+                    tabTonneau[i][1] -= longueurPas;
+                }
+                if (tabTonneau[i][1] <= 77.0 + 2 * compensationPoutre && tabTonneau[i][1] >= 63.06 + 2 * compensationPoutre) {
+                    tabTonneau[i][1] -= longueurPas;
+                }
+                else if (tabTonneau[i][1] <= 57.0 + 2 * compensationPoutre && tabTonneau[i][1] >= 43.0 + 2 * compensationPoutre) {
+                    tabTonneau[i][1] -= longueurPas;
+                }
+                else if (tabTonneau[i][1] <= 38.2 + 2 * compensationPoutre && tabTonneau[i][1] >= 23.0 + 2 * compensationPoutre) {
+                    tabTonneau[i][1] -= longueurPas;
+                }
+                else if (tabTonneau[i][1] <= 17.0 + 2 * compensationPoutre && tabTonneau[i][1] >= 2.7 + 2 * compensationPoutre) {
+                    tabTonneau[i][1] -= longueurPas;
+                }
+                else if (tabTonneau[i][1] <= -2.9 + 2 * compensationPoutre && tabTonneau[i][1] >= -30 + 2 * compensationPoutre) {
+                    tabTonneau[i][1] -= longueurPas;
+                }
+                else if (tabTonneau[i][1] <= -30 + 2 * compensationPoutre) {
+                    supprimerTonneau = i;
+                }
+            }
+
+            //Collisions tonneaux
+            if (tabTonneau[i][0] + 3.0 >= posXMario - largeurMario && tabTonneau[i][0] - 3.0 <= posXMario + largeurMario) {
+                if (tabTonneau[i][1] + largeurTonneau >= posYMario && tabTonneau[i][1] <= posYMario + hauteurMario) {
+                    if (!godMod) {
+                        printf("Aie partout\n");
+                        gameover = true;
+                        return;
+                    }
+
+                }
+            }
+        }
+
+        if (supprimerTonneau >= 0) {
+            decalerTableauTonneau(supprimerTonneau);
+            supprimerTonneau = -1;
+        }
+        glutPostRedisplay();
+
+    }
+    glutTimerFunc(25, updateTonneau, 0);
+}
+
+static void animationDK(int value) {
+    if (value == 0) {
+        lanceTonneaux = true;
+        glutTimerFunc(500, animationDK, 1);
+    }
+    else {
+        lanceTonneaux = false;
+    }
+}
+
+static void ajoutTonneau(int value) {
+    if (!gameover && !pause && !victoire) {
+        glutTimerFunc(0, animationDK, 0);
+        tonneau(xTonneauBegin, yTonneauBegin, zTonneauBegin, false, textureID);
+        nbTonneau++;
+        glutTimerFunc(5000, ajoutTonneau, 0);
+    }
+    else if (pause) {
+        glutTimerFunc(5000, ajoutTonneau, 0);
+    }
+}
+/********************************************************************************************/
+/********************************************************************************************/
+/* PLACEMENT DES PERSONNAGES */
+/********************************************************************************************/
+/********************************************************************************************/
 
 static void placementMario() {
     glPushMatrix();
@@ -319,7 +536,6 @@ static void placementMario() {
 static void placementPrincesse() {
 
     glPushMatrix();
-    //glMaterialfv(GL_FRONT, GL_DIFFUSE, couleur_princesse); // TODO : REMPLACER LE MATERIAU PAR UNE TEXTURE
     glPushMatrix();
     glTranslatef(princess.getX(), princess.getY(), princess.getZ());
     glRotatef(90.0, 0.0, 1.0, 0.0);
@@ -331,7 +547,6 @@ static void placementPrincesse() {
 static void placementDK() {
 
     glPushMatrix();
-    //glMaterialfv(GL_FRONT, GL_DIFFUSE, couleur_dk); // TODO : REMPLACER LE MATERIAU PAR UNE TEXTURE
     glPushMatrix();
     glTranslatef(donkeyKong.getX(), donkeyKong.getY(), donkeyKong.getZ());
     glRotatef(90.0, 0.0, 1.0, 0.0);
@@ -340,6 +555,13 @@ static void placementDK() {
     glPopMatrix();
 }
 
+
+
+/********************************************************************************************/
+/********************************************************************************************/
+/* DECLARATION DES OBJETS DE LA SCENE DE JEU */
+/********************************************************************************************/
+/********************************************************************************************/
 
 void placementPoutres() {
     glBindTexture(GL_TEXTURE_2D, 0);
@@ -376,6 +598,11 @@ void placementTasTonneaux() {
 
 }
 
+/********************************************************************************************/
+/********************************************************************************************/
+/* SCENE UTILISEE POUR LE JEU EN COURS DE PARTIE */
+/********************************************************************************************/
+/********************************************************************************************/
 static void sceneJeu() {
     glBindTexture(GL_TEXTURE_2D, 0);
     glEnable(GL_DEPTH_TEST);
@@ -412,6 +639,109 @@ static void sceneJeu() {
     glPopMatrix();
 }
 
+static void display(void) {
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    const GLfloat light0_position[] = { 0.0,0.0,10.0,1.0 };
+    glPolygonMode(GL_FRONT_AND_BACK, (filDeFer) ? GL_FILL : GL_LINE);
+    if (texture) {
+        glEnable(GL_TEXTURE_2D);
+
+    }
+    else
+        glDisable(GL_TEXTURE_2D);
+    glPushMatrix();
+    glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
+    if (!cameraFPS) {
+        switch (lumiere) {
+        case 0:
+            glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
+            gluLookAt(px, py, pz, 0.0, 60.0, -50.0, 0.0, 1.0, 0.0);
+            break;
+        case 1:
+            gluLookAt(px, py, pz, 0.0, 60.0, -50.0, 0.0, 1.0, 0.0);
+            glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
+            break;
+        }
+    }
+    else {
+        switch (mario.getOrientation()) {
+            if (lumiere == 0) {
+                glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
+            }
+            glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
+        case Perso::Gauche:
+            if (mario.getX() < 0) {
+                gluLookAt(mario.getX() + mario.getTaille() / 3.0, mario.getY() + 1.5 + mario.getTaille(), -90.0 - mario.getZ(), mario.getX() - mario.getTaille() / 3.0 - 0.1, mario.getY() + mario.getTaille() + 1.5, -90.0 - mario.getZ(), 0.0, 1.0, 0.0);
+            }
+            else {
+                if (mario.getX() > 0) {
+                    gluLookAt(mario.getX() + mario.getTaille() / 3.0, mario.getY() + 1.5 + mario.getTaille(), -90.0 - mario.getZ(), -mario.getX() + mario.getTaille() / 3.0 + 0.1, mario.getY() + mario.getTaille() + 1.5, -90.0 - mario.getZ(), 0.0, 1.0, 0.0);
+                }
+                else {
+                    gluLookAt(mario.getX() + mario.getTaille() / 3.0, mario.getY() + 1.5 + mario.getTaille(), -90.0 - mario.getZ(), -1, mario.getY() + mario.getTaille() + 1.5, -90.0 - mario.getZ(), 0.0, 1.0, 0.0);
+                }
+            }
+            break;
+        case Perso::Droite:
+            if (mario.getX() < 0) {
+                gluLookAt(mario.getX() + mario.getTaille() / 3.0, mario.getY() + 1.5 + mario.getTaille(), -90.0 - mario.getZ(), -mario.getX() + mario.getTaille() / 3.0 + 0.1, mario.getY() + mario.getTaille() + 1.5, -90.0 - mario.getZ(), 0.0, 1.0, 0.0);
+            }
+            else {
+                if (mario.getX() > 0) {
+                    gluLookAt(mario.getX() + mario.getTaille() / 3.0, mario.getY() + 1.5 + mario.getTaille(), -90.0 - mario.getZ(), mario.getX() + mario.getTaille() / 3.0 + 0.1, mario.getY() + mario.getTaille() + 1.5, -90.0 - mario.getZ(), 0.0, 1.0, 0.0);
+                }
+                else {
+                    gluLookAt(mario.getX() + mario.getTaille() / 3.0, mario.getY() + 1.5 + mario.getTaille(), -90.0 - mario.getZ(), mario.getX() + mario.getTaille() / 3.0 + 0.1, mario.getY() + mario.getTaille() + 1.5, -90.0 - mario.getZ(), 0.0, 1.0, 0.0);
+                }
+            }
+            break;
+
+        case Perso::Dos:
+            gluLookAt(mario.getX() - mario.getTaille() / 3.0, mario.getY() + 5.0 * mario.getTaille() / 6.0, -90.0 - mario.getZ(), mario.getX() - mario.getTaille() / 3.0, mario.getY() + 5.0 * mario.getTaille() / 6.0, -90.0 - mario.getZ(), 0.0, 1.0, 0.0);
+            break;
+        }
+    }
+    if (lumiere == 1) {
+        glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
+    }
+    sceneJeu();
+
+    glPopMatrix();
+    glFlush();
+    glutSwapBuffers();
+    int error = glGetError();
+    if (error != GL_NO_ERROR)
+        printf("Erreur OpenGL: %d\n", error);
+}
+
+
+
+static void reshape(int tx, int ty) {
+    glViewport(0, 0, tx, ty);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    double ratio = (double)tx / ty;
+    if (ratio >= 1.0)
+        gluPerspective(80, ratio, 10.0, 2000.0);
+    else
+        gluPerspective(80 / ratio, ratio, 10.0, 2000.0);
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+}
+
+/********************************************************************************************/
+/********************************************************************************************/
+/* SCENE UTILISEE POUR LE GAMEOVER */
+/********************************************************************************************/
+/********************************************************************************************/
+static void reshapeWGO(int tx, int ty) {
+    glViewport(0, 0, tx, ty);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glutReshapeWindow(windowWidth / 2, windowHeight / 2);
+    gluOrtho2D(-windowWidth / 4, windowWidth / 4, -windowHeight / 4, windowHeight / 4);
+}
+
 static void sceneGameOver() {
     glPushAttrib(GL_CURRENT_BIT);
     glColor3f(1.0, 1.0, 1.0);
@@ -445,6 +775,50 @@ static void sceneGameOver() {
     glPopAttrib();
 }
 
+static void displayWGO(void) {
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    sceneGameOver();
+    glFlush();
+    glutSwapBuffers();
+    int error = glGetError();
+    if (error != GL_NO_ERROR)
+        printf("Erreur OpenGL: %d\n", error);
+
+}
+
+
+static void printWGameOver(int value) {
+    if (gameover) {
+        gameover = false;
+        glutDestroyWindow(WindowDK);
+        glutInitWindowSize(windowWidth / 2, windowHeight / 2);
+        glutInitWindowPosition(50, 50);
+        glutCreateWindow("DonkeyKong - GAME OVER !"); //creer la fenetre de gameOver
+        glutReshapeFunc(reshapeWGO);
+        glutDisplayFunc(displayWGO);   // Register display callback
+    }
+
+    glutTimerFunc(2, printWGameOver, value);
+}
+
+
+
+
+
+
+
+/********************************************************************************************/
+/********************************************************************************************/
+/* SCENE UTILISEE POUR LA VICTOIRE */
+/********************************************************************************************/
+/********************************************************************************************/
+static void reshapeWVictoire(int tx, int ty) {
+    glViewport(0, 0, tx, ty);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glutReshapeWindow(windowWidth / 2, windowHeight / 2);
+    gluOrtho2D(-windowWidth / 4, windowWidth / 4, -windowHeight / 4, windowHeight / 4);
+}
 
 static void sceneVictory() {
     glPushAttrib(GL_CURRENT_BIT);
@@ -479,97 +853,6 @@ static void sceneVictory() {
     glPopAttrib();
 }
 
-
-static void display(void) {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    const GLfloat light0_position[] = { 0.0,0.0,10.0,1.0 };
-    glPolygonMode(GL_FRONT_AND_BACK, (filDeFer) ? GL_FILL : GL_LINE);
-    if (texture) {
-        glEnable(GL_TEXTURE_2D);
-        
-    }
-    else
-        glDisable(GL_TEXTURE_2D);
-    glPushMatrix();
-    glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
-    if (!cameraFPS) {
-        switch (lumiere) {
-        case 0:
-            glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
-            gluLookAt(px, py, pz, 0.0, 60.0, -50.0, 0.0, 1.0, 0.0);
-            break;
-        case 1:
-            gluLookAt(px, py, pz, 0.0, 60.0, -50.0, 0.0, 1.0, 0.0);
-            glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
-            break;
-        }
-    }
-    else {
-        switch(mario.getOrientation()){
-			if (lumiere == 0) {
-				glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
-			}
-        glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
-        case Perso::Gauche:
-            if (mario.getX() <0) {
-                gluLookAt(mario.getX() + mario.getTaille() / 3.0, mario.getY()+1.5 +  mario.getTaille(), -90.0 - mario.getZ(),  mario.getX() - mario.getTaille() / 3.0-0.1, mario.getY() +mario.getTaille()+1.5, -90.0 - mario.getZ(), 0.0, 1.0, 0.0);
-            }
-            else {
-                if(mario.getX() > 0){
-                    gluLookAt(mario.getX() + mario.getTaille() / 3.0 , mario.getY() + 1.5 + mario.getTaille(), -90.0 - mario.getZ(),- mario.getX() + mario.getTaille() / 3.0 + 0.1, mario.getY() + mario.getTaille() + 1.5, -90.0 - mario.getZ(), 0.0, 1.0, 0.0);
-                }
-                else {
-                    gluLookAt(mario.getX() + mario.getTaille() / 3.0, mario.getY() + 1.5 + mario.getTaille(), -90.0 - mario.getZ(), -1, mario.getY() + mario.getTaille() + 1.5, -90.0 - mario.getZ(), 0.0, 1.0, 0.0);
-                }
-            }
-        break;
-        case Perso::Droite:
-            if (mario.getX() < 0) {
-                    gluLookAt(mario.getX() + mario.getTaille() / 3.0, mario.getY() + 1.5 + mario.getTaille(), -90.0 - mario.getZ(),- mario.getX() + mario.getTaille() / 3.0 + 0.1, mario.getY() + mario.getTaille() + 1.5, -90.0 - mario.getZ(), 0.0, 1.0, 0.0);
-            }
-            else {
-                if (mario.getX() > 0) {
-                    gluLookAt(mario.getX() + mario.getTaille() / 3.0, mario.getY() + 1.5 + mario.getTaille(), -90.0 - mario.getZ(), mario.getX() + mario.getTaille() / 3.0 + 0.1, mario.getY() + mario.getTaille() + 1.5, -90.0 - mario.getZ(), 0.0, 1.0, 0.0);
-                }
-                else {
-                    gluLookAt(mario.getX() + mario.getTaille() / 3.0, mario.getY() + 1.5 + mario.getTaille(), -90.0 - mario.getZ(), mario.getX() + mario.getTaille() / 3.0 + 0.1, mario.getY() + mario.getTaille() + 1.5, -90.0 - mario.getZ(), 0.0, 1.0, 0.0);
-                }
-            }
-        break;
-            
-        case Perso::Dos:
-            gluLookAt(mario.getX() - mario.getTaille() / 3.0, mario.getY() + 5.0 * mario.getTaille() / 6.0, -90.0 - mario.getZ(),  mario.getX() - mario.getTaille() / 3.0, mario.getY() + 5.0 * mario.getTaille() / 6.0, -90.0 - mario.getZ(), 0.0, 1.0, 0.0);
-            break;    
-        }
-    }
-	if (lumiere == 1) {
-		glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
-	}
-    sceneJeu();
-
-    glPopMatrix();
-    glFlush();
-    glutSwapBuffers();
-    int error = glGetError();
-    if (error != GL_NO_ERROR)
-        printf("Erreur OpenGL: %d\n", error);
-}
-
-
-
-
-
-static void displayWGO(void) {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    sceneGameOver();
-    glFlush();
-    glutSwapBuffers();
-    int error = glGetError();
-    if (error != GL_NO_ERROR)
-        printf("Erreur OpenGL: %d\n", error);
-
-}
-
 static void displayWVictoire(void) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     sceneVictory();
@@ -579,41 +862,187 @@ static void displayWVictoire(void) {
     if (error != GL_NO_ERROR)
         printf("Erreur OpenGL: %d\n", error);
 
+
+}
+
+static void printWVictoire(int value) {
+    if (victoire) {
+        victoire = false;
+        glutDestroyWindow(WindowDK);
+        glutInitWindowSize(windowWidth / 2, windowHeight / 2);
+        glutInitWindowPosition(50, 50);
+        glutCreateWindow("DonkeyKong - VICTOIRE !"); //creer la fenetre de gameOver
+        glutReshapeFunc(reshapeWVictoire);
+        glutDisplayFunc(displayWVictoire);   // Register display callback
+    }
+
+    glutTimerFunc(2, printWVictoire, value);
 }
 
 
 
-static void reshape(int tx, int ty) {
-    glViewport(0, 0, tx, ty);
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    double ratio = (double)tx / ty;
-    if (ratio >= 1.0)
-        gluPerspective(80, ratio, 10.0, 2000.0);
-    else
-        gluPerspective(80 / ratio, ratio, 10.0, 2000.0);
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
+
+
+
+
+
+
+/********************************************************************************************/
+/********************************************************************************************/
+/* FONCTIONS CLAVIER */
+/********************************************************************************************/
+/********************************************************************************************/
+static void tomber(int value) {
+    mario.setY(mario.getY() - 0.2);
+    if (mario.getY() <= value) {
+        if (chute) {
+            gameover = true;
+            return;
+        }
+        sautEnCours = false;
+        return;
+    }
+    glutPostRedisplay();
+    glutTimerFunc(1, tomber, value);
 }
 
-static void reshapeWGO(int tx, int ty) {
-    glViewport(0, 0, tx, ty);
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glutReshapeWindow(windowWidth / 2, windowHeight / 2);
-    gluOrtho2D(-windowWidth / 4, windowWidth / 4, -windowHeight / 4, windowHeight / 4);
+static void gaucheMario(int poutre) {
+    mario.setSurEchelle(false);
+    mario.setOrientation(Perso::Orientation::Gauche);
+    mario.setX(mario.getX() - longueurPas);
+    switch (poutre) {
+    case -2: case 0: case 2:
+        if (mario.getX() >= 45 || mario.getX() <= -55) {
+            chute = true;
+            sautEnCours = true;
+            tomber(-20);
+        }
+        else {
+            int indice = poutre + 2;
+            mario.setY((listePoutre[indice].getOrdoOrigine() + listePoutre[indice].getCoefDir() * mario.getX()) + compensationPoutre);
+        }
+        break;
+    case -1: case 1: case 3:
+        if (mario.getX() >= 55 || mario.getX() <= -45) {
+            int indice = poutre + 1;
+            sautEnCours = true;
+            tomber((listePoutre[indice].getOrdoOrigine() + listePoutre[indice].getCoefDir() * mario.getX()) + compensationPoutre);
+        }
+        else {
+            int indice = poutre + 2;
+            mario.setY((listePoutre[indice].getOrdoOrigine() + listePoutre[indice].getCoefDir() * mario.getX()) + compensationPoutre);
+        }
+        break;
+    case 4:
+        if (mario.getX() <= -25) {
+            victoire = true;
+            glutDestroyWindow(WindowDK);
+            glutInitWindowSize(windowWidth / 2, windowHeight / 2);
+            glutInitWindowPosition(50, 50);
+            glutCreateWindow("DonkeyKong - VICTOIRE !"); //creer la fenetre de gameOver
+            glutReshapeFunc(reshapeWVictoire);
+            glutDisplayFunc(displayWVictoire);
+        }
+        break;
+    default:
+        break;
+    }
 }
 
+static void droiteMario(int poutre) {
+    mario.setSurEchelle(false);
+    mario.setOrientation(Perso::Orientation::Droite);
+    mario.setX(mario.getX() + longueurPas);
+    switch (poutre) {
+    case -1: case 1:
+        if (mario.getX() >= 55 || mario.getX() <= -45) {
+            chute = true;
+            sautEnCours = true;
+            tomber(-20);
+        }
+        else {
+            int indice = poutre + 2;
+            mario.setY((listePoutre[indice].getOrdoOrigine() + listePoutre[indice].getCoefDir() * mario.getX()) + compensationPoutre);
 
+        }
+        break;
+    case 3:
+        if (mario.getX() >= 55 || mario.getX() <= -45) {
+            chute = true;
+            sautEnCours = true;
+            tomber(-20.0);
+        }
+        else {
+            if (mario.getX() >= xDonkeyKong - 5.0) { //gameover quand mario "marche" sur donkeyKong
+                gameover = true;
+                return;
+            }
+            else {
+                int indice = poutre + 2;
+                mario.setY((listePoutre[indice].getOrdoOrigine() + listePoutre[indice].getCoefDir() * mario.getX()) + compensationPoutre);
+            }
 
-static void reshapeWVictoire(int tx, int ty) {
-    glViewport(0, 0, tx, ty);
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glutReshapeWindow(windowWidth / 2, windowHeight / 2);
-    gluOrtho2D(-windowWidth / 4, windowWidth / 4, -windowHeight / 4, windowHeight / 4);
+        }
+        break;
+
+    case -2:
+        if (mario.getX() >= 45 || mario.getX() <= -55) {
+            chute = true;
+            sautEnCours = true;
+            tomber(-20.0);
+        }
+        else {
+            int indice = poutre + 2;
+            mario.setY((listePoutre[indice].getOrdoOrigine() + listePoutre[indice].getCoefDir() * mario.getX()) + compensationPoutre);
+        }
+        break;
+    case 0: case 2:
+
+        if (mario.getX() >= 45 || mario.getX() <= -55) {
+            int indice = poutre + 1;
+            sautEnCours = true;
+            tomber(listePoutre[indice].getOrdoOrigine() + listePoutre[indice].getCoefDir() * mario.getX() + compensationPoutre);
+
+        }
+        else {
+            int indice = poutre + 2;
+            mario.setY((listePoutre[indice].getOrdoOrigine() + listePoutre[indice].getCoefDir() * mario.getX()) + compensationPoutre);
+        }
+        break;
+    case 4:
+        int indice = poutre + 1;
+        if (mario.getX() >= 15) {
+            sautEnCours = true;
+            tomber(listePoutre[indice].getOrdoOrigine() + listePoutre[indice].getCoefDir() * mario.getX() + compensationPoutre);
+
+        }
+        break;
+    }
 }
 
+static void sautMario(int value) {
+    if (saut) {
+
+        if (mario.getY() - initYsaut < 10.0) {
+            mario.setY(mario.getY() + 0.05);
+        }
+        else {
+            saut = false;
+        }
+
+    }
+    if (!saut) {
+        if (mario.getY() > initYsaut) {
+            mario.setY(mario.getY() - 0.05);
+        }
+        else {
+            sautEnCours = false;
+        }
+    }
+    if (sautEnCours) {
+        glutTimerFunc(2, sautMario, 0);
+    }
+}
 
 static void special(int key, int x, int y) {
     //printf("K  x=%d y=%d z=%d\n", px, py, pz);
@@ -651,161 +1080,7 @@ static void special(int key, int x, int y) {
     }
 }
 
-static void tomber(int value) {
-	mario.setY(mario.getY() - 0.2);
-	if (mario.getY() <= value) {
-		if (chute) {
-			gameover = true;
-            return;
-		}
-		sautEnCours = false;
-		return;
-	}
-	glutPostRedisplay();
-	glutTimerFunc(1, tomber, value);
-}
 
-
-static void gaucheMario(int poutre) {
-	mario.setSurEchelle(false);
-    mario.setOrientation(Perso::Orientation::Gauche);
-    mario.setX(mario.getX() - longueurPas);
-    switch (poutre) {
-    case -2: case 0: case 2:
-        if (mario.getX() >= 45 || mario.getX() <= -55) {
-			chute = true;
-			sautEnCours = true;
-			tomber(-20);
-        }
-        else {
-            int indice = poutre + 2;
-            mario.setY((listePoutre[indice].getOrdoOrigine() + listePoutre[indice].getCoefDir() * mario.getX()) + compensationPoutre);
-        }
-        break;
-    case -1: case 1: case 3:
-        if (mario.getX() >= 55 || mario.getX() <= -45) {
-            int indice = poutre + 1;
-			sautEnCours = true;
-			tomber((listePoutre[indice].getOrdoOrigine() + listePoutre[indice].getCoefDir() * mario.getX()) + compensationPoutre);
-        }
-        else {
-            int indice = poutre + 2;
-            mario.setY((listePoutre[indice].getOrdoOrigine() + listePoutre[indice].getCoefDir() * mario.getX()) + compensationPoutre);
-        }
-        break;
-    case 4: 
-        if (mario.getX() <= -25) {
-            victoire = true;
-            glutDestroyWindow(WindowDK);
-            glutInitWindowSize(windowWidth / 2, windowHeight / 2);
-            glutInitWindowPosition(50, 50);
-            glutCreateWindow("DonkeyKong - VICTOIRE !"); //creer la fenetre de gameOver
-            glutReshapeFunc(reshapeWVictoire);
-            glutDisplayFunc(displayWVictoire);
-        }
-        break;
-    default:
-        break;
-    }
-}
-
-
-static void droiteMario(int poutre) {
-	mario.setSurEchelle(false);
-    mario.setOrientation(Perso::Orientation::Droite);
-    mario.setX(mario.getX() + longueurPas);
-    switch (poutre) {
-    case -1: case 1: 
-        if (mario.getX() >= 55 || mario.getX() <= -45) {
-			chute = true;
-			sautEnCours = true;
-			tomber(-20);
-        }
-        else {
-            int indice = poutre + 2;
-            mario.setY((listePoutre[indice].getOrdoOrigine() + listePoutre[indice].getCoefDir() * mario.getX()) + compensationPoutre);
-
-        }
-        break;
-    case 3:
-        if (mario.getX() >= 55 || mario.getX() <= -45) {
-			chute = true;
-			sautEnCours = true;
-            tomber(-20.0);
-        }
-        else {
-            if (mario.getX() >= xDonkeyKong-5.0) { //gameover quand mario "marche" sur donkeyKong
-                gameover = true;
-                return;
-            }
-            else {
-                int indice = poutre + 2;
-                mario.setY((listePoutre[indice].getOrdoOrigine() + listePoutre[indice].getCoefDir() * mario.getX()) + compensationPoutre);
-            }
-
-        }
-        break;
-
-    case -2:
-        if (mario.getX() >= 45 || mario.getX() <= -55) {
-            chute = true;
-			sautEnCours = true;
-			tomber(-20.0);
-        }
-        else {
-            int indice = poutre + 2;
-            mario.setY((listePoutre[indice].getOrdoOrigine() + listePoutre[indice].getCoefDir() * mario.getX()) + compensationPoutre);
-        }
-        break;
-    case 0: case 2:
-
-        if (mario.getX() >= 45 || mario.getX() <= -55) {
-            int indice = poutre + 1;
-			sautEnCours = true;
-			tomber(listePoutre[indice].getOrdoOrigine() + listePoutre[indice].getCoefDir() * mario.getX() + compensationPoutre);
-            //mario.setX(45.0);
-            //mario.setY((listePoutre[indice].getOrdoOrigine() + listePoutre[indice].getCoefDir() * mario.getX()) + compensationPoutre);
-        }
-        else {
-            int indice = poutre + 2;
-            mario.setY((listePoutre[indice].getOrdoOrigine() + listePoutre[indice].getCoefDir() * mario.getX()) + compensationPoutre);
-        }
-        break;
-    case 4:
-        int indice = poutre + 1;
-        if (mario.getX() >= 15) {
-			sautEnCours = true;
-			tomber(listePoutre[indice].getOrdoOrigine() + listePoutre[indice].getCoefDir() * mario.getX() + compensationPoutre);
-            //mario.setX(15.0);
-            //mario.setY((listePoutre[indice].getOrdoOrigine() + listePoutre[indice].getCoefDir() * mario.getX()) + compensationPoutre);
-        }
-        break;
-    } 
-}
-
-static void sautMario(int value) {
-    if (saut) {
-       
-        if (mario.getY() - initYsaut < 10.0) {
-            mario.setY(mario.getY() + 0.05);
-        }
-        else {
-            saut = false;
-        }
-        
-    }
-    if (!saut) {
-        if (mario.getY() > initYsaut) {
-            mario.setY(mario.getY() - 0.05);
-        }
-        else {
-            sautEnCours = false;
-        }
-    }
-    if(sautEnCours){
-        glutTimerFunc(2, sautMario, 0);
-    }
-}
 
 static void keyboard(unsigned char key, int x, int y) {
 	int index1 = 0;
@@ -1030,240 +1305,14 @@ static void keyboard(unsigned char key, int x, int y) {
     }
 }
 
-static void clean(void) {
-    for (int i = 0; i < 1; i++) {
-        if (textureID[i] != 0) {
-            glDeleteTextures(1, &textureID[i]);
-        }
-    }
-}
-
-static void decalerTableauTonneau(float indice) {
-    if (nbTonneau == 1) {// Cas 1 seul élément
-        nbTonneau = 0;
-        return;
-    }
-    else if (nbTonneau == indice + 1) {//Cas dernière case enlevé
-        nbTonneau--;
-        return;
-    }
-    for (int i = indice; i < nbTonneau - 1; ++i) {//Cas classique
-        tabTonneau[i][0] = tabTonneau[i + 1][0];
-        tabTonneau[i][1] = tabTonneau[i + 1][1];
-    }
-    nbTonneau--;
-}
-
-static void mouvementTonneau(float ordoOrigine, float coefDir, float distance, int i) {
-    tabTonneau[i][0] += distance;
-    tabTonneau[i][1] = (ordoOrigine + coefDir * tabTonneau[i][0]) + 2 * compensationPoutre;
-}
-
-void updateTonneau(int value) {
-    if(!gameover && !pause && !victoire){
-    float hauteurMario = mario.getTaille();
-    float posXMario = mario.getX();
-    float posYMario = mario.getY();
-    float largeurMario = hauteurMario / 6 * 0.75;
-    float supprimerTonneau = -1;
-    float vitesseTonneau = longueurPas *0.75;
-
-	//Descendre échelles
-	for (int i = 0; i < nbTonneau; ++i) {
-		bool descendreEchelle = false;
-		bool descendreEchelleCassees = false;
-		for (int j = 0; j < nombreEchelle; ++j) {
-			Coordonnee2D tempSupGauche = listeDesEchelles[j].getCoinSupG();
-			Coordonnee2D tempSupDroit = listeDesEchelles[j].getCoinSupD();
-			Coordonnee2D tempInfGauche = listeDesEchelles[j].getCoinInfG();
-			Coordonnee2D tempInfDroit = listeDesEchelles[j].getCoinInfD();
-
-			bool tempX = tabTonneau[i][0] > tempSupGauche.getX() + demieLargeurEchelle/3 - vitesseTonneau && tabTonneau[i][0] < tempSupDroit.getX() - demieLargeurEchelle - demieLargeurEchelle*2/3 + vitesseTonneau;
-			bool tempY = tabTonneau[i][1] <= tempSupGauche.getY() + largeurTonneau && tabTonneau[i][1] >= tempInfGauche.getY() + largeurTonneau * 2;
-			if (tempX && tempY) {
-				if (tabTonneau[i][2] == 0) {
-					int descendreAleatoire = rand() % 2;
-					tabTonneau[i][2] = (float)descendreAleatoire;
-				}
-				if (tabTonneau[i][2] == 1) {
-					tabTonneau[i][1] -= longueurPas;
-					descendreEchelle = true;
-					break;
-				}
-			}
-		}
-		//Descendre échelles cassees
-		if (!descendreEchelle) {
-			for (int j = 0; j < nombreEchelleCassee; ++j) {
-				Coordonnee2D tempSupGauche = listeDesEchellesCassees[j].getCoinSupG();
-				Coordonnee2D tempSupDroit = listeDesEchellesCassees[j].getCoinSupD();
-				Coordonnee2D tempInfGauche = listeDesEchellesCassees[j].getCoinInfG();
-				Coordonnee2D tempInfDroit = listeDesEchellesCassees[j].getCoinInfD();
-				
-				bool tempX = tabTonneau[i][0] >= tempSupGauche.getX()  && tabTonneau[i][0] <= tempSupDroit.getX() - largeurEchelle;
-				bool tempY = tabTonneau[i][1] <= tempSupGauche.getY() + largeurTonneau && tabTonneau[i][1] >= tempInfGauche.getY() + largeurTonneau * 2;
-				if (tempX && tempY) {
-					if (tabTonneau[i][2] == 0) {
-						int descendreAleatoire = rand() % 2;
-						tabTonneau[i][2] = (float)descendreAleatoire;
-					}
-					if (tabTonneau[i][2] == 1) {
-						tabTonneau[i][1] -= longueurPas;
-						descendreEchelleCassees = true;
-						break;
-					}
-				}
-			}
-		}
-		if (!descendreEchelle && !descendreEchelleCassees) {
-			tabTonneau[i][2] = 0;
-			if (tabTonneau[i][1] >= -3.0 + 2 * compensationPoutre && tabTonneau[i][1] <= 2.8 + 2 * compensationPoutre) {
-				if (tabTonneau[i][0] - longueurPas < 55 && tabTonneau[i][0] + longueurPas>-55) {
-					mouvementTonneau(0, -0.06, vitesseTonneau, i);
-				}
-			}
-			else {
-				if (tabTonneau[i][1] >= 16.2 + 2 * compensationPoutre && tabTonneau[i][1] <= 23.0 + 2 * compensationPoutre) {
-					if (tabTonneau[i][0] - longueurPas < 56 && tabTonneau[i][0] + longueurPas> -50) {
-						mouvementTonneau(19.69, 0.06, -vitesseTonneau, i);
-					}
-				}
-				else {
-					if (tabTonneau[i][1] >= 36.0 + 2 * compensationPoutre && tabTonneau[i][1] <= 42.8 + 2 * compensationPoutre) {
-						if (tabTonneau[i][0] - longueurPas < 50 && tabTonneau[i][0] + longueurPas > -55) {
-							mouvementTonneau(39.72, -0.06, vitesseTonneau, i);
-						}
-					}
-					else {
-						if (tabTonneau[i][1] >= 55 + 2 * compensationPoutre && tabTonneau[i][1] <= 63.06 + 2 * compensationPoutre) {
-							if (tabTonneau[i][0] - longueurPas < 56 && tabTonneau[i][0] + longueurPas > -50) {
-								mouvementTonneau(59.69, 0.06, -vitesseTonneau, i);
-							}
-						}
-						else {
-							if (tabTonneau[i][1] >= 75 + 2 * compensationPoutre && tabTonneau[i][1] <= 82.8 + 2 * compensationPoutre) {
-								if (tabTonneau[i][0] - longueurPas < 50 && tabTonneau[i][0] + longueurPas > -55) {
-									mouvementTonneau(79.72, -0.06, vitesseTonneau, i);
-								}
-							}
-							else {
-								if (tabTonneau[i][1] >= 95.00 + 2 * compensationPoutre && tabTonneau[i][1] <= 103.6 + 2 * compensationPoutre) {
-									if (tabTonneau[i][0] - longueurPas < 55 && tabTonneau[i][0] + longueurPas > -50) {
-										mouvementTonneau(99.69, 0.06, -vitesseTonneau, i);
-									}
-								}
-								else {
-									if (tabTonneau[i][1] >= 120.0 + 2 * compensationPoutre && tabTonneau[i][1] <= 122.0 + 2 * compensationPoutre) {
-										if (tabTonneau[i][0] - longueurPas < 15 && tabTonneau[i][0] + longueurPas > -35) {
-											//printf("X Tonneau :%f\n", tabTonneau[i][0]);
-											//printf("Y Tonneau :%f\n", tabTonneau[i][1]);
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-
-			//Deplacement vertical
-            if (tabTonneau[i][1] <= 97.0 + 2 * compensationPoutre && tabTonneau[i][1] >= 83.06 + 2 * compensationPoutre) {
-                tabTonneau[i][1] -= longueurPas;
-            }
-			if (tabTonneau[i][1] <= 77.0 + 2 * compensationPoutre && tabTonneau[i][1] >= 63.06 + 2 * compensationPoutre) {
-				tabTonneau[i][1] -= longueurPas;
-			}
-			else if (tabTonneau[i][1] <= 57.0 + 2 * compensationPoutre && tabTonneau[i][1] >= 43.0 + 2 * compensationPoutre) {
-				tabTonneau[i][1] -= longueurPas;
-			}
-			else if (tabTonneau[i][1] <= 38.2 + 2 * compensationPoutre && tabTonneau[i][1] >= 23.0 + 2 * compensationPoutre) {
-				tabTonneau[i][1] -= longueurPas;
-			}
-			else if (tabTonneau[i][1] <= 17.0 + 2 * compensationPoutre && tabTonneau[i][1] >= 2.7 + 2 * compensationPoutre) {
-				tabTonneau[i][1] -= longueurPas;
-			}
-			else if (tabTonneau[i][1] <= -2.9 + 2 * compensationPoutre && tabTonneau[i][1] >= -30 + 2 * compensationPoutre) {
-				tabTonneau[i][1] -= longueurPas;
-			}
-			else if (tabTonneau[i][1] <= -30 + 2 * compensationPoutre) {
-				supprimerTonneau = i;
-			}
-		}
-
-		//Collisions tonneaux
-        if (tabTonneau[i][0] + 3.0 >= posXMario - largeurMario && tabTonneau[i][0] - 3.0 <= posXMario + largeurMario) {
-			if (tabTonneau[i][1] + largeurTonneau >= posYMario && tabTonneau[i][1] <= posYMario + hauteurMario) {
-				if (!godMod) {
-					printf("Aie partout\n");
-					gameover = true;
-                    return;
-				}
-
-			}
-        }
-    }
-
-    if (supprimerTonneau >= 0) {
-        decalerTableauTonneau(supprimerTonneau);
-        supprimerTonneau = -1;
-    }
-    glutPostRedisplay();
-    
-    }
-    glutTimerFunc(25, updateTonneau, 0);
-}
-
-static void animationDK(int value) {
-	if (value == 0) {
-		lanceTonneaux = true;
-		glutTimerFunc(500, animationDK, 1);
-	}
-	else {
-		lanceTonneaux = false;
-	}
-}
-
-static void ajoutTonneau(int value) {
-	if (!gameover && !pause && !victoire) {
-		glutTimerFunc(0, animationDK, 0);
-		tonneau(xTonneauBegin, yTonneauBegin, zTonneauBegin, false, textureID);
-		nbTonneau++;
-		glutTimerFunc(5000, ajoutTonneau, 0);
-	}
-    else if(pause){
-		glutTimerFunc(5000, ajoutTonneau, 0);
-	}
-}
 
 
-static void printWVictoire(int value) {
-    if (victoire) {
-        victoire = false;
-        glutDestroyWindow(WindowDK);
-        glutInitWindowSize(windowWidth / 2, windowHeight / 2);
-        glutInitWindowPosition(50, 50);
-        glutCreateWindow("DonkeyKong - VICTOIRE !"); //creer la fenetre de gameOver
-        glutReshapeFunc(reshapeWVictoire);
-        glutDisplayFunc(displayWVictoire);   // Register display callback
-    }
 
-    glutTimerFunc(2, printWVictoire, value);
-}
-
-static void printWGameOver(int value) {
-    if (gameover) {
-        gameover = false;
-        glutDestroyWindow(WindowDK);
-        glutInitWindowSize(windowWidth / 2, windowHeight / 2);
-        glutInitWindowPosition(50, 50);
-        glutCreateWindow("DonkeyKong - GAME OVER !"); //creer la fenetre de gameOver
-        glutReshapeFunc(reshapeWGO);
-        glutDisplayFunc(displayWGO);   // Register display callback
-    }
-
-    glutTimerFunc(2, printWGameOver, value);
-}
-
+/********************************************************************************************/
+/********************************************************************************************/
+/* MAIN */
+/********************************************************************************************/
+/********************************************************************************************/
 
 int main(int argc, char* argv[]) {
     glutInit(&argc, argv);
