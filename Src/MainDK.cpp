@@ -150,6 +150,13 @@ GLfloat amb1[] = { 0.9,0.9,0.9,1.0 };
 GLfloat dif1[] = { 0.8,0.8,0.8,1.0 };
 GLfloat spe1[] = { 0.1,0.1,0.1,1.0 };
 
+static float diffuse0[4] = { 0.6F,0.6F,0.6F,1.0F };
+static float ambiant0[4] = { 0.2F,0.2F,0.2F,1.0F };
+static float specular0[4] = { 0.8F,0.8F,0.8F,1.0F };
+static float position0[4] = { 0.0,0.0,0.0,1.0 };
+static float spotCutOff0[1] = { 30.0F };
+static float spotDir0[3] = { 0.0F,0.0F,-1.0F };
+
 /********************************************************************************************/
 /********************************************************************************************/
 /* FONCTIONS UTILITAIRES*/
@@ -657,10 +664,13 @@ static void selectionLight0() {
 static void selectionLight1() {
     glDisable(GL_LIGHT0);
     glEnable(GL_LIGHT1);
-    glLightfv(GL_LIGHT1, GL_AMBIENT, amb1);
-    glLightfv(GL_LIGHT1, GL_DIFFUSE, dif1);
-    glLightfv(GL_LIGHT1, GL_SPECULAR, spe1);
-    glLightfv(GL_LIGHT1, GL_POSITION, light1_position);
+    glEnable(GL_LIGHTING);
+    glLightfv(GL_LIGHT1, GL_DIFFUSE, diffuse0);
+    glLightfv(GL_LIGHT1, GL_AMBIENT, ambiant0);
+    glLightfv(GL_LIGHT1, GL_SPECULAR, specular0);
+    glLightfv(GL_LIGHT1, GL_POSITION, position0);
+    glLightfv(GL_LIGHT1, GL_SPOT_DIRECTION, spotDir0);
+    glLightfv(GL_LIGHT1, GL_SPOT_CUTOFF, spotCutOff0);
     gluLookAt(px, py, pz, 0.0, 60.0, -90.0, 0.0, 1.0, 0.0);
 }
 
@@ -1122,7 +1132,7 @@ static void keyboard(unsigned char key, int x, int y) {
 		glutPostRedisplay();
 		break;
 
-	case 0x0D: //eclairage en appuyant sur entrée
+	case 0x0D: //eclairage spot/normal en appuyant sur entrée
         lumiere = !lumiere;
 		glutPostRedisplay();
 		break;
