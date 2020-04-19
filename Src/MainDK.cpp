@@ -144,6 +144,12 @@ GLfloat mat_emission[] = { 0.3F,0.2F,0.2F,0.0F };
 GLfloat couleur_echelles[] = { 0.1F,0.5F,0.8F,1.0F };
 GLfloat couleur_tonneaux[] = { 0.9F, 0.7F, 0.3F,1.0F };
 
+const GLfloat light0_position[] = { 0.0,0.0,10.0,1.0 };
+const GLfloat light1_position[] = { 0.0,0.0,0.0,1.0 };
+GLfloat amb1[] = { 0.9,0.9,0.9,1.0 };
+GLfloat dif1[] = { 0.8,0.8,0.8,1.0 };
+GLfloat spe1[] = { 0.1,0.1,0.1,1.0 };
+
 /********************************************************************************************/
 /********************************************************************************************/
 /* FONCTIONS UTILITAIRES*/
@@ -640,17 +646,26 @@ static void sceneJeu() {
     glPopMatrix();
 }
 
+static void selectionLight0() {
+    glDisable(GL_LIGHT1);
+    glEnable(GL_LIGHT0);
+    glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
+    gluLookAt(px, py, pz, 0.0, 60.0, -90.0, 0.0, 1.0, 0.0);
+
+}
+
+static void selectionLight1() {
+    glDisable(GL_LIGHT0);
+    glEnable(GL_LIGHT1);
+    glLightfv(GL_LIGHT1, GL_AMBIENT, amb1);
+    glLightfv(GL_LIGHT1, GL_DIFFUSE, dif1);
+    glLightfv(GL_LIGHT1, GL_SPECULAR, spe1);
+    glLightfv(GL_LIGHT1, GL_POSITION, light1_position);
+    gluLookAt(px, py, pz, 0.0, 60.0, -90.0, 0.0, 1.0, 0.0);
+}
+
 static void display(void) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    const GLfloat light0_position[] = { 0.0,0.0,10.0,1.0 };
-    const GLfloat light1_position[] = { 0.0,0.0,10.0,1.0 };
-    GLfloat amb0[] = { 0.1,0.4,0.4,1.0 };
-    GLfloat dif0[] = { 0.8,0.8,0.9,1.0 };
-    GLfloat spe0[] = { 1.0,1.0,1.0,1.0 };
-    GLfloat amb1[] = { 0.0,0.0,0.0,1.0 };
-    GLfloat dif1[] = { 0.3,0.3,0.,1.0 };
-    GLfloat spe1[] = { 0.3,0.3,0.3,1.0 };
-
    
     glPolygonMode(GL_FRONT_AND_BACK, (filDeFer) ? GL_FILL : GL_LINE);
     if (texture) {
@@ -663,37 +678,19 @@ static void display(void) {
 
     if (!cameraFPS) {
         if (!lumiere) {
-           
-            glLightfv(GL_LIGHT0, GL_AMBIENT, amb0);
-            glLightfv(GL_LIGHT0, GL_DIFFUSE, dif0);
-            glLightfv(GL_LIGHT0, GL_SPECULAR, spe0);
-            glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
-            gluLookAt(px, py, pz, 0.0, 60.0, -90.0, 0.0, 1.0, 0.0);
+            selectionLight0();
         }
         else{
-           
-            glLightfv(GL_LIGHT1, GL_AMBIENT, amb1);
-            glLightfv(GL_LIGHT1, GL_DIFFUSE, dif1);
-            glLightfv(GL_LIGHT1, GL_SPECULAR, spe1);
-            glLightfv(GL_LIGHT1, GL_POSITION, light1_position);
-            gluLookAt(px, py, pz, 0.0, 60.0, -90.0, 0.0, 1.0, 0.0);
-         
+            selectionLight1();
         }
     }
     else {
         switch (mario.getOrientation()) {
             if (!lumiere) {
-                
-                glLightfv(GL_LIGHT0, GL_AMBIENT, amb0);
-                glLightfv(GL_LIGHT0, GL_DIFFUSE, dif0);
-                glLightfv(GL_LIGHT0, GL_SPECULAR, spe0);
-                glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
+                selectionLight0();
             }
             else{
-                glLightfv(GL_LIGHT1, GL_AMBIENT, amb1);
-                glLightfv(GL_LIGHT1, GL_DIFFUSE, dif1);
-                glLightfv(GL_LIGHT1, GL_SPECULAR, spe1);
-                glLightfv(GL_LIGHT1, GL_POSITION, light1_position);
+                selectionLight1();
             }
         case Perso::Gauche:
             if (mario.getX() < 0) {
