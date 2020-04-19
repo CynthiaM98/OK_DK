@@ -51,7 +51,7 @@ static int animation = 0;
 static int culling = 0;
 static int texture = 1;
 static int filDeFer = 1;
-static int lumiere = 0;
+static bool lumiere = false;
 
 int windowWidth = 1000;
 int windowHeight = 1000;
@@ -179,6 +179,7 @@ static void init(void) {
     glLightfv(GL_LIGHT0, GL_DIFFUSE, blanc);
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
+    glEnable(GL_LIGHT1);
     glDepthFunc(GL_LESS);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_NORMALIZE);
@@ -642,6 +643,15 @@ static void sceneJeu() {
 static void display(void) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     const GLfloat light0_position[] = { 0.0,0.0,10.0,1.0 };
+    const GLfloat light1_position[] = { 0.0,0.0,10.0,1.0 };
+    GLfloat amb0[] = { 0.1,0.4,0.4,1.0 };
+    GLfloat dif0[] = { 0.8,0.8,0.9,1.0 };
+    GLfloat spe0[] = { 1.0,1.0,1.0,1.0 };
+    GLfloat amb1[] = { 0.0,0.0,0.0,1.0 };
+    GLfloat dif1[] = { 0.3,0.3,0.,1.0 };
+    GLfloat spe1[] = { 0.3,0.3,0.3,1.0 };
+
+   
     glPolygonMode(GL_FRONT_AND_BACK, (filDeFer) ? GL_FILL : GL_LINE);
     if (texture) {
         glEnable(GL_TEXTURE_2D);
@@ -650,25 +660,41 @@ static void display(void) {
     else
         glDisable(GL_TEXTURE_2D);
     glPushMatrix();
-    glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
+
     if (!cameraFPS) {
-        switch (lumiere) {
-        case 0:
+        if (!lumiere) {
+           
+            glLightfv(GL_LIGHT0, GL_AMBIENT, amb0);
+            glLightfv(GL_LIGHT0, GL_DIFFUSE, dif0);
+            glLightfv(GL_LIGHT0, GL_SPECULAR, spe0);
             glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
             gluLookAt(px, py, pz, 0.0, 60.0, -90.0, 0.0, 1.0, 0.0);
-            break;
-        case 1:
+        }
+        else{
+           
+            glLightfv(GL_LIGHT1, GL_AMBIENT, amb1);
+            glLightfv(GL_LIGHT1, GL_DIFFUSE, dif1);
+            glLightfv(GL_LIGHT1, GL_SPECULAR, spe1);
+            glLightfv(GL_LIGHT1, GL_POSITION, light1_position);
             gluLookAt(px, py, pz, 0.0, 60.0, -90.0, 0.0, 1.0, 0.0);
-            glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
-            break;
+         
         }
     }
     else {
         switch (mario.getOrientation()) {
-            if (lumiere == 0) {
+            if (!lumiere) {
+                
+                glLightfv(GL_LIGHT0, GL_AMBIENT, amb0);
+                glLightfv(GL_LIGHT0, GL_DIFFUSE, dif0);
+                glLightfv(GL_LIGHT0, GL_SPECULAR, spe0);
                 glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
             }
-            glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
+            else{
+                glLightfv(GL_LIGHT1, GL_AMBIENT, amb1);
+                glLightfv(GL_LIGHT1, GL_DIFFUSE, dif1);
+                glLightfv(GL_LIGHT1, GL_SPECULAR, spe1);
+                glLightfv(GL_LIGHT1, GL_POSITION, light1_position);
+            }
         case Perso::Gauche:
             if (mario.getX() < 0) {
                 gluLookAt(mario.getX() + mario.getTaille() / 3.0, mario.getY() + 1.5 + mario.getTaille(), -90.0 - mario.getZ(), mario.getX() - mario.getTaille() / 3.0 - 0.1, mario.getY() + mario.getTaille() + 1.5, -90.0 - mario.getZ(), 0.0, 1.0, 0.0);
@@ -1100,7 +1126,7 @@ static void keyboard(unsigned char key, int x, int y) {
 		break;
 
 	case 0x0D: //eclairage en appuyant sur entrée
-		lumiere = (lumiere + 1) % 2;
+        lumiere = !lumiere;
 		glutPostRedisplay();
 		break;
 
