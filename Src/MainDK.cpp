@@ -145,7 +145,6 @@ GLfloat couleur_echelles[] = { 0.1F,0.5F,0.8F,1.0F };
 GLfloat couleur_tonneaux[] = { 0.9F, 0.7F, 0.3F,1.0F };
 
 const GLfloat light0_position[] = { 0.0,0.0,10.0,1.0 };
-const GLfloat light1_position[] = { 0.0,0.0,0.0,1.0 };
 const GLfloat light2_position[] = { -45.0,50.0,10.0,1.0 };
 GLfloat amb1[] = { 0.9,0.9,0.9,1.0 };
 GLfloat dif1[] = { 0.8,0.8,0.8,1.0 };
@@ -155,7 +154,7 @@ static float diffuse0[4] = { 0.6F,0.6F,0.6F,1.0F };
 static float ambiant0[4] = { 0.2F,0.2F,0.2F,1.0F };
 static float specular0[4] = { 0.8F,0.8F,0.8F,1.0F };
 static float position0[4] = { 0.0,0.0,0.0,1.0 };
-static float spotCutOff0[1] = { 30.0F };
+static float spotCutOff0[1] = { 15.0F };
 static float spotDir0[3] = { 0.0F,0.0F,-1.0F };
 
 /********************************************************************************************/
@@ -668,13 +667,13 @@ static void selectionLight0() {
 static void selectionLight1() {
     glDisable(GL_LIGHT0);
     glDisable(GL_LIGHT2);
-    glEnable(GL_LIGHT1);
+    GLfloat light1_position[] = { mario.getX(),mario.getY()-60.0,1.0,1.0 };
     glEnable(GL_LIGHT1);
     glEnable(GL_LIGHTING);
     glLightfv(GL_LIGHT1, GL_DIFFUSE, diffuse0);
     glLightfv(GL_LIGHT1, GL_AMBIENT, ambiant0);
     glLightfv(GL_LIGHT1, GL_SPECULAR, specular0);
-    glLightfv(GL_LIGHT1, GL_POSITION, position0);
+    glLightfv(GL_LIGHT1, GL_POSITION, light1_position);
     glLightfv(GL_LIGHT1, GL_SPOT_DIRECTION, spotDir0);
     glLightfv(GL_LIGHT1, GL_SPOT_CUTOFF, spotCutOff0);
     gluLookAt(px, py, pz, 0.0, 60.0, -90.0, 0.0, 1.0, 0.0);
