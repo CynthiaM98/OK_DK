@@ -146,6 +146,7 @@ GLfloat couleur_tonneaux[] = { 0.9F, 0.7F, 0.3F,1.0F };
 
 const GLfloat light0_position[] = { 0.0,0.0,10.0,1.0 };
 const GLfloat light1_position[] = { 0.0,0.0,0.0,1.0 };
+const GLfloat light2_position[] = { -45.0,50.0,10.0,1.0 };
 GLfloat amb1[] = { 0.9,0.9,0.9,1.0 };
 GLfloat dif1[] = { 0.8,0.8,0.8,1.0 };
 GLfloat spe1[] = { 0.1,0.1,0.1,1.0 };
@@ -193,6 +194,7 @@ static void init(void) {
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
     glEnable(GL_LIGHT1);
+    glEnable(GL_LIGHT2);
     glDepthFunc(GL_LESS);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_NORMALIZE);
@@ -656,13 +658,17 @@ static void sceneJeu() {
 static void selectionLight0() {
     glDisable(GL_LIGHT1);
     glEnable(GL_LIGHT0);
+    glEnable(GL_LIGHT2);
     glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
+    glLightfv(GL_LIGHT0, GL_POSITION, light2_position);
     gluLookAt(px, py, pz, 0.0, 60.0, -90.0, 0.0, 1.0, 0.0);
 
 }
 
 static void selectionLight1() {
     glDisable(GL_LIGHT0);
+    glDisable(GL_LIGHT2);
+    glEnable(GL_LIGHT1);
     glEnable(GL_LIGHT1);
     glEnable(GL_LIGHTING);
     glLightfv(GL_LIGHT1, GL_DIFFUSE, diffuse0);
