@@ -174,10 +174,10 @@ static void chargementTexture(char* filename, unsigned int textureID) {
         if (img) {
             glTexImage2D(GL_TEXTURE_2D, 0, 3, rx, ry, 0, GL_RGB, GL_UNSIGNED_BYTE, img);
             free(img);
-            printf("Texture chargee %d : %s\n", textureID, filename);
+            //printf("Texture chargee %d : %s\n", textureID, filename);
         }
         else {
-            printf("Texture non charge\n");
+           // printf("Texture non charge\n");
         }
     }
 
@@ -494,7 +494,6 @@ void updateTonneau(int value) {
             if (tabTonneau[i][0] + 3.0 >= posXMario - largeurMario && tabTonneau[i][0] - 3.0 <= posXMario + largeurMario) {
                 if (tabTonneau[i][1] + largeurTonneau >= posYMario && tabTonneau[i][1] <= posYMario + hauteurMario) {
                     if (!godMod) {
-                        printf("Aie partout\n");
                         gameover = true;
                         return;
                     }
