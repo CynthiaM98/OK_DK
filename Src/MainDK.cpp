@@ -322,7 +322,7 @@ static void tonneau(float xTonneau, float yTonneau, float zTonneau, bool echelle
     glPopMatrix();
 	glPushMatrix();
     glTranslatef(0.0, 0.0, largeurPoutre * 0.75);//face avant
-    glRotatef(180.0, 0.0, 1.0, 0.0);
+    
 
     glBegin(GL_POLYGON);
     for (int i = 0; i < 360; i++) {
