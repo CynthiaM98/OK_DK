@@ -273,9 +273,6 @@ static void init(void) {
 	chargementTexture("textureDK/dkDroiteJambe.png", textureID[66]);
 	chargementTexture("textureDK/dkDessousJambe.png", textureID[67]);
 	chargementTexture("textureDK/dkDessusJambe.png", textureID[68]);
-	//Tonneau
-	chargementTexture("textureTonneau/textureFace24c.png", textureID[69]);
-	chargementTexture("textureTonneau/textureTonneau.png", textureID[70]);
     
 }
 
@@ -298,16 +295,16 @@ static void clean(void) {
 /********************************************************************************************/
 
 static void tonneau(float xTonneau, float yTonneau, float zTonneau, bool echelle, unsigned int *texID) {
-    //glBindTexture(GL_TEXTURE_2D, 0);
-    /*glPushAttrib(GL_LIGHTING_BIT);
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glPushAttrib(GL_LIGHTING_BIT);
     glMaterialfv(GL_FRONT, GL_AMBIENT, no_mat);
     glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
     glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, couleur_tonneaux);
     glMaterialfv(GL_FRONT, GL_SHININESS, high_shininess);
-    glMaterialfv(GL_FRONT, GL_EMISSION, no_mat);*/
-	//glEnable(GL_TEXTURE_2D);
+    glMaterialfv(GL_FRONT, GL_EMISSION, no_mat);
+    
  
-    float radian;
+    float n;
     glPushMatrix();
 	glTranslatef(xTonneau, yTonneau + 4 * compensationPoutre, zTonneau); //face arrière
 	if (echelle) {
@@ -315,17 +312,11 @@ static void tonneau(float xTonneau, float yTonneau, float zTonneau, bool echelle
 	}
 	
 	glPushMatrix();
-	glBindTexture(GL_TEXTURE_2D, texID[69]);
-	glBegin(GL_POLYGON);
 
-    for (float i = 0.0; i < 360.0; i++) {
-		radian = i * 3.14 / 180.0F;
-		float x = largeurTonneau * (float)cos(radian);
-		float y = largeurTonneau * (float)sin(radian);
-		float tx = x * 0.16 + 0.5;
-		float ty = y * 0.16 + 0.5;
-		glTexCoord2f(tx, ty);
-		glVertex2f(x, y);
+	glBegin(GL_POLYGON);
+    for (int i = 0; i < 360; i++) {
+        n = i * 3.14 / 180;
+       glVertex2f(largeurTonneau * cos(n), largeurTonneau * sin(n));
     }
     glEnd();
     glPopMatrix();
@@ -333,27 +324,20 @@ static void tonneau(float xTonneau, float yTonneau, float zTonneau, bool echelle
     glTranslatef(0.0, 0.0, largeurPoutre * 0.75);//face avant
     glRotatef(180.0, 0.0, 1.0, 0.0);
 
-	glBegin(GL_POLYGON);
-
-	for (float i = 0.0; i < 360.0; i++) {
-		radian = i * 3.14 / 180.0F;
-		float x = largeurTonneau * (float)cos(radian);
-		float y = largeurTonneau * (float)sin(radian);
-		float tx = x * 0.16 + 0.5;
-		float ty = y * 0.16 + 0.5;
-		glTexCoord2f(tx, ty);
-		glVertex2f(x, y);
-	}
-	glEnd();
+    glBegin(GL_POLYGON);
+    for (int i = 0; i < 360; i++) {
+        n = i * 3.14 / 180;
+       glVertex2f(largeurTonneau * cos(n), largeurTonneau * sin(n));
+    }
+    glEnd();
     glPopMatrix();
-	glBindTexture(GL_TEXTURE_2D, texID[70]);
 	GLUquadric *glNewQuad = gluNewQuadric();
 	gluCylinder(glNewQuad, largeurTonneau, largeurTonneau, largeurPoutre * 0.75, 30.0, 30.0);
     glPopMatrix();
     tabTonneau[nbTonneau][0] = xTonneau;
     tabTonneau[nbTonneau][1] = yTonneau;
     tabTonneau[nbTonneau][2] = 0.0F;
-    //glPopAttrib();
+    glPopAttrib();
 }
 
 static void decalerTableauTonneau(float indice) {
@@ -510,6 +494,7 @@ void updateTonneau(int value) {
             if (tabTonneau[i][0] + 3.0 >= posXMario - largeurMario && tabTonneau[i][0] - 3.0 <= posXMario + largeurMario) {
                 if (tabTonneau[i][1] + largeurTonneau >= posYMario && tabTonneau[i][1] <= posYMario + hauteurMario) {
                     if (!godMod) {
+                        printf("Aie partout\n");
                         gameover = true;
                         return;
                     }
