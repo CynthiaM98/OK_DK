@@ -274,8 +274,8 @@ static void init(void) {
 	chargementTexture("textureDK/dkDessousJambe.png", textureID[67]);
 	chargementTexture("textureDK/dkDessusJambe.png", textureID[68]);
 	//Tonneau
-	chargementTexture("textureTonneau/textureFace24c.png", textureID[69]);
-	chargementTexture("textureTonneau/textureTonneau.png", textureID[70]);
+	/*chargementTexture("textureTonneau/textureFace24c.png", textureID[69]);
+	chargementTexture("textureTonneau/textureTonneau.png", textureID[70]);*/
     
 }
 
@@ -298,14 +298,15 @@ static void clean(void) {
 /********************************************************************************************/
 
 static void tonneau(float xTonneau, float yTonneau, float zTonneau, bool echelle, unsigned int *texID) {
-    //glBindTexture(GL_TEXTURE_2D, 0);
-    /*glPushAttrib(GL_LIGHTING_BIT);
+    glBindTexture(GL_TEXTURE_2D, 0);
+	glClear(GL_COLOR_BUFFER_BIT);
+    glPushAttrib(GL_LIGHTING_BIT);
     glMaterialfv(GL_FRONT, GL_AMBIENT, no_mat);
     glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
     glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, couleur_tonneaux);
     glMaterialfv(GL_FRONT, GL_SHININESS, high_shininess);
-    glMaterialfv(GL_FRONT, GL_EMISSION, no_mat);*/
-	//glEnable(GL_TEXTURE_2D);
+    glMaterialfv(GL_FRONT, GL_EMISSION, no_mat);
+	glDisable(GL_TEXTURE_2D);
  
     float radian;
     glPushMatrix();
@@ -315,7 +316,6 @@ static void tonneau(float xTonneau, float yTonneau, float zTonneau, bool echelle
 	}
 	
 	glPushMatrix();
-	glBindTexture(GL_TEXTURE_2D, texID[69]);
 	glBegin(GL_POLYGON);
 
     for (float i = 0.0; i < 360.0; i++) {
@@ -346,14 +346,13 @@ static void tonneau(float xTonneau, float yTonneau, float zTonneau, bool echelle
 	}
 	glEnd();
     glPopMatrix();
-	glBindTexture(GL_TEXTURE_2D, texID[70]);
 	GLUquadric *glNewQuad = gluNewQuadric();
 	gluCylinder(glNewQuad, largeurTonneau, largeurTonneau, largeurPoutre * 0.75, 30.0, 30.0);
     glPopMatrix();
     tabTonneau[nbTonneau][0] = xTonneau;
     tabTonneau[nbTonneau][1] = yTonneau;
     tabTonneau[nbTonneau][2] = 0.0F;
-    //glPopAttrib();
+    glPopAttrib();
 }
 
 static void decalerTableauTonneau(float indice) {
