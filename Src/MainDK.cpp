@@ -1182,6 +1182,7 @@ static void keyboard(unsigned char key, int x, int y) {
 	case 122: case 90://faire monter Mario avec Z ou z
 		if (!gameover && !pause && !victoire) {
 			do {
+				directionMario = 0;
 				//on récupère les coordonnées des 4 coins de la zone échelle
 				Coordonnee2D tempSupGauche = listeDesEchelles[index1].getCoinSupG();
 				Coordonnee2D tempSupDroit = listeDesEchelles[index1].getCoinSupD();
@@ -1211,6 +1212,7 @@ static void keyboard(unsigned char key, int x, int y) {
 
 	case 115: case 83://faire descendre Mario avec S ou s
 		if (!gameover && !pause && !victoire) {
+			directionMario = 0;
 			do {
 				//on récupère les coordonnées des 4 coins de la zone échelle
 				Coordonnee2D tempSupGauche = listeDesEchelles[index1].getCoinSupG();
