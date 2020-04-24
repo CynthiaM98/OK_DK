@@ -86,6 +86,10 @@ Perso mario(initXMario, initYMario, initZMario, tailleHumaine);
 
 Perso::Orientation initOrientationMario = mario.getOrientation();
 
+int directionMario = 0;
+int changerPiedsMario = 0;
+int directionAvantMario = 0;
+
 //PEACH
 float xPrincesse = -30.0;
 float yPrincesse = 120.0+ 1.75 * compensationPoutre;
@@ -556,7 +560,7 @@ static void ajoutTonneau(int value) {
 static void placementMario() {
     glPushMatrix();
     glTranslatef(mario.getX(), mario.getY(), mario.getZ());
-    mario.printPerso(sautEnCours, false,false, textureID);
+    mario.printPerso(sautEnCours, false,false,directionMario, textureID);
     glPopMatrix();
 }
 
@@ -569,7 +573,7 @@ static void placementPrincesse() {
     glPushMatrix();
     glTranslatef(princess.getX(), princess.getY(), princess.getZ());
     glRotatef(90.0, 0.0, 1.0, 0.0);
-    princess.printPerso(false, false,auSecours, textureID);
+    princess.printPerso(false, false,auSecours, 0, textureID);
     glPopMatrix();
     glPopMatrix();
     
@@ -583,7 +587,7 @@ static void placementDK() {
     glPushMatrix();
     glTranslatef(donkeyKong.getX(), donkeyKong.getY(), donkeyKong.getZ());
     glRotatef(90.0, 0.0, 1.0, 0.0);
-	donkeyKong.printPerso(false, lanceTonneaux,false, textureID);
+	donkeyKong.printPerso(false, lanceTonneaux,false, 0, textureID);
 	glPopMatrix();
     glPopMatrix();
 }
@@ -1146,7 +1150,6 @@ static void keyboard(unsigned char key, int x, int y) {
 	bool trouveHaut = false;
 	int index2 = 0;
 	bool trouveBas = false;
-
 	//printf(" Touche: %c = %d \n", key, key);
 	switch (key) {
 
@@ -1236,6 +1239,19 @@ static void keyboard(unsigned char key, int x, int y) {
 
 	case 113: case 81: //faire aller Mario à gauche avec Q ou q
 		if (!gameover && !pause && !victoire && !sautEnCours) {
+			if (directionMario != 1 && directionAvantMario != 1) {
+				changerPiedsMario = 0;
+				directionMario = 1;
+				directionAvantMario = 1;
+			}
+			changerPiedsMario++;
+			if (changerPiedsMario == 10) {
+				directionMario = 2;
+			}
+			else if (changerPiedsMario == 20){
+				directionMario = 1;
+				changerPiedsMario = 0;
+			}
 			if (mario.getY() >= -2.8 + compensationPoutre && mario.getY() <= 5.0 + compensationPoutre) { //Si Mario sur poutre -2 - OK
 				if (mario.getX() < 45 && mario.getX() > -55) {
 					gaucheMario(-2);
@@ -1289,6 +1305,19 @@ static void keyboard(unsigned char key, int x, int y) {
 
 	case 100: case 68: //faire aller Mario à droite avec D ou d
 		if (!gameover && !pause && !victoire && !sautEnCours) {
+			if (directionMario != 2 && directionAvantMario != 2) {
+				changerPiedsMario = 0;
+				directionMario = 2;
+				directionAvantMario = 2;
+			}
+			changerPiedsMario++;
+			if (changerPiedsMario == 10) {
+				directionMario = 1;
+			}
+			else if (changerPiedsMario == 20) {
+				directionMario = 2;
+				changerPiedsMario = 0;
+			}
 			if (mario.getY() >= -2.8 + compensationPoutre && mario.getY() <= 5.0 + compensationPoutre) { //Si Mario sur poutre -2 - OK
 				if (mario.getX() < 45 && mario.getX() > -55) {
 					droiteMario(-2);

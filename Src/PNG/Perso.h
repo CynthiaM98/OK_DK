@@ -31,7 +31,7 @@ class Perso {
 		void corps(float size, unsigned int *texID);
 		void myCube(float size,unsigned int* texID, int partieCorps);
 		void membre(float size, unsigned int *texID, int partieCorps);
-		void printPerso(bool sautEnCours, bool lanceTonneau, bool auSecours, unsigned int *texID);
+		void printPerso(bool sautEnCours, bool lanceTonneau, bool auSecours, int direction, unsigned int *texID);
 
 	private : 
 		float x, y, z; //coordonnées
