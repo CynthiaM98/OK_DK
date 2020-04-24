@@ -162,6 +162,8 @@ static float position0[4] = { 0.0,0.0,0.0,1.0 };
 static float spotCutOff0[1] = { 15.0F };
 static float spotDir0[3] = { 0.0F,0.0F,-1.0F };
 
+bool touchePresse = false;
+
 /********************************************************************************************/
 /********************************************************************************************/
 /* FONCTIONS UTILITAIRES*/
@@ -1151,6 +1153,7 @@ static void keyboard(unsigned char key, int x, int y) {
 	bool trouveHaut = false;
 	int index2 = 0;
 	bool trouveBas = false;
+	touchePresse = true;
 	//printf(" Touche: %c = %d \n", key, key);
 	switch (key) {
 
@@ -1396,6 +1399,22 @@ static void keyboard(unsigned char key, int x, int y) {
     }
 }
 
+static void verificationMarioImmobile(int value) {
+	if (touchePresse) {
+		touchePresse = false;
+		glutTimerFunc(5, verificationMarioImmobile, 0);
+	}
+	else {
+		if (value < 150) {
+			glutTimerFunc(5, verificationMarioImmobile, ++value);
+		}
+		else {
+			directionMario = 0;
+			glutTimerFunc(5, verificationMarioImmobile, 0);
+		}
+	}
+}
+
 
 
 
@@ -1421,6 +1440,7 @@ int main(int argc, char* argv[]) {
     glutTimerFunc(5, printWGameOver, 0);
     glutTimerFunc(5, printWVictoire, 0);
     glutTimerFunc(1000, animationPrincesse, 0);
+	glutTimerFunc(1, verificationMarioImmobile, 0);
     glutMainLoop();
     return(0);
 }
