@@ -1242,7 +1242,7 @@ static void keyboard(unsigned char key, int x, int y) {
 
 	case 113: case 81: //faire aller Mario à gauche avec Q ou q
 		if (!gameover && !pause && !victoire && !sautEnCours) {
-			if (directionMario != 1 && directionAvantMario != 1) {
+			if (directionAvantMario != 1) {
 				changerPiedsMario = 0;
 				directionMario = 1;
 				directionAvantMario = 1;
@@ -1308,7 +1308,7 @@ static void keyboard(unsigned char key, int x, int y) {
 
 	case 100: case 68: //faire aller Mario à droite avec D ou d
 		if (!gameover && !pause && !victoire && !sautEnCours) {
-			if (directionMario != 2 && directionAvantMario != 2) {
+			if (directionAvantMario != 2) {
 				changerPiedsMario = 0;
 				directionMario = 2;
 				directionAvantMario = 2;

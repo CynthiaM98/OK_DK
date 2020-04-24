@@ -413,10 +413,10 @@ void Perso::printPerso(bool sautEnCours,bool lanceTonneau,bool auSecours, int di
 				case 0: //Immobile
 					break;
 				case 1: //Gauche
-					glRotatef(45.0, 1.0, 0.0, 0.0);
+					glRotatef(-45.0, 1.0, 0.0, 0.0);
 					break;
 				case 2: //Droite
-					glRotatef(-45.0, 1.0, 0.0, 0.0);
+					glRotatef(45.0, 1.0, 0.0, 0.0);
 					break;
 				}
 				membre(this->taille, texID, 2);
@@ -438,10 +438,10 @@ void Perso::printPerso(bool sautEnCours,bool lanceTonneau,bool auSecours, int di
 			case 0: //Immobile
 				break;
 			case 1: //Gauche
-				glRotatef(-45.0, 1.0, 0.0, 0.0);
+				glRotatef(45.0, 1.0, 0.0, 0.0);
 				break;
 			case 2: //Droite
-				glRotatef(45.0, 1.0, 0.0, 0.0);
+				glRotatef(-45.0, 1.0, 0.0, 0.0);
 				break;
 			}
 			membre(this->taille, texID, 2);
