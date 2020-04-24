@@ -409,15 +409,17 @@ void Perso::printPerso(bool sautEnCours,bool lanceTonneau,bool auSecours, int di
 			else {
 				temp = this->taille / 4.0;
 				glTranslatef(-temp, 0.0F, 0.0F);
-				switch (direction) {
-				case 0: //Immobile
-					break;
-				case 1: //Gauche
-					glRotatef(-45.0, 1.0, 0.0, 0.0);
-					break;
-				case 2: //Droite
-					glRotatef(45.0, 1.0, 0.0, 0.0);
-					break;
+				if (!this->surEchelle) {
+					switch (direction) {
+					case 0: //Immobile
+						break;
+					case 1: //Gauche
+						glRotatef(-45.0, 1.0, 0.0, 0.0);
+						break;
+					case 2: //Droite
+						glRotatef(45.0, 1.0, 0.0, 0.0);
+						break;
+					}
 				}
 				membre(this->taille, texID, 2);
 			}
@@ -434,15 +436,17 @@ void Perso::printPerso(bool sautEnCours,bool lanceTonneau,bool auSecours, int di
 		}
 		else {
 			glTranslatef(temp, 0.0F, 0.0F);
-			switch (direction) {
-			case 0: //Immobile
-				break;
-			case 1: //Gauche
-				glRotatef(45.0, 1.0, 0.0, 0.0);
-				break;
-			case 2: //Droite
-				glRotatef(-45.0, 1.0, 0.0, 0.0);
-				break;
+			if (!this->surEchelle) {
+				switch (direction) {
+				case 0: //Immobile
+					break;
+				case 1: //Gauche
+					glRotatef(45.0, 1.0, 0.0, 0.0);
+					break;
+				case 2: //Droite
+					glRotatef(-45.0, 1.0, 0.0, 0.0);
+					break;
+				}
 			}
 			membre(this->taille, texID, 2);
 			
@@ -472,30 +476,34 @@ void Perso::printPerso(bool sautEnCours,bool lanceTonneau,bool auSecours, int di
 		glPushMatrix(); //jambe droite
 		temp = this->taille / 12.0;
 		glTranslatef(-temp, 0.0F, 0.0F);
-		switch (direction) {
-			case 0: //Immobile
-				break;
-			case 1: //Gauche
-				glRotatef(45.0, 1.0, 0.0, 0.0);
-				break;
-			case 2: //Droite
-				glRotatef(-45.0, 1.0, 0.0, 0.0);
-				break;
+		if (!this->surEchelle) {
+			switch (direction) {
+				case 0: //Immobile
+					break;
+				case 1: //Gauche
+					glRotatef(45.0, 1.0, 0.0, 0.0);
+					break;
+				case 2: //Droite
+					glRotatef(-45.0, 1.0, 0.0, 0.0);
+					break;
+			}
 		}
 		membre(this->taille, texID,3);
 		glPopMatrix();
 
 		glPushMatrix();//jambe gauche
 		glTranslatef(temp, 0.0F, 0.0F);
-		switch (direction) {
-		case 0: //Immobile
-			break;
-		case 1: //Gauche
-			glRotatef(-45.0, 1.0, 0.0, 0.0);
-			break;
-		case 2: //Droite
-			glRotatef(45.0, 1.0, 0.0, 0.0);
-			break;
+		if (!this->surEchelle) {
+			switch (direction) {
+			case 0: //Immobile
+				break;
+			case 1: //Gauche
+				glRotatef(-45.0, 1.0, 0.0, 0.0);
+				break;
+			case 2: //Droite
+				glRotatef(45.0, 1.0, 0.0, 0.0);
+				break;
+			}
 		}
 		membre(this->taille, texID,3);
 		glPopMatrix();
