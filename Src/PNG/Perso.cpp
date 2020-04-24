@@ -355,7 +355,7 @@ void Perso::corps(float size, unsigned int *texID) {
 	myCube(tailleCorps,texID,1);
 }
 
-void Perso::printPerso(bool sautEnCours,bool lanceTonneau, unsigned int *texID) {
+void Perso::printPerso(bool sautEnCours,bool lanceTonneau,bool auSecours, unsigned int *texID) {
 	glPushMatrix();
 	glBindTexture(GL_TEXTURE_2D, texID[0]);
 	switch (orientation) {
@@ -371,6 +371,9 @@ void Perso::printPerso(bool sautEnCours,bool lanceTonneau, unsigned int *texID) 
 	}
 	if (lanceTonneau) {
 		glRotatef(-90.0, 0.0, 1.0, 0.0);
+	}
+	if (auSecours) {
+		glTranslatef(0.0, 5.0, 0.0);
 	}
 	float temp = 0.0F; //variable pour simplifier la lecture dans l'appelle des fonctions
 	glPushMatrix();
@@ -396,15 +399,34 @@ void Perso::printPerso(bool sautEnCours,bool lanceTonneau, unsigned int *texID) 
 			membre(this->taille, texID,2);
 		}
 		else {
-			temp = this->taille / 4.0;
-			glTranslatef(-temp, 0.0F, 0.0F);
-			membre(this->taille, texID, 2);
+			if (auSecours) {
+				temp = this->taille / 4.0;
+				glTranslatef(-temp, 0.0F, 0.0F);
+				glRotatef(100.0, 1.0, 0.0, 0.0);
+				glRotatef(60.0, 0.0, 1.0, 0.0);
+				membre(this->taille, texID, 2);
+			}
+			else {
+				temp = this->taille / 4.0;
+				glTranslatef(-temp, 0.0F, 0.0F);
+				membre(this->taille, texID, 2);
+			}
 		}
 		glPopMatrix(); //retour au niveau du corps
 
 		glPushMatrix(); //bras gauche
-		glTranslatef(temp, 0.0F, 0.0F);
-		membre(this->taille, texID,2);
+		if (auSecours) {
+			temp = this->taille / 4.0;
+			glTranslatef(temp, 0.0F, 0.0F);
+			glRotatef(100.0, 1.0, 0.0, 0.0);
+			glRotatef(60.0, 0.0, 1.0, 0.0);
+			membre(this->taille, texID, 2);
+		}
+		else {
+			glTranslatef(temp, 0.0F, 0.0F);
+			membre(this->taille, texID, 2);
+			
+		}
 		glPopMatrix(); //retour au niveau du corps
 	}
 	else {

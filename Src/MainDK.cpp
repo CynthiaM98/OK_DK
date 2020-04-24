@@ -112,6 +112,7 @@ bool pause = false;
 bool victoire = false;
 bool saut = false;
 bool lanceTonneaux = false;
+bool auSecours = false;
 bool sautEnCours = false;
 bool godMod = false;
 bool cameraFPS = false;
@@ -522,9 +523,20 @@ static void animationDK(int value) {
     }
 }
 
+static void animationPrincesse(int value) {
+    if (value == 0) {
+        auSecours = true;
+        glutTimerFunc(500, animationPrincesse, 1);
+    }
+    else {
+        auSecours = false;
+    }
+}
+
 static void ajoutTonneau(int value) {
     if (!gameover && !pause && !victoire) {
         glutTimerFunc(0, animationDK, 0);
+        glutTimerFunc(0, animationPrincesse, 0);
         tonneau(xTonneauBegin, yTonneauBegin, zTonneauBegin, false, textureID);
         nbTonneau++;
         glutTimerFunc(5000, ajoutTonneau, 0);
@@ -539,12 +551,16 @@ static void ajoutTonneau(int value) {
 /********************************************************************************************/
 /********************************************************************************************/
 
+
+
 static void placementMario() {
     glPushMatrix();
     glTranslatef(mario.getX(), mario.getY(), mario.getZ());
-    mario.printPerso(sautEnCours, false, textureID);
+    mario.printPerso(sautEnCours, false,false, textureID);
     glPopMatrix();
 }
+
+
 
 
 static void placementPrincesse() {
@@ -553,10 +569,13 @@ static void placementPrincesse() {
     glPushMatrix();
     glTranslatef(princess.getX(), princess.getY(), princess.getZ());
     glRotatef(90.0, 0.0, 1.0, 0.0);
-    princess.printPerso(false, false, textureID);
+    princess.printPerso(false, false,auSecours, textureID);
     glPopMatrix();
     glPopMatrix();
+    
 }
+
+
 
 static void placementDK() {
 
@@ -564,7 +583,7 @@ static void placementDK() {
     glPushMatrix();
     glTranslatef(donkeyKong.getX(), donkeyKong.getY(), donkeyKong.getZ());
     glRotatef(90.0, 0.0, 1.0, 0.0);
-	donkeyKong.printPerso(false, lanceTonneaux, textureID);
+	donkeyKong.printPerso(false, lanceTonneaux,false, textureID);
 	glPopMatrix();
     glPopMatrix();
 }
