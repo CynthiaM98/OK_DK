@@ -373,7 +373,7 @@ void Perso::printPerso(bool sautEnCours,bool lanceTonneau,bool auSecours, unsign
 		glRotatef(-90.0, 0.0, 1.0, 0.0);
 	}
 	if (auSecours) {
-		glTranslatef(0.0, 5.0, 0.0);
+		glTranslatef(0.0, 1.5, 0.0);
 	}
 	float temp = 0.0F; //variable pour simplifier la lecture dans l'appelle des fonctions
 	glPushMatrix();

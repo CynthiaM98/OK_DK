@@ -530,13 +530,14 @@ static void animationPrincesse(int value) {
     }
     else {
         auSecours = false;
+        int randTiming = rand() % (10000-4000);
+        glutTimerFunc(randTiming, animationPrincesse, 0);
     }
 }
 
 static void ajoutTonneau(int value) {
     if (!gameover && !pause && !victoire) {
         glutTimerFunc(0, animationDK, 0);
-        glutTimerFunc(0, animationPrincesse, 0);
         tonneau(xTonneauBegin, yTonneauBegin, zTonneauBegin, false, textureID);
         nbTonneau++;
         glutTimerFunc(5000, ajoutTonneau, 0);
@@ -1388,6 +1389,7 @@ int main(int argc, char* argv[]) {
     glutTimerFunc(100, updateTonneau, 0);
     glutTimerFunc(5, printWGameOver, 0);
     glutTimerFunc(5, printWVictoire, 0);
+    glutTimerFunc(1000, animationPrincesse, 0);
     glutMainLoop();
     return(0);
 }
