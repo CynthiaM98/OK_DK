@@ -53,8 +53,8 @@ static int texture = 1;
 static int filDeFer = 1;
 static bool lumiere = false;
 
-int windowWidth = 1000;
-int windowHeight = 1000;
+int windowWidth = 700;
+int windowHeight = 700;
 int WindowDK;
 
 //POUTRES
