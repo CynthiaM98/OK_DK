@@ -701,7 +701,7 @@ static void selectionLight0() {
 static void selectionLight1() {
     glDisable(GL_LIGHT0);
     glDisable(GL_LIGHT2);
-    GLfloat light1_position[] = { mario.getX(),mario.getY()-60.0,1.0,1.0 };
+    GLfloat light1_position[] = { (GLfloat) mario.getX(),(GLfloat)mario.getY()-60.0,(GLfloat)1.0,(GLfloat)1.0 };
     glEnable(GL_LIGHT1);
     glEnable(GL_LIGHTING);
     glLightfv(GL_LIGHT1, GL_DIFFUSE, diffuse0);
@@ -1425,6 +1425,12 @@ static void verificationMarioImmobile(int value) {
 }
 
 
+void fnExit(void)
+{
+    free(listeDesEchelles);
+    free(listeDesEchellesCassees);
+    free(listePoutre);
+}
 
 
 /********************************************************************************************/
@@ -1434,6 +1440,7 @@ static void verificationMarioImmobile(int value) {
 /********************************************************************************************/
 
 int main(int argc, char* argv[]) {
+    atexit(fnExit);
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH | GLUT_DOUBLE);
     glutInitWindowSize(windowWidth, windowHeight);
