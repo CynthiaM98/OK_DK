@@ -701,7 +701,7 @@ static void selectionLight0() {
 static void selectionLight1() {
     glDisable(GL_LIGHT0);
     glDisable(GL_LIGHT2);
-    GLfloat light1_position[] = { (GLfloat) mario.getX(),(GLfloat)mario.getY()-60.0,(GLfloat)1.0,(GLfloat)1.0 };
+    GLfloat light1_position[] = { (GLfloat)mario.getX(),(GLfloat)(mario.getY()-60.0),(GLfloat)1.0,(GLfloat)1.0 };
     glEnable(GL_LIGHT1);
     glEnable(GL_LIGHTING);
     glLightfv(GL_LIGHT1, GL_DIFFUSE, diffuse0);
